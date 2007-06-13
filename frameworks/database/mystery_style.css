@@ -1,0 +1,127 @@
+/* CSS File for Mystery Styles */
+
+/* Type Selectors */
+
+body, html {
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+	font-size: 100%;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: none;
+	text-decoration: none;
+	color: black;
+	background-color: white;
+	margin: 0px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+hr {
+	color: #551a8b;
+	background-color: #551a8b;
+	border: 0px;
+	height: 1px;
+}
+
+h1,h2,h3,h4,h5 {
+	color: #8e5b82;
+	font-weight: bold;
+}
+
+/* Class Selectors */
+
+.OptionsMenuItem {
+	font-size: .8em;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.SelectedOptionsMenuItem {
+	font-size: .9em;
+	font-weight: bold;
+	color: #8e5b82;
+}
+
+.DisabledOptionsMenuItem {
+	font-size: .8em;
+	font-weight: bold;
+	color: gray;
+}
+
+.UserError {
+	font-size: 1.2em;
+	font-weight: bold;
+	color: #770000;
+	background-color: #FFDDDD;
+}
+
+.UserFeedback {
+	font-size: 1.2em;
+	font-weight: bold;
+	color: #007700;
+	background-color: #DDFFDD;
+}
+
+.MainMenuList {
+	font-size: .8em;
+}
+
+.QuickNav {
+	font-size: .6em;
+	color: #551A8B;
+}
+
+.NoPaddingNoMargin {
+	margin: 0px;
+	padding: 0px;
+}
+
+.TableHeaderCell {
+	background-color: #C6A3C7;
+}
+		
+.TableDarkCell {
+	background-color: #E3CFE3;
+}
+
+.TableLightCell {
+	background-color: #F1E6F1;
+}
+
+span.AccessKey {
+	text-decoration: underline;
+}
+
+a:link {
+	text-decoration: none;
+	color: #084E85;
+}
+
+a:visited {
+	text-decoration: none;
+	color: #084E85;
+}
+
+a:hover {
+	text-decoration: underline;
+	color: #084E85;
+}
+
+a.OptionsMenuItem:link {
+	background-color: #ffffff;
+	color: #551a8b;
+	text-decoration: none
+}
+
+a.OptionsMenuItem:visited {
+	background-color: #ffffff;
+	color: #551a8b;
+	text-decoration: none
+}
+
+a.OptionsMenuItem:hover {
+	background-color: #ffffff;
+	color: #551a8b;
+	text-decoration: underline
+}
+

@@ -1,0 +1,39 @@
+<?php
+
+// This is the portal site
+
+$no_auth_sections = array('signin','signout','signup','signupsubmit','contact','preview','diy');
+
+if (@$_SESSION['is_logged_in'] != 'yes' && !in_array($_PORTAL['section'], $no_auth_sections)) {
+	
+	if (!preg_match('~signout~', $_SERVER['REQUEST_URI'])) {
+		mystery_cookie('lastlocation', $_SERVER['REQUEST_URI']);
+	}
+	
+	mystery_redirect('/signin/');
+
+}
+
+$log_id = portal_log_member_access(@$_SESSION['portal']['member_id'], @$_SESSION['portal']['school_id']);
+
+$include_file = portal_determine_resource($_SERVER['REQUEST_URI']);
+	
+include_once $include_file;
+
+echo '<br><br><br><br>';
+
+// echo 'UUID: ' . portal_generate_uuid() . '<br>';
+
+/*if ($_SERVER['REMOTE_ADDR'] == '66.65.241.45' || `hostname` == 'tikal.local') {
+
+	mystery_print_r($include_file, '#990099');
+	
+	mystery_print_r($_PORTAL);
+	
+	mystery_print_r($_REQUEST, '#006600');
+
+	mystery_print_r($_SESSION, '#990000');
+
+}*/
+
+?>

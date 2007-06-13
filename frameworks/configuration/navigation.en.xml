@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<navigation>
+	<item>
+		<label>HOME</label>
+		<description></description>
+		<url>/</url>
+		<class>home</class>
+	</item>
+	<item>
+		<label>Global Lab Map</label>
+		<description></description>
+		<url>/map/</url>
+		<class>map</class>
+	</item>
+	<item>
+		<label>Joining the Community</label>
+		<description></description>
+		<url>/join/</url>
+		<class>join</class>
+	</item>
+	<item>
+		<label>Global Lab Snapshot</label>
+		<description></description>
+		<url>/snapshot/</url>
+		<class>snapshot</class>
+	</item>
+	<item>
+		<label>Contexts for understanding</label>
+		<description></description>
+		<url>/contexts/</url>
+		<class>contexts</class>
+	</item>
+	<item>
+		<label>Sun &amp; Plants</label>
+		<description></description>
+		<url>/sun-plants/</url>
+		<class>sun-plants</class>
+	</item>
+	<item>
+		<label>Bioindicators</label>
+		<description></description>
+		<url>/bioindicators/</url>
+		<class>bioindicators</class>
+	</item>
+	<item>
+		<label>Weather &amp; Climate</label>
+		<description></description>
+		<url>/weather-climate/</url>
+		<class>weather-climate</class>
+	</item>
+	<item>
+		<label>Looking into the Future</label>
+		<description></description>
+		<url>/looking-future/</url>
+		<class>looking-future</class>
+	</item>
+</navigation>

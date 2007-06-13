@@ -1,0 +1,47 @@
+# .htaccess file for Portal
+
+# Security Precautions
+
+<Files ~ "^\.ht">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files ~ "^\.DS">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files ~ "\.inc$">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files ~ "\.html$">
+    ForceType application/x-httpd-php
+</Files>
+
+<Files ~ "^application$">
+    ForceType application/x-httpd-php
+</Files>
+
+# Misc File Stuff
+
+DirectoryIndex application index.php index.html index.htm 
+
+# This will map all non css/images/js requests to our controller
+
+RewriteEngine On
+RewriteRule !^(css/|images/|scripts/|favicon.ico|robots.txt) application [NC,L]
+
+# PHP Configuration Options
+
+php_flag magic_quotes_gpc off
+
+php_value session.use_trans_sid 0
+
+php_value auto_prepend_file '/web/portal.concord.org/frameworks/foundation.php'
+
+# Redirection
+
+#Redirect 301 FROM TO

@@ -1,0 +1,8 @@
+# Turn off conflicting/dangerous php options
+
+php_value register_globals 0
+php_value magic_quotes_gpc 0
+php_value magic_quotes_runtime 0
+php_value magic_quotes_sybase 0
+
+# Set additional Apache headers
