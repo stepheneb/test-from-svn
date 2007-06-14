@@ -16,10 +16,9 @@ $portal_config['rails_database_connection'] = 'mysql://rails:$1ll7W@!X@railsdb.c
 $portal_config['diy_server'] = 'itsidiy.concord.org';
 $portal_config['diy_manager_user'] = 'ccadmin';
 $portal_config['diy_manager_password'] = 'h0ru$';
-#$portal_config['diy_server'] = 'rails.dev.concord.org/teemss2';
-#$portal_config['diy_session_name'] = '_ITSI_Do_It_Yourself_KLmQk8stfrC1lhL19vNshw____session_id';
 $portal_config['diy_server'] = 'itsidiy.concord.org';
-$portal_config['diy_session_name'] = '_ITSI Do It Yourself_session_id';
+#$portal_config['diy_session_name'] = '_ITSI Do It Yourself_session_id';
+$portal_config['diy_session_name'] = '_ITSI_Do_It_Yourself_Tjc8FDLwSBbwH2OOHxJzTg____session_id';
 
 $portal_config['error_log'] = '/web/logs/portal_error_log';
 $portal_config['security_log'] = '/web/logs/portal_security_log';

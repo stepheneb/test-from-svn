@@ -678,11 +678,11 @@ function portal_setup_diy_session() {
 
 	list($headers, $content) = portal_post_to_diy($data, $path);
 
-	// To work around the "Stephen Bannasch" login bug, we'll just do the request again.
+	// To work around the "Stephen Bannasch" login bug, we'll just do the request again. - Stephen says this was fixed so I'll remove it.
 
-	list($headers, $content) = portal_post_to_diy($data, $path);
+	// list($headers, $content) = portal_post_to_diy($data, $path);
 	
-	//mystery_print_r($headers, $content); exit;
+	mystery_print_r($headers, $content); exit;
 	
 	preg_match('~' . $portal_config['diy_session_name'] . '=([^;]+);~', $headers, $matches);
 	
@@ -725,7 +725,7 @@ function portal_get_from_diy($path) {
 		
 	}
 	
-	mystery_print_r($response); exit;
+	//mystery_print_r($response); exit;
 	
 	list($http_headers,$http_content) = explode("\r\n\r\n", $response);
 	
@@ -806,6 +806,10 @@ function portal_post_to_diy($data, $path) {
 	}
 	
 	$data_string = implode('&', $data_string_parts);
+	
+	//mystery_print_r($path);
+	
+	//mystery_print_r($data_string);
 
 	$response = '';
 
