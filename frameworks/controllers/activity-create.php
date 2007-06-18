@@ -17,6 +17,6 @@ echo '
 
 ';
 
-echo portal_generate_activity_grid(array(), array(), 'setup');
+echo portal_generate_activity_grid(array(), array(), 'full');
 
 ?>

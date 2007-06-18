@@ -261,6 +261,20 @@ function portal_delete_class($class_id) {
 
 }
 
+function portal_delete_member($member_id) {
+	
+	// this function deletes a class and it's associated data
+	
+	$query = 'DELETE FROM portal_members WHERE member_id = ?';
+	$params = array($member_id);
+	$status = mystery_delete_query($query, $params, 'portal_dbh');
+	
+	$query = 'DELETE FROM portal_class_students WHERE member_id = ?';
+	$params = array($member_id);
+	$status = mystery_delete_query($query, $params, 'portal_dbh');
+
+}
+
 
 function portal_get_class_word($class_id) {
 
@@ -667,7 +681,7 @@ function portal_setup_diy_session() {
 	
 	$data = array();
 	
-	mystery_print_r($_SESSION);
+	//mystery_print_r($_SESSION);
 	
 	$data['login'] = @$_SESSION['portal']['member_username'];
 	$data['password'] = @$_SESSION['portal']['member_password_ue'];
@@ -682,7 +696,7 @@ function portal_setup_diy_session() {
 
 	// list($headers, $content) = portal_post_to_diy($data, $path);
 	
-	mystery_print_r($headers, $content); exit;
+	//mystery_print_r($headers, $content); exit;
 	
 	preg_match('~' . $portal_config['diy_session_name'] . '=([^;]+);~', $headers, $matches);
 	
@@ -1039,7 +1053,7 @@ function portal_get_diy_activities() {
 
 }
 
-function portal_icon($key) {
+function portal_icon($key, $title = '') {
 
 	global $portal_config;
 	
@@ -1053,11 +1067,21 @@ function portal_icon($key) {
 		} else {
 			$img = $portal_config['icons'][$key];
 		}
-		$tag = '<img src="' . $img . '" alt="' . $key . '">';
+		$tag = '<img src="' . $img . '" alt="' . $key . '" title="' . $title . '">';
 	}
 	
 	return $tag;
 
+}
+
+function portal_icon_link($icon, $url, $box_id, $title = '') {
+
+	$link = '';
+	
+	$link .= '<a href="' . $url . '" onclick="select_box_link(\'' . $box_id . '\', \'' . $url . '\'); return false;" title="'. $title . '">' . portal_icon($icon, $title) . '</a>';
+	
+	return $link;
+	
 }
 
 function portal_get_class_students($class_id) {
@@ -1351,11 +1375,8 @@ function portal_generate_teacher_list($school_id, $type = 'compact') {
 				
 				$list .= '
 				</select>
-				
-				<a href="#" onclick="select_box_link(\'teacher-id\', \'/member/edit/\'); return false;" title="Edit this teacher">' . portal_icon('setup') . '</a>
-				
-				<a href="#" onclick="select_box_link(\'teacher-id\', \'/member/delete/\'); return false;" title="Delete this teacher">' . portal_icon('delete') . '</a>
-	
+				' . portal_icon_link('setup', '/member/edit/', 'teacher-id', 'Edit this teacher') . '
+				' . portal_icon_link('delete', '/member/delete', 'teacher-id', 'Delete this teacher') . '
 				</p>
 				';
 			
@@ -1433,18 +1454,18 @@ function portal_generate_class_list($school_id, $teacher_id = '', $selected = ''
 				$list .= '
 				</select>
 				
-				<a href="#" onclick="select_box_link(\'class-id\', \'/class/preview/\'); return false;" title="Preview this class as your students would see it">' . portal_icon('preview') . '</a>
+				' . portal_icon_link('preview', '/class/preview/', 'class-id', 'Preview this class as your students would see it') . '
 
-				<a href="#" onclick="select_box_link(\'class-id\', \'/class/edit/\'); return false;" title="Setup this class">' . portal_icon('setup') . '</a>
-				
-				<a href="#" onclick="select_box_link(\'class-id\', \'/class/copy/\'); return false;" title="Make a copy of this class and its activities">' . portal_icon('copy') . '</a>
-				
-				<a href="#" onclick="select_box_link(\'class-id\', \'/class/report/\'); return false;" title="View a report on this class">' . portal_icon('report') . '</a>
-				
-				<a href="#" onclick="select_box_link(\'class-id\', \'/class/roster/\'); return false;" title="View a class list">' . portal_icon('list') . '</a>
-				
-				<a href="#" onclick="select_box_link(\'class-id\', \'/class/delete/\'); return false;" title="Delete this class">' . portal_icon('delete') . '</a>
-	
+				' . portal_icon_link('setup', '/class/edit/', 'class-id', 'Setup this class') . '
+
+				' . portal_icon_link('copy', '/class/copy/', 'class-id', 'Make a copy of this class and its activities') . '
+
+				' . portal_icon_link('report', '/class/report/', 'class-id', 'View a report on this class') . '
+
+				' . portal_icon_link('list', '/class/Xroster/', 'class-id', 'View a class list') . '
+
+				' . portal_icon_link('delete', '/class/delete/', 'class-id', 'Delete this class') . '
+
 				</p>
 				';
 			
@@ -1579,12 +1600,12 @@ function portal_generate_student_list($school_id, $teacher_id = '', $options = a
 				$list .= '
 				</select>
 				
-				<a href="#" onclick="select_box_link(\'student-id\', \'/member/edit/\'); return false;" title="Edit this student">' . portal_icon('setup') . '</a>
-				
-				<a href="#" onclick="select_box_link(\'student-id\', \'/member/report/\'); return false;" title="View a report about this student">' . portal_icon('report') . '</a>
-				
-				<a href="#" onclick="select_box_link(\'student-id\', \'/member/delete/\'); return false;" title="Delete this student">' . portal_icon('delete') . '</a>
-	
+				' . portal_icon_link('setup', '/member/edit/', 'student-id', 'Edit this student') . '
+
+				' . portal_icon_link('report', '/member/report/', 'student-id', 'View a report about this student') . '
+
+				' . portal_icon_link('delete', '/member/delete/', 'student-id', 'Delete this student') . '
+
 				</p>
 				';
 			
@@ -2547,6 +2568,8 @@ function portal_generate_user_navigation() {
 	
 	}
 	
+	/* Removed on 6/18/07 by Paul Burney
+	
 	if (count($small_nav_items) > 0) {
 
 		$nav .= '
@@ -2562,6 +2585,8 @@ function portal_generate_user_navigation() {
 		';
 	
 	}
+	
+	*/
 	
 	return $nav;
 
@@ -2870,7 +2895,7 @@ function portal_get_prepared_diy_activities($member_id) {
 }
 
 
-function portal_generate_activity_grid($activity_ids = array(), $diy_activity_ids = array(), $mode = 'standard') {
+function portal_generate_activity_grid($activity_ids = array(), $diy_activity_ids = array(), $mode = '') {
 
 	global $portal_config;
 
@@ -2903,112 +2928,119 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 	
 	$level_classes = array();
 	
+	$level_counts = array();
+	
 	for ($i = 0; $i < count($activities); $i++) {
 
-	//FIXME - make sure diy ids are unique in dom
-
-	
 		$this_level = $activities[$i]['level_name'] . ': ' . $activities[$i]['subject_name'];
+		
+		$fixed_level = preg_replace('~[^a-z0-9]~','',strtolower($this_level));
 		
 		$class = 'level' . $activities[$i]['level_id'];
 		
 		$level_classes[$this_level] = $class;
 		
+		if (!isset($level_counts[$this_level])) {
+			$level_counts[$this_level] = 0;
+		}
+		
 		$this_unit = $activities[$i]['unit_name'];
-	
-		$run = '';
-		
-		$setup = '';
-		
-		$preview = '';
-		
-		$usage = '';
-		
-		$edit = '';
-	
-		$id_prefix = '';
-		
-		if ($activities[$i]['level_id'] == '999') {
-			$id_prefix = 'diy';
-		}
-		
-		if ($activities[$i]['diy_identifier'] != '') {
-		
-			$interface_id = @$_SESSION['portal']['member_interface'];
-			
-			if ($interface_id == '') {
-				$interface_id = 6;
-			}
-		
-			$diy_id = $activities[$i]['diy_identifier'];
-			
-			$copy = '<a href="/diy/copy/' . $diy_id . '/" target="_blank" title="Make your own version of this activity">' . portal_icon('copy') . '</a>';
-			
-			$edit = '<a href="/diy/edit/' . $diy_id . '/" target="_blank" title="Edit this activity">' . portal_icon('setup') . '</a>';
 
-			$preview = '<a href="/diy/show/' . $diy_id . '/" target="_blank" title="View a quick preview version of this activity">' . portal_icon('preview') . '</a>';
-			
-			$usage = '<a href="/diy/usage/' . $diy_id . '/" target="_blank" title="View the learner data from this activity">' . portal_icon('report') . '</a>';
-			
-			$info = '<a href="#" onclick="toggle_block_element(\'activity-description-' . $id_prefix . $activities[$i]['activity_id'] . '\'); return false;" title="View activity description">' . portal_icon('info') . '</a>';
-			
-			$try = '<a href="/diy/view/' . $diy_id .  '/" title="Try this activity (as a teacher, do not save data)">' . portal_icon('try') . '</a>';
-			
-			$run = '<a href="/diy/run/' . $diy_id .  '/" title="Run this activity (and save data)">' . portal_icon('run') . '</a>';
 
-		}
-		
+		// Setup Checkboxes
+
 		$checked = '';
 		
 		if ($activities[$i]['level_id'] == '999') {
 		
 			if (in_array($activities[$i]['activity_id'], $diy_activity_ids)) {
 				$checked = ' checked="checked"';
+				$level_counts[$this_level]++;
 			}
+			
+			$field_name = 'diy_activities[]';
 		
 		} else {
 
 			if (in_array($activities[$i]['activity_id'], $activity_ids)) {
 				$checked = ' checked="checked"';
+				$level_counts[$this_level]++;
 			}
-		
-		}
-		
-		$checkbox = '';
-		
-		if ($mode == 'standard') {
-		
+			
 			$field_name = 'activities[]';
-			
-			if ($activities[$i]['level_id'] == '999') {
-				$field_name = 'diy_activities[]';
-			}
-			
-			$checkbox = '<input type="checkbox" name="' . $field_name . '" value="' . $activities[$i]['activity_id'] . '"' . $checked . ' onclick="updateTotalActivities(this);">';
+		
+		}
+				
+		$checkbox = '<input type="checkbox" name="' . $field_name . '" value="' . $activities[$i]['activity_id'] . '"' . $checked . ' onclick="updateTotalActivities(this); updateSectionActivities(\'' . $fixed_level . '\', this);">';
+	
+		// Setup DIY Items
+		
+		$diy_id = $activities[$i]['diy_identifier'];
+		
+		$id_prefix = '';
+		
+		if ($activities[$i]['level_id'] == '999') {
+			$id_prefix = 'diy';
 		}
 		
-		if (@$_SESSION['is_logged_in'] != 'yes') {
-			$usage = '';
-		}
+		if ($diy_id == '') {
 		
-		if ($mode != 'setup') {
 			$copy = '';
+			$edit = '';
+			$info = '';
+			$preview = '';
+			$report = '';
+			$run = '';
+			$try = '';
+		
+		} else {
+
+			$copy = '<a href="/diy/copy/' . $diy_id . '/" target="_blank" title="Make your own version of this activity">' . portal_icon('copy') . '</a>';
+			
+			$edit = '<a href="/diy/edit/' . $diy_id . '/" target="_blank" title="Edit this activity">' . portal_icon('setup') . '</a>';
+
+			$info = '<a href="#" onclick="toggle_block_element(\'activity-description-' . $id_prefix . $activities[$i]['activity_id'] . '\'); return false;" title="View activity description">' . portal_icon('info') . '</a>';
+			
+			$preview = '<a href="/diy/show/' . $diy_id . '/" target="_blank" title="View a quick preview version of this activity">' . portal_icon('preview') . '</a>';
+			
+			$report = '<a href="/diy/usage/' . $diy_id . '/" target="_blank" title="View the learner data from this activity">' . portal_icon('report') . '</a>';
+			
+			$run = '<a href="/diy/run/' . $diy_id .  '/" title="Run this activity (and save data)">' . portal_icon('run') . '</a>';
+
+			$try = '<a href="/diy/view/' . $diy_id .  '/" title="Try this activity (as a teacher, do not save data)">' . portal_icon('try') . '</a>';
+			
 		}
 		
-		if ($mode == 'preview') {
-			$run  = '';
-		}
-
+		// don't show an edit link if hte user can't edit this activity
+		
 		if ($activities[$i]['subject_name'] != 'My Activities') {
 			$edit = '';
 		}
 		
+		// remove items based on the mode
+		
+		if ($mode == 'setup') {
+			$copy = '';
+			$edit = '';
+			$run = '';
+			$report = '';
+			$try = '';
+			$preview = '';
+		} else {
+			$checkbox = '';
+		}
+		
+		if ($mode == 'preview') {
+			$report = '';
+			$run = '';
+		}
+
 		$activity_options = '
 		' . $checkbox . '
 		' . $edit . '
 		' . $copy . '
 		' . $info . '
-		' . $usage . '
+		' . $report . '
 		' . $preview . '
 		' . $try . '
 		' . $run . '
@@ -3041,10 +3073,26 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 	
 	while (list($level, $unit_set) = each($display_activities)) {
 	
-		$navigation[] = '<li class="unit-navigation ' . $level_classes[$level] . '" id="' . preg_replace('~[^a-z0-9]~','',strtolower($level)) . '-control" onclick="show_section(\'' . preg_replace('~[^a-z0-9]~','',strtolower($level)) . '\', this);">' . $level . '</li>';
+		$fixed_level = preg_replace('~[^a-z0-9]~','',strtolower($level));
+		
+		$level_count = $level_counts[$level];
+		
+		$fixed_level_count = '';
+		
+		if ($level_count > 0) {
+			$fixed_level_count = ' (' . $level_count . ')';
+		}
+
+		$navigation[] = '<li class="unit-navigation ' . $level_classes[$level] . '" id="' . $fixed_level . '-control" onclick="show_section(\'' . $fixed_level . '\', this);">' . $level . ' <span id="' . $fixed_level .'-count" class="navigation-count">' . $fixed_level_count . '</span></li>';
 		
 		$this_panel = '
 		<div class="unit-activities ' . $level_classes[$level] . '" id="' . preg_replace('~[^a-z0-9]~','',strtolower($level)) . '">
+		<script type="text/javascript">
+			if (window.sectionActivities === undefined) {
+				sectionActivities = [];
+			}
+			sectionActivities["' . $fixed_level . '"] = ' . $level_count . ';
+		</script>
 		';
 		
 		reset($unit_set);
@@ -3055,8 +3103,8 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 		
 			$select_all = '';
 			
-			if ($mode == 'standard') {
-				$select_all = '<span class="heading-info"><label><input type="checkbox" onclick="select_activity_checkboxes(\'' . $unit_id . '\', this);"> select all</label></span>';
+			if ($mode == 'setup') {
+				$select_all = '<span class="heading-info"><label><input type="checkbox" onclick="select_activity_checkboxes(\'' . $unit_id . '\', \'' . $fixed_level . '\', this);"> select all</label></span>';
 			}
 		
 			$this_panel .= '

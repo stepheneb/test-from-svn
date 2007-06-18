@@ -155,6 +155,10 @@ function portal_determine_resource($uri) {
 					$include_file = 'controllers/member-edit.php';
 				break;
 			
+				case 'delete':
+					$include_file = 'controllers/member-delete.php';
+				break;
+			
 				case 'info':
 					$include_file = 'controllers/member-info.php';
 				break;

@@ -21,6 +21,7 @@ switch($_PORTAL['activity']) {
 		$page_title = 'Add a class';
 		$class_info = array();
 		$class_info['activities'] = array();
+		$class_info['diy_activities'] = array();
 	break;
 
 }
@@ -131,14 +132,27 @@ if (isset($_PORTAL['params']['process'])) {
 	
 } else {
 
-
 	$class_info = portal_web_output_filter($class_info);
 	
 	// generate the activity grid
 	
-	$activity_grid = portal_generate_activity_grid($class_info['activities'], $class_info['diy_activities']);
+	$activity_grid = portal_generate_activity_grid($class_info['activities'], $class_info['diy_activities'], 'setup');
 
 	$total_activity_count = count($class_info['activities']) + count($class_info['diy_activities']);
+
+	$section_counts = array();
+	
+	/*
+	
+	$all_activities = array_merge($class_info['activities'], $class_info['diy_activities']);
+	
+	foreach ($all_activities as $activity) {
+	
+		$section_counts[] += 1;
+	
+	}
+	
+	*/
 
 	// generate the form
 
@@ -175,7 +189,7 @@ if (isset($_PORTAL['params']['process'])) {
 	<script type="text/javascript">
 	
 		var totalActivities = ' . $total_activity_count . ';
-	
+		
 		function updateTotalActivities(obj) {
 		
 			if (obj.checked == 1) {
@@ -188,13 +202,72 @@ if (isset($_PORTAL['params']['process'])) {
 		
 		}
 		
+		function updateSectionActivities(sectionid, obj) {
+		
+			if (obj.checked == 1) {
+				sectionActivities[sectionid]++;
+			} else {
+				sectionActivities[sectionid]--;
+			}
+		
+			updateSectionActivitiesDisplay(sectionid);
+		
+		}
+		
 		function updateTotalActivitiesDisplay() {
 
 			var s = document.getElementById("total-selected");
 			s.innerHTML = totalActivities.toString();
 
 		}
+		
+		function updateSectionActivitiesDisplay(sectionid) {
+			
+			//console.log(sectionid);
+			
+			var s = document.getElementById(sectionid + "-count");
+			
+			//console.log(s);
+			
+			var cd = "";
+			
+			//console.log(sectionActivities[sectionid]);
+			
+			if (sectionActivities[sectionid] > 0) {
+				cd = " (" + sectionActivities[sectionid].toString() + ")";
+			}
+			
+			s.innerHTML = cd;
+		
+		}
 	
+		function select_activity_checkboxes(unitid, sectionid, checkbox_control) {
+		
+			var unit = document.getElementById(unitid);
+			
+			var inputs = unit.getElementsByTagName("INPUT");
+			
+			for (var i = 0; i < inputs.length; i++) {
+			
+				if (inputs[i].type == "checkbox") {
+				
+					if (inputs[i].checked != checkbox_control.checked) {
+					
+						inputs[i].checked = checkbox_control.checked;
+						
+						updateTotalActivities(inputs[i]);
+		
+						updateSectionActivities(sectionid, inputs[i]);
+					
+					}
+				
+				}
+			
+			}
+		
+		
+		}
+		
 	</script>
 	';
 

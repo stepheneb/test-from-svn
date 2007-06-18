@@ -431,6 +431,10 @@ select {
 		padding: 0px;
 	}
 	
+.navigation-count {
+	text-decoration: none;
+	font-weight: normal;
+}
 
 
 .roster-table {

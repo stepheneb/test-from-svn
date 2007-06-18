@@ -8,9 +8,9 @@ $portal_config['default_language'] = 'en';
 
 $portal_config['site_template'] = 'website/template.php';
 
-$portal_config['mystery_database_connection'] = 'mysql://portal_admin:W?rm%*(3@localhost/mystery4';
-$portal_config['portal_database_connection'] = 'mysql://portal_admin:W?rm%*(3@www.concord.org/ccportal';
-$portal_config['sunflower_database_connection'] = 'mysql://portal_admin:W?rm%*(3@localhost/sunflower';
+$portal_config['mystery_database_connection'] = 'mysql://portal_admin:W?rm%*(3@db.concord.org/mystery4';
+$portal_config['portal_database_connection'] = 'mysql://portal_admin:W?rm%*(3@db.concord.org/ccportal';
+$portal_config['sunflower_database_connection'] = 'mysql://portal_admin:W?rm%*(3@db.concord.org/sunflower';
 $portal_config['rails_database_connection'] = 'mysql://rails:$1ll7W@!X@railsdb.concord.org/rails';
 
 $portal_config['diy_server'] = 'itsidiy.concord.org';

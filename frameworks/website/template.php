@@ -10,8 +10,8 @@
 
 	<script type="text/javascript" src="/scripts/utilities.js"></script> 
 	<script type="text/javascript" src="/scripts/yahoo-dom-event.js"></script> 
-	<script type="text/javascript" src="http://yui.yahooapis.com/2.2.2/build/datasource/datasource-beta-min.js"></script> 
-	<script type="text/javascript" src="http://yui.yahooapis.com/2.2.2/build/datatable/datatable-beta-min.js"></script> 
+	<script type="text/javascript" src="/scripts/datasource-beta-min.js"></script> 
+	<script type="text/javascript" src="/scripts/datatable-beta-min.js"></script> 
 
 	<link rel="stylesheet" type="text/css" href="/css/main.css">
 

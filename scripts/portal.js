@@ -385,30 +385,3 @@ function show_section(section_id, link_object) {
 	link_object.style.borderRightColor = bc;
 
 }
-
-
-function select_activity_checkboxes(section_id, checkbox_control) {
-
-	var section = document.getElementById(section_id);
-	
-	var inputs = section.getElementsByTagName("INPUT");
-	
-	for (var i = 0; i < inputs.length; i++) {
-	
-		if (inputs[i].type == 'checkbox') {
-		
-			if (inputs[i].checked != checkbox_control.checked) {
-			
-				inputs[i].checked = checkbox_control.checked;
-				
-				updateTotalActivities(inputs[i]);
-			
-			}
-		
-		}
-	
-	}
-
-
-}
-
