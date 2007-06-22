@@ -102,6 +102,8 @@ function portal_auth($username, $password) {
 		$_SESSION['portal']['member_school'] = $results[0]['member_school'];
 		$_SESSION['portal']['member_type'] = $results[0]['member_type'];
 		$_SESSION['portal']['member_interface'] = $results[0]['member_interface'];
+		$_SESSION['portal']['diy_member_id'] = $results[0]['diy_member_id'];
+		$_SESSION['portal']['sds_member_id'] = $results[0]['sds_member_id'];
 		$_SESSION['portal']['member_username'] = $username;
 		$_SESSION['portal']['member_password_ue'] = $password_ue;
 
@@ -192,6 +194,7 @@ function portal_process_school_registration($request) {
 	$data = array();
 	
 	$data['school_name'] = $request['school_name'];
+	$data['school_district'] = $request['school_district'];
 	$data['school_address_1'] = $request['school_address_1'];
 	$data['school_address_2'] = $request['school_address_2'];
 	$data['school_city'] = $request['school_city'];
@@ -467,22 +470,28 @@ function portal_process_member_registration($request) {
 		
 		$_REQUEST['username'] = $request['username']; // allows us to display it to the user
 		
+		$fixed_username = strtolower($request['username']);
+		$fixed_password_ue = strtolower($request['password']);
+		$fixed_password = md5($fixed_password_ue);
+		
 		// maybe we need to add the portal record first so we can set up the username
 		
 		$cc_member_id = portal_get_cc_member_id($request['first_name'], $request['last_name'], $request['email'], $request['username'], $request['password']);
 		
-		// create the member in the ITSI DIY
+		// create the member in the ITSI DIY by creating a session
 		
-		//$diy_member_id = portal_get_diy_member_id($request['first_name'], $request['last_name'], $request['email'], $request['username'], $request['password']);
+		portal_setup_diy_session($fixed_username, $fixed_password_ue);
 		
-		$diy_member_id = '7777777';
+		$diy_member_id = portal_get_diy_member_id_from_db($fixed_username);
+		
+		$sds_member_id = portal_get_sds_member_id_from_db($diy_member_id);
 		
 		// add the member to the portal database
 		
 		$data = array();
 		
-		$data['member_username'] = strtolower($request['username']);
-		$data['member_password'] = md5(strtolower($request['password']));
+		$data['member_username'] = $fixed_username;
+		$data['member_password'] = $fixed_password;
 		$data['member_password_ue'] = $request['password'];
 		$data['member_first_name'] = $request['first_name'];
 		$data['member_last_name'] = $request['last_name'];
@@ -491,6 +500,7 @@ function portal_process_member_registration($request) {
 		$data['member_school'] = $request['school_id'];
 		$data['cc_member_id'] = $cc_member_id;
 		$data['diy_member_id'] = $diy_member_id;
+		$data['sds_member_id'] = $sds_member_id;
 		$data['member_interface'] = $request['member_interface'];
 		$data['creation_date'] = date('Y-m-d H:i:s');
 
@@ -671,7 +681,7 @@ function portal_update_diy_member_info_using_db($diy_member_id, $first_name, $la
 
 }
 
-function portal_setup_diy_session() {
+function portal_setup_diy_session($username = '', $password = '') {
 
 	// This function will send the user's email and password to the diy site and setup a session cookie for them
 	
@@ -681,23 +691,22 @@ function portal_setup_diy_session() {
 	
 	$data = array();
 	
-	//mystery_print_r($_SESSION);
+	if ($username == '') {
+		$username = @$_SESSION['portal']['member_username'];
+	}
 	
-	$data['login'] = @$_SESSION['portal']['member_username'];
-	$data['password'] = @$_SESSION['portal']['member_password_ue'];
-	//$data['password'] = 'noworkey';
+	if ($password == '') {
+		$password = strtolower(@$_SESSION['portal']['member_password_ue']);
+	}
+	
+	$data['login'] = $username;
+	$data['password'] = $password;
 	$data['commit'] = 'Log in';
 
 	// "login=user&password=password&commit=Log+in&redirect=savedata%3Dtrue%26action%3Dsail_jnlp%26uid%3D2%26id%3D16%26authoring%3Dnil%26vid%3D6%26controller%3Dactivities" 
 
 	list($headers, $content) = portal_post_to_diy($data, $path);
 
-	// To work around the "Stephen Bannasch" login bug, we'll just do the request again. - Stephen says this was fixed so I'll remove it.
-
-	// list($headers, $content) = portal_post_to_diy($data, $path);
-	
-	//mystery_print_r($headers, $content); exit;
-	
 	preg_match('~' . $portal_config['diy_session_name'] . '=([^;]+);~', $headers, $matches);
 	
 	$diy_session_id = $matches[1];
@@ -934,13 +943,75 @@ function portal_get_diy_member_id_from_db($member_username) {
 	if (count($results) > 0) {
 		return $results[0]['id'];
 	} else {
-		return 1;
+		return false;
 	}
 
 }
 
+function portal_get_diy_member_id($member_id) {
 
-function portal_get_diy_member_id($first_name, $last_name, $email_address, $username, $password) {
+	$member_info = portal_get_member_info($member_id);
+	
+	if ($member_info['diy_member_id'] != 0 && $member_info['diy_member_id'] != '999999'  && $member_info['diy_member_id'] != '7777777') {
+		return $member_info['diy_member_id'];
+	}
+
+	$diy_member_id = portal_get_diy_member_id_from_db($member_info['member_username']);
+	
+	if ($diy_member_id) {
+	
+		// update this record (probably for the last time)
+
+		$data['diy_member_id'] = $diy_member_id;
+		
+		$status = mystery_update_query('portal_members', $data, 'member_id', $member_id, 'portal_dbh');
+	
+	}
+	
+	return $diy_member_id;
+
+}
+
+function portal_get_sds_member_id_from_db($diy_member_id) {
+
+	$query = 'SELECT sds_sail_user_id FROM itsidiy_users WHERE id = ?';
+	
+	$params = array($diy_member_id);
+	
+	$results = mystery_select_query($query, $params, 'rails_dbh');
+	
+	if (count($results) > 0) {
+		return $results[0]['sds_sail_user_id'];
+	} else {
+		return false;
+	}
+
+}
+
+function portal_get_diy_activity_usage_from_db($member_id) {
+
+	$member_diy_id = portal_get_diy_member_id($member_id);
+	
+	$query = 'SELECT runnable_id AS diy_id FROM itsidiy_learners WHERE user_id = ? AND runnable_type = ?';
+
+	$params = array($member_diy_id, 'Activity');
+
+	$results = mystery_select_query($query, $params, 'rails_dbh');
+	
+	$activities_used = array();
+	
+	for ($i = 0; $i < count($results); $i++) {
+	
+		$activities_used[] = $results[$i]['diy_id'];
+	
+	}
+	
+	return $activities_used;
+
+}
+
+
+function portal_get_diy_member_id_from_rest($first_name, $last_name, $email_address, $username, $password) {
 
 /*
 <user>
@@ -1084,6 +1155,16 @@ function portal_icon_link($icon, $url, $box_id, $title = '') {
 	
 }
 
+function portal_simple_icon_link($icon, $url, $title = '') {
+
+	$link = '';
+	
+	$link .= '<a href="' . $url . '" title="'. $title . '">' . portal_icon($icon, $title) . '</a>';
+	
+	return $link;
+	
+}
+
 function portal_get_class_students($class_id) {
 
 	$query = 'SELECT * FROM portal_class_students AS pcs LEFT JOIN portal_members AS pm ON pcs.member_id=pm.member_id WHERE class_id = ? ORDER BY member_last_name, member_first_name';
@@ -1219,7 +1300,7 @@ function portal_get_all_schools_info() {
 
 	// this function gets information about all schools
 
-	$query = 'SELECT * FROM portal_schools ORDER BY school_state, school_city, school_name';
+	$query = 'SELECT * FROM portal_schools ORDER BY school_state, school_district, school_city, school_name';
 	$params = array();
 	
 	$results = mystery_select_query($query, $params, 'portal_dbh');
@@ -1242,7 +1323,7 @@ function portal_generate_school_option_list() {
 	
 	for ($i = 0; $i < count($schools); $i++) {
 	
-		if ($schools[$i]['school_state'] != $current_state) {
+		if ($schools[$i]['school_state'] . ' - ' . $schools[$i]['school_district'] != $current_state) {
 		
 			if ($i > 0) {
 				
@@ -1252,7 +1333,7 @@ function portal_generate_school_option_list() {
 			
 			}
 		
-			$current_state = $schools[$i]['school_state'];
+			$current_state = $schools[$i]['school_state'] . ' - ' . $schools[$i]['school_district'];
 
 			$option_list .= '
 			<optgroup label="' . $current_state . '">
@@ -1462,7 +1543,7 @@ function portal_generate_class_list($school_id, $teacher_id = '', $selected = ''
 
 				' . portal_icon_link('report', '/class/report/', 'class-id', 'View a report on this class') . '
 
-				' . portal_icon_link('list', '/class/Xroster/', 'class-id', 'View a class list') . '
+				' . portal_icon_link('list', '/class/roster/', 'class-id', 'View a class list') . '
 
 				' . portal_icon_link('delete', '/class/delete/', 'class-id', 'Delete this class') . '
 
@@ -1648,7 +1729,7 @@ function portal_get_class_info($class_id) {
 
 		// now get this classes activities
 		
-		$query = 'SELECT * FROM portal_class_activities WHERE class_id = ?';
+		$query = 'SELECT activity_id FROM portal_class_activities WHERE class_id = ?';
 		
 		$params = array($class_id);
 		
@@ -1666,7 +1747,7 @@ function portal_get_class_info($class_id) {
 		
 		// now get class custom diy activities
 		
-		$query = 'SELECT * FROM portal_class_diy_activities WHERE class_id = ?';
+		$query = 'SELECT diy_activity_id FROM portal_class_diy_activities WHERE class_id = ?';
 		
 		$params = array($class_id);
 		
@@ -1687,6 +1768,60 @@ function portal_get_class_info($class_id) {
 	}
 	
 	return $class_info;
+
+}
+
+function portal_get_class_diy_activities($class_id) {
+
+	$diy_ids = array();
+
+	// get the general diy activities
+
+	$query = 'SELECT diy_identifier FROM portal_class_activities AS pca LEFT JOIN portal_activities AS pa ON pca.activity_id=pa.activity_id WHERE class_id = ?';
+	
+	$params = array($class_id);
+	
+	$results = mystery_select_query($query, $params, 'portal_dbh');
+	
+	for ($i = 0; $i < count($results); $i++) {
+	
+		$diy_ids[] = $results[$i]['diy_identifier'];
+	
+	}
+	
+	// get the diy and custom activities
+	
+	$query = 'SELECT diy_activity_id FROM portal_class_diy_activities WHERE class_id = ?';
+	
+	$params = array($class_id);
+	
+	$results = mystery_select_query($query, $params, 'portal_dbh');
+	
+	for ($i = 0; $i < count($results); $i++) {
+	
+		$diy_ids[] = $results[$i]['diy_activity_id'];
+	
+	}
+	
+	if (count($diy_ids) == 0) {
+		$diy_ids[] = 0;
+	}
+	
+	// now get the name/id information from the diy
+		
+	$query = 'SELECT 
+	ida.id AS activity_id, 
+	ida.name AS activity_name
+	FROM itsidiy_activities AS ida
+	WHERE id IN ("' . implode('","', $diy_ids) . '")
+	ORDER BY activity_name
+	';
+	
+	$params = array();
+	
+	$results = mystery_select_query($query, $params, 'rails_dbh');
+	
+	return $results;
 
 }
 

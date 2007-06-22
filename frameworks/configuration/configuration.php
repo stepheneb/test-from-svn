@@ -54,7 +54,7 @@ $portal_config['ie-icons']['customized'] = '/images/icons/gifs/user.gif';
 $portal_config['ie-icons']['add'] = '/images/icons/gifs/add.gif';
 
 
-$portal_config['interfaces']['6'] = 'Vernier Go!IO';
+$portal_config['interfaces']['6'] = 'Vernier Go!Link';
 $portal_config['interfaces']['8'] = 'Vernier LabPro';
 
 $portal_config['image_upload_directory'] = '/web/portal.concord.org/images/public';

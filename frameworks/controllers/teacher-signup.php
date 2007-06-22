@@ -54,6 +54,8 @@ if ($_PORTAL['action'] == 'process') {
 	
 		<p><label for="school-name">School Name</label> <input type="text" name="school_name" id="school-name" value="" size="35"></p>
 
+		<p><label for="school-district">School District</label> <input type="text" name="school_district" id="school-district" value="" size="35"></p>
+
 		<p><label for="school-address-1">Address 1</label> <input type="text" name="school_address_1" id="school-address-1" value="" size="35"></p>
 
 		<p><label for="school-address-2">Address 2</label> <input type="text" name="school_address_2" id="school-address-2" value="" size="35"></p>

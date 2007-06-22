@@ -376,12 +376,14 @@ function show_section(section_id, link_object) {
 		bc = '#C6958B';
 	} else if (link_object.className.match("level3")) {
 		bc = '#BA9C61';
+	} else if (link_object.className.match("level4")) {
+		bc = '#D4EBD2';
 	} else if (link_object.className.match("level999")) {
 		bc = '#D6C754';
+	} else {
+		bc = '#cccccc';
 	}
-	
-	
-	
+		
 	link_object.style.borderRightColor = bc;
 
 }

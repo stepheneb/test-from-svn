@@ -15,11 +15,70 @@ $class_info = portal_get_class_info($class_id);
 
 echo '
 <h2>Report for ' . $class_info['class_name'] . '</h2>
+';
 
+$class_activities = portal_get_class_diy_activities($class_id);
+
+$students = portal_get_class_students($class_id);
+
+echo '
+<table class="roster-table">
+<tr>
+	<th>Student</th>
+';
+
+for ($i = 0; $i < count($class_activities); $i++) {
+
+	echo '<th><a title="' . $class_activities[$i]['activity_name'] . '">Activity ' . ($i + 1) . '</a></th>';
+
+}
+	
+echo '
+</tr>
+';
+
+for ($h = 0; $h < count($students); $h++) {
+
+	echo '
+	<tr>
+		<td><a href="/member/report/' . $students[$h]['member_id'] . '">' . $students[$h]['member_last_name'] . ', ' . $students[$h]['member_first_name'] . '</a></td>
+	';
+	
+	
+	$usage = portal_get_diy_activity_usage_from_db($students[$h]['member_id']);
+
+	for ($i = 0; $i < count($class_activities); $i++) {
+	
+		$report_link = '&nbsp;';
+	
+		if (in_array($class_activities[$i]['activity_id'], $usage)) {
+			$report_link = portal_simple_icon_link('work', '/diy/work/' . $class_activities[$i]['activity_id'] . '/student/' . $students[$h]['diy_member_id'] . '/', 'View work by ' . $students[$h]['member_first_name'] . ' ' . $students[$h]['member_last_name'] . ' on ' . $class_activities[$i]['activity_name'] . '');
+		}
+	
+		echo '
+		<td style="text-align: center;">' . $report_link . '</td>
+		';
+	
+	}
+	
+	echo '
+	</tr>
+	';
+
+}
+
+echo '
+</table>
+';
+
+
+/*
 <p>We apologize but this feature is not yet available.  It will look something like the image below:</p>
 
 <p><img src="/images/screenshots/class-report.png"></p>
 
-';
+<p>For now, please click on <strong>Activities</strong> to the left, find the activity, click the ' . portal_icon('report') . ' icon, then find the student in the list
+that is displayed.</p>
+*/
 
 ?>
