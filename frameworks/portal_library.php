@@ -2786,9 +2786,7 @@ function portal_web_output_filter_simple($variable) {
 
 }
 
-function portal_generate_student_activity_list($student_id, $class_id) {
-
-	// FIXME .. we need to check in the db to see if they've use the activities and show them a symbol if so.
+function portal_generate_student_activity_list($student_id, $class_id, $used_activities = array()) {
 	
 	$query = '
 	SELECT * FROM
@@ -2822,6 +2820,7 @@ function portal_generate_student_activity_list($student_id, $class_id) {
 		}
 		
 		$activity_options = '';
+		$activity_used = '';
 
 		if ($activities[$i]['diy_identifier'] != '') {
 		
@@ -2842,6 +2841,10 @@ function portal_generate_student_activity_list($student_id, $class_id) {
 			' . $run . '
 			';
 			
+			if (in_array($diy_id, $used_activities)) {
+				$activity_used = portal_icon('work');
+			}
+			
 		}
 
 		$description = portal_web_output_filter($activities[$i]['activity_description']);
@@ -2849,7 +2852,7 @@ function portal_generate_student_activity_list($student_id, $class_id) {
 		$activity_box = '
 		<div class="activity-box">
 			<div class="activity-title">
-			' . $activity_options . ' ' . portal_web_output_filter($activities[$i]['activity_name']) . ' 
+			' . $activity_options . ' ' . portal_web_output_filter($activities[$i]['activity_name']) . ' ' . $activity_used . ' 
 			</div>
 			<!--div class="activity-info">
 			(Sensor: ' . $activities[$i]['sensor_type'] . '; Model: ' . $activities[$i]['model_type'] . ')

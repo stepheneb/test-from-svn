@@ -12,7 +12,11 @@ $class_info = portal_get_class_info($class_id);
 
 $page_title = $class_info['class_name'];
 
-echo portal_generate_student_activity_list($_SESSION['portal']['member_id'], $class_id);
+$student_id = $_SESSION['portal']['member_id'];
+
+$usage = portal_get_diy_activity_usage_from_db($student_id);
+
+echo portal_generate_student_activity_list($student_id, $class_id, $usage);
 
 echo '<h2 style="margin-top: 1.5em;">Additional Activities</h2>';
 
@@ -33,6 +37,7 @@ $list = '';
 for ($i = 0; $i < count($activities); $i++) {
 
 	$activity_options = '';
+	$activity_used = '';
 
 	if ($activities[$i]['diy_identifier'] != '') {
 	
@@ -47,6 +52,10 @@ for ($i = 0; $i < count($activities); $i++) {
 		' . $run . '
 		';
 		
+		if (in_array($diy_id, $usage)) {
+			$activity_used = portal_icon('work');
+		}
+		
 	}
 
 	$description = portal_web_output_filter($activities[$i]['activity_description']);
@@ -54,7 +63,7 @@ for ($i = 0; $i < count($activities); $i++) {
 	$activity_box = '
 	<div class="activity-box">
 		<div class="activity-title">
-		' . $activity_options . ' ' . portal_web_output_filter($activities[$i]['activity_name']) . ' 
+		' . $activity_options . ' ' . portal_web_output_filter($activities[$i]['activity_name']) . ' ' . $activity_used . '
 		</div>
 		<!--div class="activity-info">
 		(Sensor: ' . $activities[$i]['sensor_type'] . '; Model: ' . $activities[$i]['model_type'] . ')
