@@ -484,6 +484,8 @@ function portal_process_member_registration($request) {
 		
 		$diy_member_id = portal_get_diy_member_id_from_db($fixed_username);
 		
+		portal_update_diy_member_info($diy_member_id, $request['first_name'], $request['last_name'], $request['email'], $request['member_interface']);
+
 		$sds_member_id = portal_get_sds_member_id_from_db($diy_member_id);
 		
 		// add the member to the portal database
