@@ -634,20 +634,16 @@ table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSo
 STAR RATING STYLES
 ***********************************/
 
+.comment-rating-container {
+	position: relative;
+}
 
 .rating-stars {
    cursor: pointer;
    margin: 2em;
-   clear: both;
-   display: block;
-}
-.rating-stars:after {
-   content: '.';
-   display: block;
-   height: 0;
-   width: 0;
-   clear: both;
-   visibility: hidden;
+   position: absolute;
+   top: -30px;
+   left: 75px;
 }
 .cancel,
 .star {
@@ -657,25 +653,15 @@ STAR RATING STYLES
    overflow: hidden;
    text-indent: -999em;
    cursor: pointer;
-}
-.cancel,
-.cancel a {background: url(/images/delete.gif) no-repeat 0 -16px;}
-
-.star,
-.star a {background: url(/images/star.gif) no-repeat 0 0px;}
-   
-.cancel a,
-.star a {
    display: block;
-   width: 100%;
-   height: 100%;
-   background-position: 0 0px;
 }
+.cancel {background: url(/images/delete.gif) no-repeat 0 -16px;}
 
-div.rating-stars span.on a {
+.star {background: url(/images/star.gif) no-repeat 0 0px;}
+   
+span.rating-stars span.on {
    background-position: 0 -16px;
 }
-div.rating-stars span.hover a,
-div.rating-stars span a:hover {
+span.rating-stars span.hover {
 	background-position: 0 -32px;
 }
