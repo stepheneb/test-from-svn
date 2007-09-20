@@ -182,20 +182,20 @@ select {
 }
 
 
-.left-column-container {
+/*.left-column-container {
 	float: left;
 	width: 50%;
-}
+}*/
 
 .left-column-content {
 	padding: 0px 10px;
 }
 
-.right-column-container {
+/*.right-column-container {
 	float: right;
 	width: 50%;
 
-}
+}*/
 
 .right-column-content {
 	padding: 0px 10px;
@@ -486,6 +486,27 @@ select {
 	border: 1px solid #6A0E04;
 }
 
+.icon-legend-box {
+	position: absolute;
+	top: 5px;
+	right: 90px;
+	width: 200px;
+}
+
+.icon-legend-box p {
+	text-align: right;
+	font-size: 92%;
+}
+
+#icon-legend {
+	position: absolute;
+	top: 23px;
+	right: 0px;
+	background-color: #cccccc;
+	border: 1px solid #999999;
+
+}
+
 
 /*********************************************
      CSS ROUNDED BOXESs
@@ -555,5 +576,106 @@ select {
 		}
 
 
+/*********************************************
+     TABLE SORTER STYLES
+*********************************************/
 
 
+table.tablesorter {
+	font-family:arial;
+	background-color: #CDCDCD;
+	margin:10px 0pt 15px;
+	font-size: 100%;
+	width: 90%;
+	text-align: left;
+}
+
+table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+	background-color: #E6EEE7;
+	border: 1px solid #FFF;
+	font-size: 107%;
+	padding: 4px;
+}
+
+table.tablesorter thead tr .header {
+	background-image: url(/images/widgets/tables/bg.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+}
+
+table.tablesorter tbody td {
+	color: #3D3D3D;
+	padding: 4px;
+	background-color: #FFF;
+	vertical-align: top;
+}
+
+table.tablesorter tbody tr.odd td {
+	background-color: #EDF4EE;
+}
+
+table.tablesorter thead tr .headerSortUp {
+	background-image: url(/images/widgets/tables/asc.gif);
+}
+
+table.tablesorter thead tr .headerSortDown {
+	background-image: url(/images/widgets/tables/desc.gif);
+}
+
+table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
+	background-color: #7FD486;
+}
+
+
+
+
+/***********************************
+STAR RATING STYLES
+***********************************/
+
+
+.rating-stars {
+   cursor: pointer;
+   margin: 2em;
+   clear: both;
+   display: block;
+}
+.rating-stars:after {
+   content: '.';
+   display: block;
+   height: 0;
+   width: 0;
+   clear: both;
+   visibility: hidden;
+}
+.cancel,
+.star {
+   float: left;
+   width: 17px;
+   height: 15px;
+   overflow: hidden;
+   text-indent: -999em;
+   cursor: pointer;
+}
+.cancel,
+.cancel a {background: url(/images/delete.gif) no-repeat 0 -16px;}
+
+.star,
+.star a {background: url(/images/star.gif) no-repeat 0 0px;}
+   
+.cancel a,
+.star a {
+   display: block;
+   width: 100%;
+   height: 100%;
+   background-position: 0 0px;
+}
+
+div.rating-stars span.on a {
+   background-position: 0 -16px;
+}
+div.rating-stars span.hover a,
+div.rating-stars span a:hover {
+	background-position: 0 -32px;
+}

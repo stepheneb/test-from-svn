@@ -95,6 +95,10 @@ mystery_cookie('cookietest','yes');
 // display the sign-in and registration links
 
 echo '
+<table width="100%">
+<tr>
+<td valign="top">
+
 <div class="left-column-container">
 <div class="left-column-content">
 
@@ -117,6 +121,8 @@ echo '
 </div>
 </div>
 
+</td><td valign="top">
+
 <div class="right-column-container">
 <div class="right-column-content">
 
@@ -130,7 +136,7 @@ echo '
 	
 	</ul>
 	
-	<h1>Just Want to Try the Units?</h1>
+	<h2>Just Want to Try the Units?</h2>
 	
 	<ul>
 	
@@ -142,6 +148,9 @@ echo '
 </div>
 </div>
 
+</td>
+</tr>
+</table>
 <div class="clear-both">&nbsp;</div>
 
 ';

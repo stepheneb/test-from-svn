@@ -106,6 +106,7 @@ function portal_auth($username, $password) {
 		$_SESSION['portal']['sds_member_id'] = $results[0]['sds_member_id'];
 		$_SESSION['portal']['member_username'] = $username;
 		$_SESSION['portal']['member_password_ue'] = $password_ue;
+		$_SESSION['portal']['taking_course'] = $results[0]['taking_course'];
 
 		// log this page view
 
@@ -2515,8 +2516,6 @@ function portal_generate_user_info_box() {
 	
 	}
 	
-	$box .= portal_generate_icon_legend();
-	
 	return $box;
 
 }
@@ -2550,9 +2549,9 @@ function portal_generate_icon_legend() {
 	
 
 	$legend .= '
-	<div class="user-info-box">
+	<div class="icon-legend-box">
 
-	<p><strong><span id="icon-legend-link">Icon Legend</span></strong></p>
+	<p><span id="icon-legend-link">Icon Legend</span></p>
 
 	<div id="icon-legend">
 
@@ -2582,7 +2581,7 @@ function portal_generate_icon_legend() {
 			
 		}
 		
-		addLoadEvent(
+		$(document).ready(
 			function() { 
 				
 				var link = document.getElementById("icon-legend-link");
@@ -2637,22 +2636,14 @@ function portal_generate_user_navigation() {
 			$nav_items[] = '<li><a href="/activity/create/">Activities</a></li>';
 		}
 	
-		if ($_PORTAL['section'] == 'activity' && $_PORTAL['activity'] == 'my') {
-			$small_nav_items[] = '<li><strong>My Activities</strong></li>';
-		} else {
-			$small_nav_items[] = '<li><a href="/activity/my/">My Activities</a></li>';
-		}
-	
-		if ($_PORTAL['section'] == 'activity' && $_PORTAL['activity'] == 'school') {
-			$small_nav_items[] = '<li><strong>School Activities</strong></li>';
-		} else {
-			$small_nav_items[] = '<li><a href="/activity/school/">School Activities</a></li>';
-		}
-	
-		if ($_PORTAL['section'] == 'activity' && $_PORTAL['activity'] == 'world') {
-			$small_nav_items[] = '<li><strong>Other Activities</strong></li>';
-		} else {
-			$small_nav_items[] = '<li><a href="/activity/world/">Other Activities</a></li>';
+		if ($_SESSION['portal']['taking_course']) {
+		
+			if ($_PORTAL['section'] == 'course' && $_PORTAL['activity'] == '') {
+				$nav_items[] = '<li><strong>Course</strong></li>';
+			} else {
+				$nav_items[] = '<li><a href="/course/">Course</a></li>';
+			}
+		
 		}
 	
 		if ($_SESSION['portal']['member_type'] == 'admin' || $_SESSION['portal']['member_type'] == 'superuser') {
@@ -2704,27 +2695,7 @@ function portal_generate_user_navigation() {
 		';
 	
 	}
-	
-	/* Removed on 6/18/07 by Paul Burney
-	
-	if (count($small_nav_items) > 0) {
 
-		$nav .= '
-		<div class="user-navigation-small">
-			
-			<p><strong>DIY Activities</strong></p>
-			
-			<ul>
-				' . implode("\n", $small_nav_items) . '
-			</ul>
-		
-		</div>
-		';
-	
-	}
-	
-	*/
-	
 	return $nav;
 
 }
@@ -2873,7 +2844,7 @@ function portal_generate_student_activity_list($student_id, $class_id, $used_act
 
 }
 
-function portal_get_diy_activities_from_db($conditions = array(), $params = array()) {
+function portal_get_diy_activities_from_db($conditions = array(), $params = array(), $options = array('no restrict')) {
 
 	// I guess the right way would be to do this... http://itsidiy.concord.org/users/9/activities.xml
 	// but first we'd have to have the diy member id of a user, so for now, the hack.
@@ -2960,7 +2931,7 @@ function portal_record_sort($records, $fields) {
 	$records = array();
 	
 	foreach($hash as $record) {
-		$records []= $record;
+		$records[] = $record;
 	}
 	
 	return $records;
@@ -3034,12 +3005,7 @@ function portal_get_prepared_diy_activities($member_id) {
 
 }
 
-
-function portal_generate_activity_grid($activity_ids = array(), $diy_activity_ids = array(), $mode = '') {
-
-	global $portal_config;
-
-	$activity_grid = '';
+function portal_get_activities($conditions = array(), $params = array(), $order = 'unit_order, activity_order') {
 
 	$query = '
 	SELECT * FROM
@@ -3052,16 +3018,58 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 	ON pa.activity_unit=pu.unit_id
 	LEFT JOIN portal_projects AS pp
 	ON pu.unit_project=pp.project_id
-	WHERE activity_status = ?
-	ORDER BY unit_order, activity_order
 	';
-	
-	$params = array('Ready');
-	
-	$activities = mystery_select_query($query, $params, 'portal_dbh');
 
-	$activities = array_merge($activities, portal_get_prepared_diy_activities(@$_SESSION['portal']['member_id']));
+	$query_conditions = array();
+	$query_params = array();
+	
+	$query_conditions[] = 'activity_status = ?';
+	$query_params[] = 'Ready';
+	
+	for ($i = 0; $i < count($conditions); $i++) {
+		$query_conditions[] = $conditions[$i];
+	}
+	
+	for ($i = 0; $i < count($params); $i++) {
+		$query_params[] = $params[$i];
+	}
+	
+	if (count($query_conditions) > 0) {
+		$query .= ' WHERE ' . implode(' AND ', $query_conditions);
+	}
+	
+	if ($order != '') {
+	
+		$query .= ' ORDER BY ' . $order;
+	
+	}
+	
+	$results = mystery_select_query($query, $query_params, 'portal_dbh');
+	
+	return $results;
 
+}
+
+function portal_get_all_activities($order = 'unit_order, activity_order') {
+
+	$portal_activities = portal_get_activities(array(), array(), $order);
+	
+	$diy_activities = portal_get_prepared_diy_activities(@$_SESSION['portal']['member_id']);
+
+	$activities = array_merge($portal_activities, $diy_activities);
+
+	return $activities;
+
+}
+
+function portal_generate_activity_grid($activity_ids = array(), $diy_activity_ids = array(), $mode = '') {
+
+	global $portal_config;
+
+	$activity_grid = '';
+
+	$activities = portal_get_all_activities();
+	
 	// First create the display activities array
 	
 	$display_activities = array();
@@ -3173,6 +3181,7 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 		if ($mode == 'preview') {
 			$report = '';
 			$run = '';
+			$copy = '';
 		}
 
 		$activity_options = '
@@ -3268,7 +3277,8 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 	// Now generate the interface
 	
 	$activity_grid = '
-	<table id="activity-chart" border="0" cellspacing="0" cellpadding="0">
+	' . portal_generate_icon_legend() . '
+	<table id="activity-chart" border="0" cellspacing="0" cellpadding="0" width="100%">
 		<tr>
 			<td id="activity-chart-navigation">
 				<ul>' . implode("\n", $navigation) . '</ul>

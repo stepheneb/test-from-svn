@@ -52,6 +52,10 @@ function portal_determine_resource($uri) {
 			$include_file = 'controllers/diy.php';
 		break;
 		
+		case 'course':
+			$include_file = 'controllers/course.php';
+		break;
+		
 		case 'activity':
 		
 			switch($_PORTAL['activity']) {

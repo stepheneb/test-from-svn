@@ -13,6 +13,9 @@
 	<script type="text/javascript" src="/scripts/datasource-beta-min.js"></script> 
 	<script type="text/javascript" src="/scripts/datatable-beta-min.js"></script> 
 
+	<script type="text/javascript" src="/scripts/jquery-1.2.min.js"></script> 
+	<script type="text/javascript" src="/scripts/jquery.tablesorter.pack.js"></script> 
+
 	<link rel="stylesheet" type="text/css" href="/css/main.css">
 
 	<script type="text/javascript" src="/scripts/portal.js"></script>
