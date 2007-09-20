@@ -1,3 +1,2 @@
-#test check in
 User-agent: *
 Disallow:
