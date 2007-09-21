@@ -1225,7 +1225,7 @@ function portal_generate_error_page($errors = array()) {
 	
 	' . $error_list . '
 	
-	<p>Please <a href="javascript:history.back();"><strong>go back</strong></a> and try again or contact <a href="mailto:wemaster@concord.org">wemaster@concord.org</a>.</p>
+	<p>Please <a href="javascript:history.back();"><strong>go back</strong></a> and try again or contact <a href="mailto:webmaster@concord.org">webmaster@concord.org</a>.</p>
 	
 	
 	';
@@ -2611,9 +2611,9 @@ function portal_generate_user_navigation() {
 	} else {
 	
 		if ($_PORTAL['section'] == 'preview' && $_PORTAL['activity'] == '') {
-			$nav_items[] = '<li><strong>Units</strong></li>';
+			$nav_items[] = '<li><strong>Activities</strong></li>';
 		} else {
-			$nav_items[] = '<li><a href="/preview/">Units</a></li>';
+			$nav_items[] = '<li><a href="/preview/">Activities</a></li>';
 		}
 	
 	}
