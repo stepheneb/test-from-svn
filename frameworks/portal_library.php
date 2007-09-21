@@ -446,6 +446,10 @@ function portal_process_member_registration($request) {
 		$_PORTAL['errors'][] = 'You must specify a Password.';
 	}
 	
+	if (strlen($request['password']) < 4 || strlen($request['password']) > 40) {
+		$_PORTAL['errors'][] = 'Your password must be between 4 and 40 characters long.';
+	}
+	
 	if (count($_PORTAL['errors']) > 0) {
 		return 0;
 	}
@@ -706,8 +710,6 @@ function portal_setup_diy_session($username = '', $password = '') {
 	$data['password'] = $password;
 	$data['commit'] = 'Log in';
 
-	// "login=user&password=password&commit=Log+in&redirect=savedata%3Dtrue%26action%3Dsail_jnlp%26uid%3D2%26id%3D16%26authoring%3Dnil%26vid%3D6%26controller%3Dactivities" 
-
 	list($headers, $content) = portal_post_to_diy($data, $path);
 
 	preg_match('~' . $portal_config['diy_session_name'] . '=([^;]+);~', $headers, $matches);
@@ -872,28 +874,6 @@ function portal_post_to_diy($data, $path) {
 	
 }
 
-/*
-$ curl -i -H 'Content-Type: application/x-www-form-urlencoded' -X 
-POST -d 
-'login=stephen%40deanbrook.org&password=password&commit=Log+in' 
-http://rails.dev.concord.org/teemss2/session
-HTTP/1.1 302 Found
-Date: Tue, 22 May 2007 16:34:15 GMT
-Server: lighttpd/1.4.11
-Content-Type: text/html; charset=utf-8
-Location: http://rails.dev.concord.org/teemss2/activities
-X-Runtime: 0.00705
-Cache-Control: no-cache
-Content-Length: 113
-Set-Cookie: _session_id=315e81840d89a6d3141cde0e9028ae7f; path=/
-
-
-curl -i -H 'Content-Type: application/x-www-form-urlencoded' -X POST -d 'login=stephen%40deanbrook.org&password=password&commit=Log+in' 
-http://rails.dev.concord.org/teemss2/session
-
-*/
-
-
 function portal_post_xml_to_diy($xml, $path) {
 
 	// this function takes an xml snippit and posts it to the DIY
@@ -1016,25 +996,6 @@ function portal_get_diy_activity_usage_from_db($member_id) {
 
 function portal_get_diy_member_id_from_rest($first_name, $last_name, $email_address, $username, $password) {
 
-/*
-<user>
-<created-at type="datetime">2007-02-28T07:11:10-05:00</created-at>
-<crypted-password/>
-<email>anonymous</email>
-<first-name>Anonymous</first-name>
-<id type="integer">1</id>
-<last-name>User</last-name>
-<login>anonymous</login>
-<password-hash>294de3557d9d00b3d2d8a1e6aab028cf</password-hash>
-<remember-token>97303d1209d2312d6543908dd731eb075000a8cc</remember-token>
-<remember-token-expires-at type="datetime">2007-06-04T00:12:48-04:00</remember-token-expires-at>
-<salt/>
-<sds-sail-user-id type="integer">3134</sds-sail-user-id>
-<updated-at type="datetime">2007-05-23T14:49:11-04:00</updated-at>
-<vendor-interface-id type="integer">6</vendor-interface-id>
-</user>
-*/
-
 	global $portal_config;
 	
 	$uri = 'http://' . $portal_config['diy_server'] . '/user/create';
@@ -1090,31 +1051,6 @@ function portal_get_diy_member_id_from_rest($first_name, $last_name, $email_addr
 	
 	return $diy_member_id;
 	
-	/*
-	POST to /user/create
-	POST data:
-	
-	<user>
-	  <email>email@foo.com</email>
-	  <login>userlogin</login>
-	  <password>password123</password>
-	  <firstname>First</firstname>
-	  <lastname>Last</lastname>
-	</user>
-	
-	RETURNS:
-	
-	<? xml version="1.0" encoding="UTF-8"? >
-	<user>
-	  <email>email@foo.com</email>
-	  <first-name>First</first-name>
-	  <id type="integer">10</id>
-	  <last-name>Last</last-name>
-	  <login>userlogin</login>
-	  <vendor-interface-id type="integer">6</vendor-interface-id>
-	</user>
-	*/
-
 }
 
 function portal_get_diy_activities() {

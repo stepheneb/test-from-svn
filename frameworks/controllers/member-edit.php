@@ -46,12 +46,18 @@ if ($_SESSION['portal']['member_type'] != 'superuser' && $_SESSION['portal']['me
 if (isset($_PORTAL['params']['process'])) {
 
 	$data = array();
-
-	// I might have to regenerate DIY ids here and maybe CC members.  We'll see.
 	
+	$errors = array();
+
 	if ($_REQUEST['password'] != '') {
+
 		$data['member_password'] = md5(strtolower($_REQUEST['password']));
 		$data['member_password_ue'] = $_REQUEST['password'];
+
+		if (strlen($_REQUEST['password']) < 4 || strlen($_REQUEST['password']) > 40) {
+			$errors[] = 'Your password must be between 4 and 40 characters long.';
+		}
+
 	}
 	
 	if (isset($_REQUEST['email']) && $_REQUEST['email'] != '') {
@@ -68,15 +74,22 @@ if (isset($_PORTAL['params']['process'])) {
 	// FIXME - add the admin role if appropriate/requested
 	// $data['member_type'] = $request['type'];
 
-	$status = mystery_update_query('portal_members', $data, 'member_id', $member_id, 'portal_dbh');
+	if (count($errors) == 0) {
 	
-	portal_update_cc_member_info($member_info['cc_member_id'], $_SESSION['portal']['member_username'], $_REQUEST['password'], $_REQUEST['first_name'], $_REQUEST['last_name'], $_REQUEST['email']);
+		$status = mystery_update_query('portal_members', $data, 'member_id', $member_id, 'portal_dbh');
+		
+		if ($status == 0) {
+			$errors[] = 'Could not update member information';
+		}
+		
+		portal_update_cc_member_info($member_info['cc_member_id'], $_SESSION['portal']['member_username'], $_REQUEST['password'], $_REQUEST['first_name'], $_REQUEST['last_name'], $_REQUEST['email']);
+		
+		portal_update_diy_member_info(portal_get_diy_member_id_from_db($member_info['member_username']), $_REQUEST['first_name'], $_REQUEST['last_name'], $_REQUEST['email'], $_REQUEST['interface']);
 	
-	portal_update_diy_member_info(portal_get_diy_member_id_from_db($member_info['member_username']), $_REQUEST['first_name'], $_REQUEST['last_name'], $_REQUEST['email'], $_REQUEST['interface']);
+	}
 	
-	if ($status == 0) {
+	if (count($errors) > 0) {
 	
-		$errors = array('Could not update member information');
 		echo portal_generate_error_page($errors);
 	
 	} else {
@@ -158,7 +171,7 @@ if (isset($_PORTAL['params']['process'])) {
 	
 	' . $email_field . '
 
-	<p><label for="password">New Password</label> <input type="text" name="password" id="password" value="" size="35"> <span class="form-field-info"><strong>Warning:</strong> this field will display your password</span></p>
+	<p><label for="password">New Password</label> <input type="text" name="password" id="password" value="" size="35"> <span class="form-field-info"><strong>Warning:</strong> this field will display your password<br><strong>Note:</strong> your password must be between 4 and 40 characters long</span></p>
 
 	<p><label for="interface">Interface</label> ' . portal_generate_interface_list(@$member_info['member_interface']) . '</p>
 

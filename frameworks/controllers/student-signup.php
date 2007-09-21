@@ -92,7 +92,7 @@ if ($_PORTAL['action'] == 'process') {
 
 	<p><label for="last-name">Last Name</label> <input type="text" name="last_name" id="last-name" value="" size="35"></p>
 	
-	<p><label for="password">Password</label> <input type="text" name="password" id="password" value="" size="35"> <span class="form-field-info"><strong>Warning:</strong> this field will display your password</span></p>
+	<p><label for="password">Password</label> <input type="text" name="password" id="password" value="" size="35"> <span class="form-field-info"><strong>Warning:</strong> this field will display your password<br><strong>Note:</strong> your password must be between 4 and 40 characters long</span></p>
 	
 	' . $custom_fields . '
 

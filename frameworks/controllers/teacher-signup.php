@@ -46,7 +46,7 @@ if ($_PORTAL['action'] == 'process') {
 	
 	<p><label for="email">Email</label> <input type="text" name="email" id="email" value="" size="35"></p>
 
-	<p><label for="password">Password</label> <input type="text" name="password" id="password" value="" size="35"> <span class="form-field-info"><strong>Warning:</strong> this field will display your password</span></p>
+	<p><label for="password">Password</label> <input type="text" name="password" id="password" value="" size="35"> <span class="form-field-info"><strong>Warning:</strong> this field will display your password<br><strong>Note:</strong> your password must be between 4 and 40 characters long</span></p>
 	
 	<p><label for="school-id">School</label> <select name="school_id" id="school-id"><option value="">Please select your school…</option>' . portal_generate_school_option_list() . '<optgroup label="Other"><option value="other">Please specify…</option></optgroup></select> <span class="form-field-info">if you can not find your school, please select <br>"Other" and enter the information below.</span></p>
 
