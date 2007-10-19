@@ -50,6 +50,7 @@ function portal_prepare_activity_list($activities) {
 		}
 		
 		$activities[$i]['activity_rating'] = portal_lookup_activity_rating($activities[$i]['diy_identifier']);
+		$activities[$i]['comment_count'] = portal_lookup_activity_comment_count($activities[$i]['diy_identifier']);
 		
 
 		if ($include_in_list == 'yes') {
@@ -197,6 +198,29 @@ function portal_lookup_activity_rating($diy_id) {
 
 }
 
+function portal_lookup_activity_comment_count($diy_id) {
+
+	static $lookup = array();
+	
+	if (count($lookup) == 0) {
+	
+		$query = 'SELECT  comment_diy_identifier, count(comment_id) AS comment_count FROM portal_comments_ratings GROUP BY comment_diy_identifier';
+		$params = array();
+
+		$results = mystery_select_query($query, $params, 'portal_dbh');
+		
+		$lookup = mystery_convert_results_to_lookup_array($results, 'comment_diy_identifier', 'comment_count');
+	
+	}
+	
+	if (!isset($lookup[$diy_id])) {
+		$lookup[$diy_id] = '<em>—</em>';
+	}
+	
+	return $lookup[$diy_id];
+
+}
+
 function portal_get_activity_comments($diy_id, $member_id = '') {
 
 	$comments = array();
@@ -265,7 +289,7 @@ switch($_PORTAL['activity']) {
 				$data['comment_diy_identifier'] = $diy_id;
 				$data['comment_title'] = $_REQUEST['comment_title'];
 				$data['comment_body'] = $_REQUEST['comment_body'];
-				$data['comment_rating'] = $_REQUEST['comment_rating'];
+				//$data['comment_rating'] = $_REQUEST['comment_rating'];
 				$data['creation_date'] = date('Y-m-d H:i:s');
 	
 				$comment_id = mystery_insert_query('portal_comments_ratings', $data, 'comment_id', 'portal_dbh');
@@ -312,15 +336,17 @@ switch($_PORTAL['activity']) {
 					$bg = '#cdcdcd';
 				}
 				
-				if ($comments[$i]['comment_rating'] == 0) {
-					$comments[$i]['comment_rating'] = '<em>not rated</em>';
-				}
+				//if ($comments[$i]['comment_rating'] == 0) {
+				//	$comments[$i]['comment_rating'] = '<em>not rated</em>';
+				//}
+			
+				// <span class="comment-rating">' . portal_convert_number_to_stars($comments[$i]['comment_rating']) . '</span> 
 			
 				$comment_section .= '
 				<div class="comment-section" style="margin: 5px 20px 10px 50px; border-bottom: 1px solid #cccccc;">
 				<div style="padding: 4px;">
 		
-				<p><span class="comment-rating">' . portal_convert_number_to_stars($comments[$i]['comment_rating']) . '</span> <strong><span class="comment-title" style="font-size: 120%;">' . $comments[$i]['comment_title'] . '</span></strong>
+				<p><strong><span class="comment-title" style="font-size: 120%;">' . $comments[$i]['comment_title'] . '</span></strong>
 				<br><em>by <span class="comment-author">' . $comments[$i]['member_first_name'] . ' ' . $comments[$i]['member_last_name'] . '</span> on <span class="comment-date">' . $comments[$i]['formatted_date'] . '</span></em>
 				</p>
 		
@@ -373,12 +399,14 @@ switch($_PORTAL['activity']) {
 		</script>
 		';
 			
+		//' . $rating_box . '
+
 		echo '
 		<p>' .  $activity_info['activity_description'] . '</p>
 		
 		<p><strong>Explore:</strong> <a href="/diy/view/' . $diy_id .  '/" title="Try this activity (as a teacher, do not save data)"> Run this activity</a> ' . portal_icon('run') . '</p>
 		
-		<p><strong>Average Rating:</strong> ' . portal_convert_number_to_stars($average_rating) . ' (' . $average_rating . ')</p>
+		<!--p><strong>Average Rating:</strong> ' . portal_convert_number_to_stars($average_rating) . ' (' . $average_rating . ')</p-->
 		
 		<h2>Comments</h2>
 		
@@ -391,8 +419,6 @@ switch($_PORTAL['activity']) {
 		<p><label for="comment-title">Summary</label> <input type="text" name="comment_title" id="comment-title" size="60" value="' . @$my_comments['comment_title'] . '"></p>
 		
 		<p><label for="comment-body">Details</label> <textarea name="comment_body" id="comment-body" rows="4" cols="60" wrap="soft">' . @$my_comments['comment_body'] . '</textarea></p>
-
-		' . $rating_box . '
 		
 		<p><label for="comment-submit">&nbsp;</label> <input type="submit" id="comment-submit" value="Save Changes"> 
 		' . $delete_checkbox . '</p>
@@ -438,7 +464,8 @@ switch($_PORTAL['activity']) {
 				<th>School</th>
 				<th>Author</th>
 				<th>Activity Name</th>
-				<th width="120">Rating</th>
+				<!--th width="120">Rating</th-->
+				<th width="120">Comments</th>
 				<th>Details</th>
 			</tr>
 			</thead>
@@ -452,7 +479,8 @@ switch($_PORTAL['activity']) {
 					<td>' . @$activities[$i]['activity_school'] . '</td>
 					<td>' . $activities[$i]['activity_author'] . '</td>
 					<td>' . $activities[$i]['activity_name'] . '</td>
-					<td align="center">' . portal_convert_number_to_stars(@$activities[$i]['activity_rating']) . '</td>
+					<!--td align="center">' . portal_convert_number_to_stars(@$activities[$i]['activity_rating']) . '</td-->
+					<td align="center">' . $activities[$i]['comment_count'] . '</td>
 					<td align="center"><a href="/course/details/' . $activities[$i]['diy_identifier'] . '/" title="View details, comments, and ratings">' . portal_icon('run') . '</a></td>
 				</tr>
 				';

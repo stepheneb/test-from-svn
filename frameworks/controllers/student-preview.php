@@ -22,7 +22,9 @@ $params = array();
 
 $conditions[] = 'ida.id IN ("' . implode('","', $class_info['diy_activities']) . '")';
 
-$activities = portal_get_diy_activities_from_db($conditions, $params);
+$options = array('no restrict');
+
+$activities = portal_get_diy_activities_from_db($conditions, $params, $options);
 
 $list = '';
 

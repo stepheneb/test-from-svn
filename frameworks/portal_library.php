@@ -2780,7 +2780,7 @@ function portal_generate_student_activity_list($student_id, $class_id, $used_act
 
 }
 
-function portal_get_diy_activities_from_db($conditions = array(), $params = array(), $options = array('no restrict')) {
+function portal_get_diy_activities_from_db($conditions = array(), $params = array(), $options = array()) {
 
 	// I guess the right way would be to do this... http://itsidiy.concord.org/users/9/activities.xml
 	// but first we'd have to have the diy member id of a user, so for now, the hack.
@@ -2790,6 +2790,7 @@ function portal_get_diy_activities_from_db($conditions = array(), $params = arra
 	ida.id AS activity_id, 
 	ida.id AS diy_identifier, 
 	ida.name AS activity_name, 
+	ida.public,
 	ida.description AS activity_description,
 	login AS author,
 	first_name,
@@ -2819,10 +2820,14 @@ function portal_get_diy_activities_from_db($conditions = array(), $params = arra
 	
 	$query_conditions[] = 'login <> ?';
 	$query_params[] = 'itest';
+
+	if (!in_array('no restrict', $options)) {
 	
-	$query_conditions[] = '(ida.public = ? OR login = ?)';
-	$query_params[] = 1;
-	$query_params[] = $_SESSION['portal']['member_username'];
+		$query_conditions[] = '(ida.public = ? OR login = ?)';
+		$query_params[] = 1;
+		$query_params[] = $_SESSION['portal']['member_username'];
+	
+	}
 	
 	for ($i = 0; $i < count($conditions); $i++) {
 		$query_conditions[] = $conditions[$i];
@@ -2930,6 +2935,10 @@ function portal_get_prepared_diy_activities($member_id) {
 		}
 	
 		$activities[$i]['subject_name'] = $subject_keys[$activities[$i]['author']];
+		
+		if (!$activities[$i]['public']) {
+			$activities[$i]['activity_name'] .= ' (private)';
+		}
 	
 	}
 	
@@ -3003,8 +3012,16 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 	global $portal_config;
 
 	$activity_grid = '';
+	
+	if ($mode == 'preview') {
+	
+		$activities = portal_get_activities(array(), array(), 'unit_order, activity_order');
+	
+	} else {
 
-	$activities = portal_get_all_activities();
+		$activities = portal_get_all_activities();
+	
+	}
 	
 	// First create the display activities array
 	
@@ -3078,20 +3095,27 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 			$try = '';
 		
 		} else {
+		
+			$copy_title = 'Make your own version of this activity';
+			$copy = '<a href="/diy/copy/' . $diy_id . '/" target="_blank" title="' . $copy_title . '">' . portal_icon('copy', $copy_title) . '</a>';
+			
+			$edit_title = 'Edit this activity';
+			$edit = '<a href="/diy/edit/' . $diy_id . '/" target="_blank" title="' . $edit_title . '">' . portal_icon('setup', $edit_title) . '</a>';
 
-			$copy = '<a href="/diy/copy/' . $diy_id . '/" target="_blank" title="Make your own version of this activity">' . portal_icon('copy') . '</a>';
+			$info_title = 'View activity description';
+			$info = '<a href="#" onclick="toggle_block_element(\'activity-description-' . $id_prefix . $activities[$i]['activity_id'] . '\'); return false;" title="' . $info_title . '">' . portal_icon('info', $info_title) . '</a>';
 			
-			$edit = '<a href="/diy/edit/' . $diy_id . '/" target="_blank" title="Edit this activity">' . portal_icon('setup') . '</a>';
-
-			$info = '<a href="#" onclick="toggle_block_element(\'activity-description-' . $id_prefix . $activities[$i]['activity_id'] . '\'); return false;" title="View activity description">' . portal_icon('info') . '</a>';
+			$preview_title = 'View a quick preview version of this activity';
+			$preview = '<a href="/diy/show/' . $diy_id . '/" target="_blank" title="' . $preview_title . '">' . portal_icon('preview', $preview_title) . '</a>';
 			
-			$preview = '<a href="/diy/show/' . $diy_id . '/" target="_blank" title="View a quick preview version of this activity">' . portal_icon('preview') . '</a>';
+			$report_title = 'View the learner data from this activity';
+			$report = '<a href="/diy/usage/' . $diy_id . '/" target="_blank" title="' . $report_title . '">' . portal_icon('report', $report_title) . '</a>';
 			
-			$report = '<a href="/diy/usage/' . $diy_id . '/" target="_blank" title="View the learner data from this activity">' . portal_icon('report') . '</a>';
+			$run_title = 'Run this activity (and save data)';
+			$run = '<a href="/diy/run/' . $diy_id .  '/" title="' . $run_title . '">' . portal_icon('run', $run_title) . '</a>';
 			
-			$run = '<a href="/diy/run/' . $diy_id .  '/" title="Run this activity (and save data)">' . portal_icon('run') . '</a>';
-
-			$try = '<a href="/diy/view/' . $diy_id .  '/" title="Try this activity (as a teacher, do not save data)">' . portal_icon('try') . '</a>';
+			$try_title = 'Try this activity (as a teacher, do not save data)';
+			$try = '<a href="/diy/view/' . $diy_id .  '/" title="' . $try_title . '">' . portal_icon('try', $try_title) . '</a>';
 			
 		}
 		
