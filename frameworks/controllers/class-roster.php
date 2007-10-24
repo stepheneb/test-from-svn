@@ -34,6 +34,8 @@ $student_count = count($students);
 echo '
 <h2>Class Roster: ' . $class_info['class_name'] . '</h2>
 
+<p>' . $student_count . ' students enrolled in this class</p>
+
 <table class="roster-table">
 
 <tr>

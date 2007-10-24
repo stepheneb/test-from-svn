@@ -550,9 +550,12 @@ function portal_get_unique_username($first_name, $last_name, $email) {
 
 	} else {
 	
-		$query = 'SELECT user_username FROM mystri_users WHERE user_username LIKE ? ORDER BY user_username';
-		$params = array($temp . '%');
+		// look only for the ones that are the usernames suffixed with numbers to avoid accidental matches.
+		// case in point, danielc1 looked for danielc* then found danielcalder@mac.com and gave an error
 	
+		$query = 'SELECT user_username FROM mystri_users WHERE user_username REGEXP ? ORDER BY user_username';
+		$params = array($temp . '[0-9]+');
+		
 		$results = mystery_select_query($query, $params, 'sunflower_dbh');
 		
 		if (count($results) > 0) {
@@ -1410,6 +1413,80 @@ function portal_generate_teacher_list($school_id, $type = 'compact') {
 
 }
 
+function portal_generate_member_list($type = 'compact') {
+
+	// this function is only used in the admin pages
+
+	global $portal_config;
+
+	$list = '';
+	
+	$members = portal_get_members();
+	
+	if (count($members) == 0) {
+	
+		$list = '<p><em>No members found</em></p>';
+	
+	} else {
+	
+		switch($type) {
+		
+			case 'compact':
+			default:
+			
+				$list .= '
+				<p><select name="member_id" id="member-id">
+				';
+			
+				for ($i = 0; $i < count($members); $i++) {
+				
+					$list .= '
+					<option value="' . $members[$i]['member_id'] . '">' . $members[$i]['member_last_name'] . ', ' . $members[$i]['member_first_name'] . '</option>
+					';
+				
+				}
+				
+				$list .= '
+				</select>
+				</p>
+				';
+			
+			break;
+		
+		}
+	
+	}
+	
+	return $list;
+
+}
+
+function portal_generate_member_option_list() {
+
+	// this function is only used in the admin pages
+
+	global $portal_config;
+
+	$list = '';
+	
+	$members = portal_get_members();
+	
+	if (count($members) > 0) {
+	
+		for ($i = 0; $i < count($members); $i++) {
+		
+			$list .= '
+			<option value="' . $members[$i]['member_id'] . '">' . $members[$i]['member_last_name'] . ', ' . $members[$i]['member_first_name'] . '</option>
+			';
+		
+		}
+		
+	}
+	
+	return $list;
+
+}
+
 function portal_generate_class_list($school_id, $teacher_id = '', $selected = '', $options = array()) {
 
 	// FIXME - way too much overlap between this function and the next... they should be merged, probably using options
@@ -1645,6 +1722,18 @@ function portal_get_teachers($school_id) {
 	$query = 'SELECT * FROM portal_members WHERE member_school = ? AND member_type <> ? ORDER BY member_last_name, member_first_name';
 	
 	$params = array($school_id, 'student');
+	
+	$results = mystery_select_query($query, $params, 'portal_dbh');
+	
+	return $results;
+
+}
+
+function portal_get_members() {
+
+	$query = 'SELECT * FROM portal_members ORDER BY member_last_name, member_first_name';
+	
+	$params = array();
 	
 	$results = mystery_select_query($query, $params, 'portal_dbh');
 	

@@ -23,6 +23,10 @@ function portal_determine_resource($uri) {
 			}
 
 		break;
+		
+		case 'studenthome':
+			$include_file = 'controllers/student-home.php';
+		break;
 
 		case 'signin':
 			$include_file = 'controllers/signin.php';
