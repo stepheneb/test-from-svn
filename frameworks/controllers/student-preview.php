@@ -2,7 +2,7 @@
 
 $page_title = 'Student Preview';
 
-echo '<p><em>This is a preview of how your students will see the activities when they sign in</em></p>';
+echo '<p><em>This is a preview of how your students will see the activities when they sign in.</em></p>';
 
 $class_id = $_PORTAL['action'];
 
