@@ -56,7 +56,9 @@ echo '
 
 <p><strong>' . $_SESSION['user_first_name'] . ' ' . $_SESSION['user_last_name'] . '</strong><br>
 Email: ' . $_SESSION['user_email'] . '<br>
-User: ' . $_SESSION['user_username'] . '
+User: ' . $_SESSION['user_username'] . '<br>
+ID: ' . $_SESSION['portal']['member_id'] . '
+
 </p>
 
 <form action="/switch/member/process/" method="post">

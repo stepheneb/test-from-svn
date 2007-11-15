@@ -65,7 +65,7 @@ if ($_PORTAL['action'] == 'process') {
 
 	if ($_PORTAL['section'] == 'signup') {
 	
-		$custom_fields .= '<p><label for="class-word">Class Word</label> <input type="text" name="class_word" id="class-word" value="" size="35"> <span class="form-field-info">Your teacher will provide you with this word</span></p>';
+		$custom_fields .= '<p><label for="class-word">Sign-up Word</label> <input type="text" name="class_word" id="class-word" value="" size="35"> <span class="form-field-info">Your teacher will provide you with this word</span></p>';
 
 	} else {
 

@@ -81,6 +81,7 @@ for ($i = 0; $i < count($activities); $i++) {
 }
 
 echo $list;
+$page_title = 'Home';
 
 //mystery_print_r(portal_get_student_classes($_SESSION['portal']['member_id']));
 

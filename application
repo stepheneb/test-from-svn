@@ -2,7 +2,7 @@
 
 // This is the portal site
 
-$no_auth_sections = array('signin','signout','signup','signupsubmit','contact','preview','diy');
+$no_auth_sections = array('signin','signout','reminder','signup','signupsubmit','contact','preview','diy');
 
 if (@$_SESSION['is_logged_in'] != 'yes' && !in_array($_PORTAL['section'], $no_auth_sections)) {
 	

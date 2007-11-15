@@ -365,7 +365,7 @@ function portal_process_student_registration($request) {
 		
 		if (count($results) == 0) {
 	
-			$_PORTAL['errors'][] = 'Your Class Word is not correct.  Please double check with your teacher.';
+			$_PORTAL['errors'][] = 'Your Sign-up Word is not correct.  Please double check with your teacher.';
 	
 			if (preg_match('~(shit|piss|bitch|fuck|cunt|cock|suck|tits|crap|damn|merde|mierda|puta|cabron|pendejo)~i', $request['class_word'])) {
 				$_PORTAL['errors'][] = 'You also have a potty mouth…  Please wash it out with soap!';
@@ -512,6 +512,10 @@ function portal_process_member_registration($request) {
 		$data['creation_date'] = date('Y-m-d H:i:s');
 
 		$member_id = mystery_insert_query('portal_members', $data, 'member_id', 'portal_dbh');
+		
+		if ($member_id < 1) {
+			$_PORTAL['errors'][] = 'Could not create new member.  Please contact <a href="mailto:webmaster@concord.org">webmaster@concord.org</a>';
+		}
 
 	}
 		
@@ -553,11 +557,14 @@ function portal_get_unique_username($first_name, $last_name, $email) {
 		// look only for the ones that are the usernames suffixed with numbers to avoid accidental matches.
 		// case in point, danielc1 looked for danielc* then found danielcalder@mac.com and gave an error
 	
-		$query = 'SELECT user_username FROM mystri_users WHERE user_username REGEXP ? ORDER BY user_username';
-		$params = array($temp . '[0-9]+');
+		$query = 'SELECT user_username FROM mystri_users WHERE user_username = ? OR user_username REGEXP ? ORDER BY user_username';
+		$params = array($temp, $temp . '[0-9]+');
 		
 		$results = mystery_select_query($query, $params, 'sunflower_dbh');
 		
+		//mystery_debug_query('sunflower_dbh'); exit;
+
+
 		if (count($results) > 0) {
 			
 			$last_index = count($results) - 1;
@@ -712,7 +719,7 @@ function portal_setup_diy_session($username = '', $password = '') {
 	$data['login'] = $username;
 	$data['password'] = $password;
 	$data['commit'] = 'Log in';
-
+	
 	list($headers, $content) = portal_post_to_diy($data, $path);
 
 	preg_match('~' . $portal_config['diy_session_name'] . '=([^;]+);~', $headers, $matches);
@@ -1399,7 +1406,7 @@ function portal_generate_teacher_list($school_id, $type = 'compact') {
 				$list .= '
 				</select>
 				' . portal_icon_link('setup', '/member/edit/', 'teacher-id', 'Edit this teacher') . '
-				' . portal_icon_link('delete', '/member/delete', 'teacher-id', 'Delete this teacher') . '
+				' . portal_icon_link('delete', '/member/delete/', 'teacher-id', 'Delete this teacher') . '
 				</p>
 				';
 			
@@ -1475,8 +1482,17 @@ function portal_generate_member_option_list() {
 	
 		for ($i = 0; $i < count($members); $i++) {
 		
+			$role = '';
+		
+			//if (preg_match('~^no-email~', $members[$i]['member_email'])) {
+			if ($members[$i]['member_type'] == 'student') {
+				$role = ' - student';
+			} else {
+				$role = ' (' . $members[$i]['member_email'] . ') - ' . $members[$i]['member_type'];
+			}
+		
 			$list .= '
-			<option value="' . $members[$i]['member_id'] . '">' . $members[$i]['member_last_name'] . ', ' . $members[$i]['member_first_name'] . '</option>
+			<option value="' . $members[$i]['member_id'] . '">' . $members[$i]['member_last_name'] . ', ' . $members[$i]['member_first_name'] . $role . '</option>
 			';
 		
 		}
@@ -2561,7 +2577,7 @@ function portal_generate_icon_legend() {
 		
 			$icon_parts[] = '<tr><td>' . portal_icon('delete') . '</td><td>Delete</td></tr>';
 			$icon_parts[] = '<tr><td>' . portal_icon('list') . '</td><td>View class list</td></tr>';
-			$icon_parts[] = '<tr><td>' . portal_icon('report') . '</td><td>View learner data</td></tr>';
+			$icon_parts[] = '<tr><td>' . portal_icon('report') . '</td><td>View student data</td></tr>';
 			
 		}
 	
@@ -2869,6 +2885,59 @@ function portal_generate_student_activity_list($student_id, $class_id, $used_act
 
 }
 
+function portal_lookup_diy_probe_type($probe_id) {
+
+	static $lookup = array();
+	
+	if (count($lookup) == 0) {
+	
+		$query = 'SELECT id, name FROM itsidiy_probe_types';
+		$params = array();
+		
+		$results = mystery_select_query($query, $params, 'rails_dbh');
+		
+		$lookup = mystery_convert_results_to_lookup_array($results, 'id', 'name');
+	
+	}
+	
+	if (@$lookup[$probe_id] == '') {
+		$lookup[$probe_id] = 'unknown probe';
+	}
+	
+	return $lookup[$probe_id];
+
+}
+
+function portal_lookup_diy_model_type($probe_id) {
+
+
+	/*LEFT JOIN itsidiy_models AS im
+	ON ida.model_id=im.id
+	LEFT JOIN itsidiy_model_types AS mt
+	ON im.model_type_id=mt.id*/
+
+	static $lookup = array();
+	
+	if (count($lookup) == 0) {
+	
+		$query = 'SELECT im.id, mt.name FROM itsidiy_models AS im LEFT JOIN itsidiy_model_types AS mt ON im.model_type_id=mt.id';
+		$params = array();
+		
+		$results = mystery_select_query($query, $params, 'rails_dbh');
+		
+		$lookup = mystery_convert_results_to_lookup_array($results, 'id', 'name');
+	
+	}
+	
+	if (@$lookup[$probe_id] == '') {
+		$lookup[$probe_id] = 'unknown model';
+	}
+	
+	return $lookup[$probe_id];
+
+}
+
+
 function portal_get_diy_activities_from_db($conditions = array(), $params = array(), $options = array()) {
 
 	// I guess the right way would be to do this... http://itsidiy.concord.org/users/9/activities.xml
@@ -2884,21 +2953,29 @@ function portal_get_diy_activities_from_db($conditions = array(), $params = arra
 	login AS author,
 	first_name,
 	last_name,
-	pt.name AS sensor_type,
-	mt.name AS model_type,
 	"DIY" AS level_name,
 	"999" AS level_id,
+	collectdata_probe_active,
+	probe_type_id,
+	collectdata_model_active,
+	model_id,
+	collectdata2_probe_active,
+	collectdata2_probetype_id,
+	collectdata2_model_active,
+	collectdata2_model_id,
+	collectdata3_probe_active,
+	collectdata3_probetype_id,
+	collectdata3_model_active,
+	collectdata3_model_id,
+	further_model_active,
+	further_model_id,
+	further_probe_active,
+	further_probetype_id,
 	"My Activities" AS subject_name,
 	CONCAT(last_name, ", ", first_name) AS unit_name
 	FROM itsidiy_activities AS ida
 	LEFT JOIN itsidiy_users AS idu
 	ON ida.user_id=idu.id
-	LEFT JOIN itsidiy_probe_types AS pt
-	ON ida.probe_type_id=pt.id
-	LEFT JOIN itsidiy_models AS im
-	ON ida.model_id=im.id
-	LEFT JOIN itsidiy_model_types AS mt
-	ON im.model_type_id=mt.id
 	';
 
 	//"Custom Activities" AS unit_name
@@ -2933,6 +3010,76 @@ function portal_get_diy_activities_from_db($conditions = array(), $params = arra
 	$query .= ' ORDER BY ida.name';
 	
 	$results = mystery_select_query($query, $query_params, 'rails_dbh');
+
+	$results = portal_set_diy_sensor_model_types($results);
+	
+	return $results;
+
+}
+
+function portal_set_diy_sensor_model_types($results) {
+
+	// this function tries to determine a nice name/display for the models and probes in an ITSI DIY activity
+	
+	$result_count = count($results);
+	
+	for ($i = 0; $i < $result_count; $i++) {
+	
+		// first do probes/sensors
+	
+		$probes = array();
+		
+		if ($results[$i]['collectdata_probe_active'] > 0) {
+			$probes[] = portal_lookup_diy_probe_type($results[$i]['probe_type_id']);
+		}
+		
+		if ($results[$i]['collectdata2_probe_active'] > 0) {
+			$probes[] = portal_lookup_diy_probe_type($results[$i]['collectdata2_probetype_id']);
+		}
+		
+		if ($results[$i]['collectdata3_probe_active'] > 0) {
+			$probes[] = portal_lookup_diy_probe_type($results[$i]['collectdata3_probetype_id']);
+		}
+		
+		if ($results[$i]['further_probe_active'] > 0) {
+			$probes[] = portal_lookup_diy_probe_type($results[$i]['further_probetype_id']);
+		}
+		
+
+		if (count($probes) > 0) {
+			$results[$i]['sensor_type'] = implode(', ', array_merge(array_unique($probes)));
+		} else {
+			$results[$i]['sensor_type'] = 'None';
+		}
+		
+
+		// now do the models
+
+		$models = array();
+
+		if ($results[$i]['collectdata_model_active'] > 0) {
+			$models[] = portal_lookup_diy_model_type($results[$i]['model_id']);
+		}
+		
+		if ($results[$i]['collectdata2_model_active'] > 0) {
+			$models[] = portal_lookup_diy_model_type($results[$i]['collectdata2_model_id']);
+		}
+		
+		if ($results[$i]['collectdata3_model_active'] > 0) {
+			$models[] = portal_lookup_diy_model_type($results[$i]['collectdata3_model_id']);
+		}
+		
+		if ($results[$i]['further_model_active'] > 0) {
+			$models[] = portal_lookup_diy_model_type($results[$i]['further_model_id']);
+		}
+		
+		if (count($models) > 0) {
+			$results[$i]['model_type'] = implode(', ', array_merge(array_unique($models)));
+		} else {
+			$results[$i]['model_type'] = 'None';
+		}
+	
+	}
 	
 	return $results;
 
@@ -3197,7 +3344,7 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 			$preview_title = 'View a quick preview version of this activity';
 			$preview = '<a href="/diy/show/' . $diy_id . '/" target="_blank" title="' . $preview_title . '">' . portal_icon('preview', $preview_title) . '</a>';
 			
-			$report_title = 'View the learner data from this activity';
+			$report_title = 'View the student data from this activity';
 			$report = '<a href="/diy/usage/' . $diy_id . '/" target="_blank" title="' . $report_title . '">' . portal_icon('report', $report_title) . '</a>';
 			
 			$run_title = 'Run this activity (and save data)';

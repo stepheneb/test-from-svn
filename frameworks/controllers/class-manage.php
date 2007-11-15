@@ -267,6 +267,38 @@ if (isset($_PORTAL['params']['process'])) {
 		
 		
 		}
+
+		function initialize_activity_counts() {
+			// reset counts to 0
+			totalActivities = 0;
+			for (var section in sectionActivities) {
+				sectionActivities[section] = 0;
+			}
+
+			var inputs = document.getElementsByTagName("INPUT");
+			for (var i = 0; i < inputs.length; i++) {
+				if (inputs[i].type == "checkbox") {
+					if (inputs[i].parentNode.nodeName != "LABEL") {
+						if (inputs[i].checked) {
+							var section = inputs[i].parentNode.parentNode.parentNode.parentNode.id;
+							totalActivities++;
+							sectionActivities[section]++;
+						}
+					}
+				}
+			}
+
+			updateTotalActivitiesDisplay();
+			for (var s in sectionActivities) {
+				updateSectionActivitiesDisplay(s);
+			}
+		}
+
+		$(document).ready(
+			function() { 
+			 initialize_activity_counts();	
+			}
+		);
 		
 	</script>
 	';

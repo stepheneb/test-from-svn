@@ -332,7 +332,7 @@ function deleteGreatGreatGrandParent(element) {
 
 }*/
 
-function hide_all_sections() {
+function old_hide_all_sections() {
 
 	divs = document.getElementsByTagName("DIV");
 	
@@ -357,6 +357,38 @@ function hide_all_sections() {
 		}
 	
 	}
+
+}
+
+function hide_all_sections() {
+
+	$('div.unit-activities').hide();
+
+	//divs = document.getElementsByTagName("DIV");
+	
+	//for (var i = 0; i < divs.length; i++) {
+	
+	//	if (divs[i].className.match("unit-activities")) {
+		
+	//		divs[i].style.display = "none";
+		
+	//	}
+	
+	//}
+	
+	$('li.unit-navigation').css('border-right-color', '#666666');
+	
+	//lis = document.getElementsByTagName("LI");
+	
+	//for (var i = 0; i < lis.length; i++) {
+	
+	//	if (lis[i].className.match("unit-navigation")) {
+		
+	//		lis[i].style.borderRightColor = '#666666';
+		
+	//	}
+	
+	//}
 
 }
 

@@ -32,6 +32,10 @@ function portal_determine_resource($uri) {
 			$include_file = 'controllers/signin.php';
 		break;
 		
+		case 'reminder':
+			$include_file = 'controllers/reminder.php';
+		break;
+		
 		case 'signout':
 			$include_file = 'controllers/signout.php';
 		break;

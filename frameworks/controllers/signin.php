@@ -116,6 +116,8 @@ echo '
 	
 	<div class="clear-both">&nbsp;</div>
 
+	<p><label for="password-link">&nbsp;</label><a id="password-link" href="/reminder/"><strong>I don\'t know my password!</strong></a></p>
+
 	</form>
 
 </div>
