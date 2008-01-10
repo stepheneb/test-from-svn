@@ -56,6 +56,8 @@ switch ($_PORTAL['activity']) {
 
 }
 
+$conditions[] = 'ida.id NOT IN ("' . implode('","', portal_get_diy_ids_to_exclude()) . '")';
+
 
 $activities = portal_get_diy_activities_from_db($conditions, $params);
 

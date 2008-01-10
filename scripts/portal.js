@@ -1,42 +1,5 @@
 // This is the main utility script file for the portal
 
-/* This code from Yahoo! gives us the resize functionality */
-
-YAHOO.example.DDResize = function(panelElId, handleElId, sGroup, config) {
-    if (panelElId) {
-        this.init(panelElId, sGroup, config);
-        this.handleElId = handleElId;
-        this.setHandleElId(handleElId);
-        this.logger = this.logger || YAHOO;
-    }
-};
-
-YAHOO.extend(YAHOO.example.DDResize, YAHOO.util.DragDrop);
-
-YAHOO.example.DDResize.prototype.onMouseDown = function(e) {
-    var panel = this.getEl();
-    this.startWidth = panel.offsetWidth;
-    this.startHeight = panel.offsetHeight;
-
-    this.startPos = [YAHOO.util.Event.getPageX(e),
-                     YAHOO.util.Event.getPageY(e)];
-};
-
-YAHOO.example.DDResize.prototype.onDrag = function(e) {
-    var newPos = [YAHOO.util.Event.getPageX(e),
-                  YAHOO.util.Event.getPageY(e)];
-
-    var offsetX = newPos[0] - this.startPos[0];
-    var offsetY = newPos[1] - this.startPos[1];
-
-    var newWidth = Math.max(this.startWidth + offsetX, 10);
-    var newHeight = Math.max(this.startHeight + offsetY, 10);
-
-    var panel = this.getEl();
-    panel.style.width = newWidth + "px";
-    panel.style.height = newHeight + "px";
-};
-
 function addLoadEvent(func) {
 	var oldonload = window.onload;
 	if (typeof window.onload != 'function') {
@@ -51,42 +14,6 @@ function addLoadEvent(func) {
 	}
 }
 
-function create_new_panel() {
-
-	var cnt, p, e, new_panel, panel_content;
-	
-	cnt = panels.length + 1;
-	
-	// set up the new panel object
-	
-	p = new Object();
-	
-	p.pid = 'panel' + cnt;
-	
-	p.hid = 'handle' + cnt;
-	
-	p.iid = 'input' + cnt;
-	
-	p.dd = new YAHOO.example.DDResize(p.pid, p.hid, "panelresize");
-	
-	p.dd2 = new YAHOO.util.DD(p.pid, "paneldrag");
-	
-	p.dd2.addInvalidHandleId(p.hid); 	// this makes the handle usable for drag and drop
-
-	panels.push(p);
-	
-	// add this panel to the html content
-	
-	panel_content = '<input type="button" value="X" onclick="delete_panel(this);"> <input type="button" value="i" onclick="alert(\'id: ' + p.iid + ' - You will be able to change data by clicking on this link.\');"> <div id="' + p.hid + '" class="panelHandle"><' + '/div>';
-	
-	new_panel = document.createElement('div');
-	new_panel.id = p.pid;
-	new_panel.className = 'panelArea';
-	new_panel.innerHTML = panel_content;
-	
-	document.getElementById('studysiteimage').appendChild(new_panel);
-
-}
 
 function array_remove(a, item) {
 
@@ -106,19 +33,6 @@ function array_remove(a, item) {
 
 }
 
-function delete_panel(p) {
-
-	if (confirm('Are you sure you want to delete this panel?','Yes','No')) {
-	
-		// remove it from the array of panels
-		//panels = array_remove(panels, p.parentNode);
-	
-		// delete the element
-		delete_parent(p);
-		
-	}
-
-}
 
 function write_to_element(element_id, content) {
 
@@ -410,6 +324,10 @@ function show_section(section_id, link_object) {
 		bc = '#BA9C61';
 	} else if (link_object.className.match("level4")) {
 		bc = '#D4EBD2';
+	} else if (link_object.className.match("level5")) {
+		bc = '#A3C380';
+	} else if (link_object.className.match("level6")) {
+		bc = '#F3D6AC';
 	} else if (link_object.className.match("level999")) {
 		bc = '#D6C754';
 	} else {

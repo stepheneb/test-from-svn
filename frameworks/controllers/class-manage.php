@@ -77,17 +77,35 @@ if (isset($_PORTAL['params']['process'])) {
 		
 		portal_set_class_word($class_id, $_REQUEST['class_word']);
 		
-		// add the activities here
+		// add the standard activities here
 		
-		$new_activities = $_REQUEST['activities'];
+		$new_activities = @$_REQUEST['activities'];
+
+		if ($new_activities == '') {
+			$new_activities = array();
+		}
 		
 		$old_activities = @$class_info['activities'];
 		
+		if ($old_activities == '') {
+			$old_activities = array();
+		}
+		
 		$status = portal_subscribe_class_to_activities($class_id, $old_activities, $new_activities);
 
-		$new_activities = $_REQUEST['diy_activities'];
+		// now add the diy activities
+
+		$new_activities = @$_REQUEST['diy_activities'];
+		
+		if ($new_activities == '') {
+			$new_activities = array();
+		}
 		
 		$old_activities = @$class_info['diy_activities'];
+		
+		if ($old_activities == '') {
+			$old_activities = array();
+		}
 		
 		$status = portal_subscribe_class_to_diy_activities($class_id, $old_activities, $new_activities);
 

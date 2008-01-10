@@ -16,6 +16,20 @@ mystery_db_connect('rails_dbh', $portal_config['rails_database_connection']);
 
 $_MYSTERY['external_auth_functions'][] = 'portal_auth';
 
+// Setup configuration values for this session
+
+$_PORTAL['project'] = portal_get_project_key();
+$_PORTAL['project_info'] = portal_get_project_info_by_key($_PORTAL['project']);
+
+$portal_config['site_template'] = $portal_config['project_settings'][$_PORTAL['project']]['site_template'];
+$portal_config['available_actions'] = $portal_config['project_settings'][$_PORTAL['project']]['available_actions'];
+
+$portal_config['diy_manager_user'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_manager_user'];
+$portal_config['diy_manager_password'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_manager_password'];
+$portal_config['diy_server'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_server'];
+$portal_config['diy_session_name'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_session_name'];
+
+
 // setup any contstants we want to use
 
 $portal_image_types = array(
@@ -123,6 +137,34 @@ function portal_auth($username, $password) {
 	/* END: Custom Authentication Function */
 
 	return $user_info;
+
+}
+
+function portal_get_project_key() {
+
+	$key = preg_replace('~^([^.]+).*~', '\1', $_SERVER['HTTP_HOST']);
+	
+	if ($key == '' || $key == 'portal') {
+		$key = $GLOBALS['portal_config']['default_project'];
+	}
+	
+	return $key;
+
+}
+
+function portal_get_project_info_by_key($key) {
+
+	$query = 'SELECT * FROM portal_projects WHERE project_name = ?';
+	
+	$params = array($key);
+	
+	$results = mystery_select_query($query, $params, 'portal_dbh');
+	
+	if (count($results) > 0) {
+		return $results[0];
+	} else {
+		return $results;
+	}
 
 }
 
@@ -1163,6 +1205,8 @@ function portal_subscribe_class_to_activities($class_id, $old_activities, $new_a
 }
 
 function portal_subscribe_class_to_diy_activities($class_id, $old_activities, $new_activities) {
+	
+	global $_PORTAL;
 
 	//mystery_print_r($old_activities); mystery_print_r($new_activities); exit;
 
@@ -1176,9 +1220,9 @@ function portal_subscribe_class_to_diy_activities($class_id, $old_activities, $n
 	
 	if (count($to_delete) > 0) {
 	
-		$query = 'DELETE FROM portal_class_diy_activities WHERE class_id = ? AND diy_activity_id IN (' . implode(',', $to_delete) . ')';
+		$query = 'DELETE FROM portal_class_diy_activities WHERE class_id = ? AND project_id = ? AND diy_activity_id IN (' . implode(',', $to_delete) . ')';
 		
-		$params = array($class_id);
+		$params = array($class_id, $_PORTAL['project_info']['project_id']);
 		
 		$status = mystery_delete_query($query, $params, 'portal_dbh');
 	
@@ -1191,6 +1235,7 @@ function portal_subscribe_class_to_diy_activities($class_id, $old_activities, $n
 		$data = array();
 		$data['class_id'] = $class_id;
 		$data['diy_activity_id'] = $to_add[$i];
+		$data['diy_activity_id'] = $_PORTAL['project_info']['project_id'];
 		
 		$id = mystery_insert_query('portal_class_diy_activities', $data, 'class_diy_activity_id', 'portal_dbh');
 	
@@ -1759,6 +1804,8 @@ function portal_get_members() {
 
 function portal_get_class_info($class_id) {
 
+	global $_PORTAL;
+
 	$class_info = array();
 
 	$query = 'SELECT * FROM portal_classes WHERE class_id = ?';
@@ -1771,11 +1818,11 @@ function portal_get_class_info($class_id) {
 
 		$class_info = $results[0];
 
-		// now get this classes activities
+		// now get this classes activities (limited to the current project)
 		
-		$query = 'SELECT activity_id FROM portal_class_activities WHERE class_id = ?';
+		$query = 'SELECT pca.activity_id FROM portal_class_activities AS pca LEFT JOIN portal_activities AS pa ON pca.activity_id=pa.activity_id LEFT JOIN portal_units AS pu ON pa.activity_unit=pu.unit_id WHERE pca.class_id = ? AND pu.unit_project = ?';
 		
-		$params = array($class_id);
+		$params = array($class_id, $_PORTAL['project_info']['project_id']);
 		
 		$results = mystery_select_query($query, $params, 'portal_dbh');
 		
@@ -1791,9 +1838,9 @@ function portal_get_class_info($class_id) {
 		
 		// now get class custom diy activities
 		
-		$query = 'SELECT diy_activity_id FROM portal_class_diy_activities WHERE class_id = ?';
+		$query = 'SELECT diy_activity_id FROM portal_class_diy_activities WHERE class_id = ? AND project_id = ?';
 		
-		$params = array($class_id);
+		$params = array($class_id, $_PORTAL['project_info']['project_id']);
 		
 		$results = mystery_select_query($query, $params, 'portal_dbh');
 		
@@ -1817,13 +1864,15 @@ function portal_get_class_info($class_id) {
 
 function portal_get_class_diy_activities($class_id) {
 
+	global $_PORTAL;
+
 	$diy_ids = array();
 
 	// get the general diy activities
 
-	$query = 'SELECT diy_identifier FROM portal_class_activities AS pca LEFT JOIN portal_activities AS pa ON pca.activity_id=pa.activity_id WHERE class_id = ?';
+	$query = 'SELECT diy_identifier FROM portal_class_activities AS pca LEFT JOIN portal_activities AS pa ON pca.activity_id=pa.activity_id LEFT JOIN portal_units AS pu ON pa.activity_unit=pu.unit_id WHERE pca.class_id = ? AND pu.unit_project = ?';
 	
-	$params = array($class_id);
+	$params = array($class_id, $_PORTAL['project_info']['project_id']);
 	
 	$results = mystery_select_query($query, $params, 'portal_dbh');
 	
@@ -1835,9 +1884,9 @@ function portal_get_class_diy_activities($class_id) {
 	
 	// get the diy and custom activities
 	
-	$query = 'SELECT diy_activity_id FROM portal_class_diy_activities WHERE class_id = ?';
+	$query = 'SELECT diy_activity_id FROM portal_class_diy_activities WHERE class_id = ? AND project_id = ?';
 	
-	$params = array($class_id);
+	$params = array($class_id, $_PORTAL['project_info']['project_id']);
 	
 	$results = mystery_select_query($query, $params, 'portal_dbh');
 	
@@ -2570,23 +2619,42 @@ function portal_generate_icon_legend() {
 	if (@$_SESSION['is_logged_in'] == 'yes') {
 	
 		$icon_parts[] = '<tr><td>' . portal_icon('add') . '</td><td>Add</td></tr>';
-		$icon_parts[] = '<tr><td>' . portal_icon('copy') . '</td><td>Copy</td></tr>';
-		$icon_parts[] = '<tr><td>' . portal_icon('setup') . '</td><td>Edit/Setup</td></tr>';
+		
+		if (in_array('copy', $GLOBALS['portal_config']['available_actions'])) {
+			$icon_parts[] = '<tr><td>' . portal_icon('copy') . '</td><td>Copy</td></tr>';
+		}
+		
+		if (in_array('edit', $GLOBALS['portal_config']['available_actions'])) {
+			$icon_parts[] = '<tr><td>' . portal_icon('setup') . '</td><td>Edit/Setup</td></tr>';
+		}
 		
 		if (@$_SESSION['portal']['member_type'] != 'student') {
 		
 			$icon_parts[] = '<tr><td>' . portal_icon('delete') . '</td><td>Delete</td></tr>';
 			$icon_parts[] = '<tr><td>' . portal_icon('list') . '</td><td>View class list</td></tr>';
-			$icon_parts[] = '<tr><td>' . portal_icon('report') . '</td><td>View student data</td></tr>';
+			if (in_array('report', $GLOBALS['portal_config']['available_actions'])) {
+				$icon_parts[] = '<tr><td>' . portal_icon('report') . '</td><td>View student data</td></tr>';
+			}
 			
 		}
 	
 	}
 	
-	$icon_parts[] = '<tr><td>' . portal_icon('info') . '</td><td>Get info</td></tr>';
-	$icon_parts[] = '<tr><td>' . portal_icon('run') . '</td><td>Run ITSI activity</td></tr>';
-	$icon_parts[] = '<tr><td>' . portal_icon('try') . '</td><td>Run ITSI activity but don\'t save data</td></tr>';
-	$icon_parts[] = '<tr><td>' . portal_icon('preview') . '</td><td>Preview ITSI activity in browser</td></tr>';
+	if (in_array('info', $GLOBALS['portal_config']['available_actions'])) {
+		$icon_parts[] = '<tr><td>' . portal_icon('info') . '</td><td>Get info</td></tr>';
+	}
+	
+	if (in_array('run', $GLOBALS['portal_config']['available_actions'])) {
+		$icon_parts[] = '<tr><td>' . portal_icon('run') . '</td><td>Run  activity</td></tr>';
+	}
+	
+	if (in_array('try', $GLOBALS['portal_config']['available_actions'])) {
+		$icon_parts[] = '<tr><td>' . portal_icon('try') . '</td><td>Run activity but don\'t save data</td></tr>';
+	}
+
+	if (in_array('preview', $GLOBALS['portal_config']['available_actions'])) {
+		$icon_parts[] = '<tr><td>' . portal_icon('preview') . '</td><td>Preview activity in browser</td></tr>';
+	}
 	
 
 	$legend .= '
@@ -2674,7 +2742,7 @@ function portal_generate_user_navigation() {
 		if ($_PORTAL['section'] == 'activity' && $_PORTAL['activity'] == 'create') {
 			$nav_items[] = '<li><strong>Activities</strong></li>';
 		} else {
-			$nav_items[] = '<li><a href="/activity/create/">Activities</a></li>';
+			$nav_items[] = '<li><a href="/activities/">Activities</a></li>';
 		}
 	
 		if ($_SESSION['portal']['taking_course']) {
@@ -2723,6 +2791,12 @@ function portal_generate_user_navigation() {
 	
 	}
 	
+	if ($_PORTAL['section'] == 'about' && $_PORTAL['activity'] == '') {
+		$nav_items[] = '<li><strong>About</strong></li>';
+	} else {
+		$nav_items[] = '<li><a href="/about/">About</a></li>';
+	}
+
 	if (count($nav_items) > 0) {
 
 		$nav .= '
@@ -2802,6 +2876,8 @@ function portal_web_output_filter_simple($variable) {
 
 function portal_generate_student_activity_list($student_id, $class_id, $used_activities = array()) {
 	
+	global $_PORTAL;
+	
 	$query = '
 	SELECT * FROM
 	portal_class_activities AS pca 
@@ -2809,11 +2885,11 @@ function portal_generate_student_activity_list($student_id, $class_id, $used_act
 	ON pca.activity_id=pa.activity_id
 	LEFT JOIN portal_units AS pu
 	ON pa.activity_unit=pu.unit_id
-	WHERE pca.class_id = ?
+	WHERE pca.class_id = ? AND pu.unit_project = ?
 	ORDER BY unit_order, activity_order
 	';
 	
-	$params = array($class_id);
+	$params = array($class_id, $_PORTAL['project_info']['project_id']);
 	
 	$activities = mystery_select_query($query, $params, 'portal_dbh');
 	
@@ -2941,8 +3017,7 @@ function portal_lookup_diy_model_type($probe_id) {
 function portal_get_diy_activities_from_db($conditions = array(), $params = array(), $options = array()) {
 
 	// I guess the right way would be to do this... http://itsidiy.concord.org/users/9/activities.xml
-	// but first we'd have to have the diy member id of a user, so for now, the hack.
-	
+
 	$query = '
 	SELECT 
 	ida.id AS activity_id, 
@@ -2984,9 +3059,6 @@ function portal_get_diy_activities_from_db($conditions = array(), $params = arra
 	$query_conditions = array();
 	$query_params = array();
 	
-	$query_conditions[] = 'login <> ?';
-	$query_params[] = 'itest';
-
 	if (!in_array('no restrict', $options)) {
 	
 		$query_conditions[] = '(ida.public = ? OR login = ?)';
@@ -3160,7 +3232,13 @@ function portal_get_prepared_diy_activities($member_id) {
 	
 	$new_activities = array();
 
-	$activities = portal_get_diy_activities_from_db();
+	
+	// don't show the pre-existing ids
+	$conditions = array();
+	
+	$conditions[] = 'ida.id NOT IN ("' . implode('","', portal_get_diy_ids_to_exclude()) . '")';
+
+	$activities = portal_get_diy_activities_from_db($conditions);
 	
 	$total_activities = count($activities);
 	
@@ -3186,7 +3264,25 @@ function portal_get_prepared_diy_activities($member_id) {
 
 }
 
+function portal_get_diy_ids_to_exclude() {
+
+	global $_PORTAL;
+
+	$query = 'SELECT diy_identifier FROM portal_activities AS pa LEFT JOIN portal_units AS pu ON pa.activity_unit=pu.unit_id WHERE pu.unit_project = ?';
+		
+	$params = array($_PORTAL['project_info']['project_id']);
+	
+	$results = mystery_select_query($query, $params, 'portal_dbh');
+	
+	$ids = mystery_convert_results_to_simple_array($results, 'diy_identifier');
+	
+	return $ids;
+
+}
+
 function portal_get_activities($conditions = array(), $params = array(), $order = 'unit_order, activity_order') {
+
+	global $_PORTAL;
 
 	$query = '
 	SELECT * FROM
@@ -3207,6 +3303,9 @@ function portal_get_activities($conditions = array(), $params = array(), $order 
 	$query_conditions[] = 'activity_status = ?';
 	$query_params[] = 'Ready';
 	
+	$query_conditions[] = 'project_name = ?';
+	$query_params[] = $_PORTAL['project'];
+
 	for ($i = 0; $i < count($conditions); $i++) {
 		$query_conditions[] = $conditions[$i];
 	}
@@ -3320,38 +3419,52 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 			$id_prefix = 'diy';
 		}
 		
-		if ($diy_id == '') {
+		// initialize placeholders for links
 		
-			$copy = '';
-			$edit = '';
-			$info = '';
-			$preview = '';
-			$report = '';
-			$run = '';
-			$try = '';
-		
-		} else {
-		
-			$copy_title = 'Make your own version of this activity';
-			$copy = '<a href="/diy/copy/' . $diy_id . '/" target="_blank" title="' . $copy_title . '">' . portal_icon('copy', $copy_title) . '</a>';
-			
-			$edit_title = 'Edit this activity';
-			$edit = '<a href="/diy/edit/' . $diy_id . '/" target="_blank" title="' . $edit_title . '">' . portal_icon('setup', $edit_title) . '</a>';
+		$copy = '';
+		$edit = '';
+		$info = '';
+		$preview = '';
+		$report = '';
+		$run = '';
+		$try = '';
 
-			$info_title = 'View activity description';
-			$info = '<a href="#" onclick="toggle_block_element(\'activity-description-' . $id_prefix . $activities[$i]['activity_id'] . '\'); return false;" title="' . $info_title . '">' . portal_icon('info', $info_title) . '</a>';
+		if ($diy_id != '') {
+		
+			if (in_array('copy', $GLOBALS['portal_config']['available_actions'])) {
+				$copy_title = 'Make your own version of this activity';
+				$copy = '<a href="/diy/copy/' . $diy_id . '/" target="_blank" title="' . $copy_title . '">' . portal_icon('copy', $copy_title) . '</a>';
+			}
 			
-			$preview_title = 'View a quick preview version of this activity';
-			$preview = '<a href="/diy/show/' . $diy_id . '/" target="_blank" title="' . $preview_title . '">' . portal_icon('preview', $preview_title) . '</a>';
+			if (in_array('edit', $GLOBALS['portal_config']['available_actions'])) {
+				$edit_title = 'Edit this activity';
+				$edit = '<a href="/diy/edit/' . $diy_id . '/" target="_blank" title="' . $edit_title . '">' . portal_icon('setup', $edit_title) . '</a>';
+			}
 			
-			$report_title = 'View the student data from this activity';
-			$report = '<a href="/diy/usage/' . $diy_id . '/" target="_blank" title="' . $report_title . '">' . portal_icon('report', $report_title) . '</a>';
+			if (in_array('info', $GLOBALS['portal_config']['available_actions'])) {
+				$info_title = 'View activity description';
+				$info = '<a href="#" onclick="toggle_block_element(\'activity-description-' . $id_prefix . $activities[$i]['activity_id'] . '\'); return false;" title="' . $info_title . '">' . portal_icon('info', $info_title) . '</a>';
+			}
 			
-			$run_title = 'Run this activity (and save data)';
-			$run = '<a href="/diy/run/' . $diy_id .  '/" title="' . $run_title . '">' . portal_icon('run', $run_title) . '</a>';
+			if (in_array('preview', $GLOBALS['portal_config']['available_actions'])) {
+				$preview_title = 'View a quick preview version of this activity';
+				$preview = '<a href="/diy/show/' . $diy_id . '/" target="_blank" title="' . $preview_title . '">' . portal_icon('preview', $preview_title) . '</a>';
+			}
 			
-			$try_title = 'Try this activity (as a teacher, do not save data)';
-			$try = '<a href="/diy/view/' . $diy_id .  '/" title="' . $try_title . '">' . portal_icon('try', $try_title) . '</a>';
+			if (in_array('report', $GLOBALS['portal_config']['available_actions'])) {
+				$report_title = 'View the student data from this activity';
+				$report = '<a href="/diy/usage/' . $diy_id . '/" target="_blank" title="' . $report_title . '">' . portal_icon('report', $report_title) . '</a>';
+			}
+			
+			if (in_array('run', $GLOBALS['portal_config']['available_actions'])) {
+				$run_title = 'Run this activity (and save data)';
+				$run = '<a href="/diy/run/' . $diy_id .  '/" title="' . $run_title . '">' . portal_icon('run', $run_title) . '</a>';
+			}
+			
+			if (in_array('try', $GLOBALS['portal_config']['available_actions'])) {
+				$try_title = 'Try this activity (as a teacher, do not save data)';
+				$try = '<a href="/diy/view/' . $diy_id .  '/" title="' . $try_title . '">' . portal_icon('try', $try_title) . '</a>';
+			}
 			
 		}
 		
@@ -3416,6 +3529,11 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 	$navigation = array();
 	$panels = array();
 	
+	$i = 0;
+	
+	$js_section = '';
+	$js_section_control = '';
+	
 	while (list($level, $unit_set) = each($display_activities)) {
 	
 		$fixed_level = preg_replace('~[^a-z0-9]~','',strtolower($level));
@@ -3429,6 +3547,11 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 		}
 
 		$navigation[] = '<li class="unit-navigation ' . $level_classes[$level] . '" id="' . $fixed_level . '-control" onclick="show_section(\'' . $fixed_level . '\', this);">' . $level . ' <span id="' . $fixed_level .'-count" class="navigation-count">' . $fixed_level_count . '</span></li>';
+		
+		if ($i == 0) {
+			$js_section = $fixed_level;
+			$js_section_control = $fixed_level . '-control';
+		}
 		
 		$this_panel = '
 		<div class="unit-activities ' . $level_classes[$level] . '" id="' . preg_replace('~[^a-z0-9]~','',strtolower($level)) . '">
@@ -3467,6 +3590,8 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 		';
 		
 		$panels[] = $this_panel;
+		
+		$i++;
 	
 	}
 	
@@ -3486,8 +3611,7 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 	</table>
 	
 	<script type="text/javascript">
-	
-		show_section("middleschoolearthscience", document.getElementById("middleschoolearthscience-control"));
+		show_section("' . $js_section . '", document.getElementById("' . $js_section_control . '"));
 		
 	</script>
 	';

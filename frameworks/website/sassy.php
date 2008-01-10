@@ -31,7 +31,7 @@ $sassy_config['standard_template'] = $portal_config['site_template'];
 $sassy_config['navigation_file'] = 'configuration/navigation.' . $portal_config['default_language'] . '.xml';
 
 // general info
-$sassy_config['site_title'] = 'ITSI Portal'; // this is prepended to the page title
+$sassy_config['site_title'] = 'Portal'; // this is prepended to the page title
 $sassy_config['admin_name'] = 'Webmaster'; // this is displayed in the contact link at the bottom
 $sassy_config['admin_email'] = 'webmaster@concord.org'; // the email address for the site maintainer
 $sassy_config['company_name'] = 'The Concord Consortium'; // used in the copyright notice
@@ -1021,7 +1021,7 @@ if (!isset($sassy_config['extra_nav_links'])) {
 	$sassy_config['extra_nav_links'] = array();
 }
 
-sassy_parse_xml_navigation($sassy_config['navigation_file']);
+//sassy_parse_xml_navigation($sassy_config['navigation_file']);
 
 
 

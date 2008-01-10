@@ -24,6 +24,10 @@ function portal_determine_resource($uri) {
 
 		break;
 		
+		case 'about':
+			$include_file = 'controllers/about.php';
+		break;
+		
 		case 'studenthome':
 			$include_file = 'controllers/student-home.php';
 		break;
@@ -64,25 +68,26 @@ function portal_determine_resource($uri) {
 			$include_file = 'controllers/course.php';
 		break;
 		
-		case 'activity':
+		case 'activities':
 		
 			switch($_PORTAL['activity']) {
 			
 				case 'view':
-					$include_file = 'controllers/activity-view.php';
+					$include_file = 'controllers/activity-view.php'; // deprecated
 				break;
 			
-				case 'create':
-					$include_file = 'controllers/activity-create.php';
-				break;
-				
 				case 'list':
 				case 'my':
 				case 'school':
 				case 'world':
-					$include_file = 'controllers/activity-list.php';
+					$include_file = 'controllers/activity-list.php'; // deprecated
 				break;
 			
+				case 'create':
+				default:
+					$include_file = 'controllers/activities.php';
+				break;
+				
 			}
 			
 		break;

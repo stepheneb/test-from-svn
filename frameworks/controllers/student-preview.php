@@ -12,8 +12,6 @@ echo '<h2>' . $class_info['class_name'] . '</h2>';
 
 echo portal_generate_student_activity_list($_SESSION['portal']['member_id'], $class_id);
 
-echo '<h2 style="margin-top: 1.5em;">Additional Activities</h2>';
-
 $conditions = array();
 $params = array();
 
@@ -67,6 +65,12 @@ for ($i = 0; $i < count($activities); $i++) {
 
 }
 
-echo $list;
+if ($list != '') {
+
+	echo '<h2 style="margin-top: 1.5em;">Additional Activities</h2>';
+	
+	echo $list;
+	
+}
 
 ?>
