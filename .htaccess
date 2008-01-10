@@ -43,6 +43,7 @@ php_flag magic_quotes_gpc off
 php_value session.use_trans_sid 0
 
 php_value auto_prepend_file '/web/portal.concord.org/frameworks/foundation.php'
+#php_value auto_prepend_file '/web/portal.dev.concord.org/frameworks/foundation.php'
 
 # Redirection
 

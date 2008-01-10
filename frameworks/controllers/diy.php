@@ -42,53 +42,53 @@ switch($diy_action) {
 
 	case 'new':
 	
-		$url = 'http://' . $portal_config['diy_server'] . '/activities/new/';
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/new/';
 	
 	break;
 	
 	case 'home':
-		$url = 'http://' . $portal_config['diy_server'] . '/';
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/';
 	break;
 	
 	case 'copy':
 	
-		$url = 'http://' . $portal_config['diy_server'] . '/activities/' . $diy_id . '/copy';
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/copy';
 	
 	break;
 	
 	case 'edit':
 	
-		$url = 'http://' . $portal_config['diy_server'] . '/activities/' . $diy_id . '/edit';
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/edit';
 	
 	break;
 	
 	case 'view':
 
-		$url = 'http://' . $portal_config['diy_server'] . '/activities/' . $diy_id . '/sail_jnlp/' . $interface_id . '/' . $member_id . '/view';
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $interface_id . '/' . $member_id . '/view';
 	
 	break;
 	
 	case 'run':
 
-		$url = 'http://' . $portal_config['diy_server'] . '/activities/' . $diy_id . '/sail_jnlp/' . $interface_id . '/' . $member_id;
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $interface_id . '/' . $member_id;
 	
 	break;
 
 	case 'show':
 	
-		$url = 'http://' . $portal_config['diy_server'] . '/activities/' . $diy_id;
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id;
 
 	break;
 	
 	case 'usage':
 	
-		$url = 'http://' . $portal_config['diy_server'] . '/activities/' . $diy_id . '/usage';
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/usage';
 
 	break;
 	
 	case 'work':
 	
-		$url = 'http://itsidiy.concord.org/activities/' . $diy_id . '/sail_jnlp/' . $interface_id . '/' . $student_id . '/view';
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $interface_id . '/' . $student_id . '/view';
 	
 	break;
 	

@@ -23,10 +23,15 @@ $_PORTAL['project_info'] = portal_get_project_info_by_key($_PORTAL['project']);
 
 $portal_config['site_template'] = $portal_config['project_settings'][$_PORTAL['project']]['site_template'];
 $portal_config['available_actions'] = $portal_config['project_settings'][$_PORTAL['project']]['available_actions'];
+$portal_config['use_diy_activities'] = $portal_config['project_settings'][$_PORTAL['project']]['use_diy_activities'];
+$portal_config['show_activities_link_to_students'] = $portal_config['project_settings'][$_PORTAL['project']]['show_activities_link_to_students'];
 
 $portal_config['diy_manager_user'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_manager_user'];
 $portal_config['diy_manager_password'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_manager_password'];
 $portal_config['diy_server'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_server'];
+$portal_config['diy_server_path'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_server_path'];
+$portal_config['diy_table_prefix'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_table_prefix'];
+$portal_config['diy_activities_name'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_activities_name'];
 $portal_config['diy_session_name'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_session_name'];
 
 
@@ -785,7 +790,7 @@ function portal_get_from_diy($path) {
 	
 	if ($fp) {
 
-		fputs($fp, "GET " . $path . " HTTP/1.1\r\n");
+		fputs($fp, "GET " . $portal_config['diy_server_path'] . $path . " HTTP/1.1\r\n");
 		fputs($fp, "Host: " . $portal_config['diy_server'] . "\r\n");
 		fputs($fp, "Authorization: Basic " . base64_encode($portal_config['diy_manager_user'] . ':' . $portal_config['diy_manager_password']) . "\r\n");
 		//fputs($fp, "Accept: */*\r\n");
@@ -837,7 +842,7 @@ function portal_put_to_diy($data, $path) {
 	
 	if ($fp) {
 
-		fputs($fp, "PUT " . $path . " HTTP/1.1\r\n");
+		fputs($fp, "PUT " . $portal_config['diy_server_path'] . $path . " HTTP/1.1\r\n");
 		fputs($fp, "Host: " . $portal_config['diy_server'] . "\r\n");
 		fputs($fp, "Authorization: Basic " . base64_encode($portal_config['diy_manager_user'] . ':' . $portal_config['diy_manager_password']) . "\r\n");
 		fputs($fp, "Accept: */*\r\n");
@@ -897,7 +902,7 @@ function portal_post_to_diy($data, $path) {
 	
 	if ($fp) {
 
-		fputs($fp, "POST " . $path . " HTTP/1.1\r\n");
+		fputs($fp, "POST " . $portal_config['diy_server_path'] . $path . " HTTP/1.1\r\n");
 		fputs($fp, "Host: " . $portal_config['diy_server'] . "\r\n");
 		fputs($fp, "Accept: */*\r\n");
 		fputs($fp, "Accept-Charset:ISO-8859-1,utf-8;q=0.7,*;q=0.7\r\n");
@@ -938,7 +943,7 @@ function portal_post_xml_to_diy($xml, $path) {
 
 	if ($fp) {
 
-		fputs($fp, "POST " . $path . " HTTP/1.1\r\n");
+		fputs($fp, "POST " . $portal_config['diy_server_path'] . $path . " HTTP/1.1\r\n");
 		fputs($fp, "Host: " . $portal_config['diy_server'] . "\r\n");
 		fputs($fp, "Accept: */*\r\n");
 		fputs($fp, "Accept-Charset:ISO-8859-1,utf-8;q=0.7,*;q=0.7\r\n");
@@ -969,7 +974,7 @@ function portal_post_xml_to_diy($xml, $path) {
 
 function portal_get_diy_member_id_from_db($member_username) {
 
-	$query = 'SELECT id FROM itsidiy_users WHERE login = ?';
+	$query = 'SELECT id FROM ' . $GLOBALS['portal_config']['diy_table_prefix'] . 'users WHERE login = ?';
 	
 	$params = array($member_username);
 	
@@ -1009,7 +1014,7 @@ function portal_get_diy_member_id($member_id) {
 
 function portal_get_sds_member_id_from_db($diy_member_id) {
 
-	$query = 'SELECT sds_sail_user_id FROM itsidiy_users WHERE id = ?';
+	$query = 'SELECT sds_sail_user_id FROM ' . $GLOBALS['portal_config']['diy_table_prefix'] . 'users WHERE id = ?';
 	
 	$params = array($diy_member_id);
 	
@@ -1027,7 +1032,7 @@ function portal_get_diy_activity_usage_from_db($member_id) {
 
 	$member_diy_id = portal_get_diy_member_id($member_id);
 	
-	$query = 'SELECT runnable_id AS diy_id FROM itsidiy_learners WHERE user_id = ? AND runnable_type = ?';
+	$query = 'SELECT runnable_id AS diy_id FROM ' . $GLOBALS['portal_config']['diy_table_prefix'] . 'learners WHERE user_id = ? AND runnable_type = ?';
 
 	$params = array($member_diy_id, 'Activity');
 
@@ -1050,7 +1055,7 @@ function portal_get_diy_member_id_from_rest($first_name, $last_name, $email_addr
 
 	global $portal_config;
 	
-	$uri = 'http://' . $portal_config['diy_server'] . '/user/create';
+	$uri = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/user/create';
 	
 	$path = '/user/create';
 	
@@ -1905,7 +1910,7 @@ function portal_get_class_diy_activities($class_id) {
 	$query = 'SELECT 
 	ida.id AS activity_id, 
 	ida.name AS activity_name
-	FROM itsidiy_activities AS ida
+	FROM ' . $GLOBALS['portal_config']['diy_table_prefix'] . 'activities AS ida
 	WHERE id IN ("' . implode('","', $diy_ids) . '")
 	ORDER BY activity_name
 	';
@@ -2739,10 +2744,14 @@ function portal_generate_user_navigation() {
 		
 		}
 		
-		if ($_PORTAL['section'] == 'activity' && $_PORTAL['activity'] == 'create') {
-			$nav_items[] = '<li><strong>Activities</strong></li>';
-		} else {
-			$nav_items[] = '<li><a href="/activities/">Activities</a></li>';
+		if ($_SESSION['portal']['member_type'] != 'student' || $GLOBALS['portal_config']['show_activities_link_to_students'] == 'yes') {
+			
+			if ($_PORTAL['section'] == 'activity' && $_PORTAL['activity'] == 'create') {
+				$nav_items[] = '<li><strong>Activities</strong></li>';
+			} else {
+				$nav_items[] = '<li><a href="/activities/">Activities</a></li>';
+			}
+		
 		}
 	
 		if ($_SESSION['portal']['taking_course']) {
@@ -2967,7 +2976,7 @@ function portal_lookup_diy_probe_type($probe_id) {
 	
 	if (count($lookup) == 0) {
 	
-		$query = 'SELECT id, name FROM itsidiy_probe_types';
+		$query = 'SELECT id, name FROM ' . $GLOBALS['portal_config']['diy_table_prefix'] . 'probe_types';
 		$params = array();
 		
 		$results = mystery_select_query($query, $params, 'rails_dbh');
@@ -2996,7 +3005,7 @@ function portal_lookup_diy_model_type($probe_id) {
 	
 	if (count($lookup) == 0) {
 	
-		$query = 'SELECT im.id, mt.name FROM itsidiy_models AS im LEFT JOIN itsidiy_model_types AS mt ON im.model_type_id=mt.id';
+		$query = 'SELECT im.id, mt.name FROM ' . $GLOBALS['portal_config']['diy_table_prefix'] . 'models AS im LEFT JOIN ' . $GLOBALS['portal_config']['diy_table_prefix'] . 'model_types AS mt ON im.model_type_id=mt.id';
 		$params = array();
 		
 		$results = mystery_select_query($query, $params, 'rails_dbh');
@@ -3048,8 +3057,8 @@ function portal_get_diy_activities_from_db($conditions = array(), $params = arra
 	further_probetype_id,
 	"My Activities" AS subject_name,
 	CONCAT(last_name, ", ", first_name) AS unit_name
-	FROM itsidiy_activities AS ida
-	LEFT JOIN itsidiy_users AS idu
+	FROM ' . $GLOBALS['portal_config']['diy_table_prefix'] . 'activities AS ida
+	LEFT JOIN ' . $GLOBALS['portal_config']['diy_table_prefix'] . 'users AS idu
 	ON ida.user_id=idu.id
 	';
 
@@ -3189,6 +3198,10 @@ function portal_record_sort($records, $fields) {
 
 function portal_get_prepared_diy_activities($member_id) {
 
+	if ($GLOBALS['portal_config']['use_diy_activities'] == 'no') {
+		return array();
+	}
+
 	$member_info = portal_get_member_info($member_id);
 	
 	// get my students
@@ -3239,6 +3252,8 @@ function portal_get_prepared_diy_activities($member_id) {
 	$conditions[] = 'ida.id NOT IN ("' . implode('","', portal_get_diy_ids_to_exclude()) . '")';
 
 	$activities = portal_get_diy_activities_from_db($conditions);
+	
+	//mystery_debug_query('rails_dbh');
 	
 	$total_activities = count($activities);
 	

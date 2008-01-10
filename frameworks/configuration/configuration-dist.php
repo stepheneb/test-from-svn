@@ -21,15 +21,19 @@ $portal_config['project_settings'] = array(); // used for project portal instanc
 // 
 
 
-
 // ITSI Project
 
 $portal_config['project_settings']['itsi']['site_template'] = 'website/itsi-template.php';
 $portal_config['project_settings']['itsi']['available_actions'] = array('create', 'copy', 'edit', 'info', 'preview', 'report', 'run', 'try');
+$portal_config['project_settings']['itsi']['use_diy_activities'] = 'yes';
+$portal_config['project_settings']['itsi']['show_activities_link_to_students'] = 'yes';
+
 $portal_config['project_settings']['itsi']['diy_server'] = 'itsidiy.concord.org';
-$portal_config['project_settings']['itsi']['diy_manager_user'] = 'user';
+$portal_config['project_settings']['itsi']['diy_server_path'] = '';
+$portal_config['project_settings']['itsi']['diy_table_prefix'] = 'itsidiy_';
+$portal_config['project_settings']['itsi']['diy_activities_name'] = 'activities';
+$portal_config['project_settings']['itsi']['diy_manager_user'] = 'username';
 $portal_config['project_settings']['itsi']['diy_manager_password'] = 'password';
-$portal_config['project_settings']['itsi']['diy_server'] = 'itsidiy.concord.org';
 $portal_config['project_settings']['itsi']['diy_session_name'] = '_ITSI_Do_It_Yourself_Tjc8FDLwSBbwH2OOHxJzTg____session_id';
 
 
@@ -37,22 +41,16 @@ $portal_config['project_settings']['itsi']['diy_session_name'] = '_ITSI_Do_It_Yo
 
 $portal_config['project_settings']['udl']['site_template'] = 'website/udl-template.php';
 $portal_config['project_settings']['udl']['available_actions'] = array('info', 'report', 'run', 'try');
-$portal_config['project_settings']['udl']['diy_server'] = 'rails.dev.concord.org/udl';
-$portal_config['project_settings']['udl']['diy_manager_user'] = 'user';
+$portal_config['project_settings']['udl']['use_diy_activities'] = 'no';
+$portal_config['project_settings']['udl']['show_activities_link_to_students'] = 'no';
+
+$portal_config['project_settings']['udl']['diy_server'] = 'rails.dev.concord.org';
+$portal_config['project_settings']['udl']['diy_server_path'] = '/udl';
+$portal_config['project_settings']['udl']['diy_table_prefix'] = 'udl_';
+$portal_config['project_settings']['udl']['diy_activities_name'] = 'external_otrunk_activities';
+$portal_config['project_settings']['udl']['diy_manager_user'] = 'username';
 $portal_config['project_settings']['udl']['diy_manager_password'] = 'password';
 $portal_config['project_settings']['udl']['diy_session_name'] = '_Universal_Design_in_Science_Education_OWCgmRUr8s1GQfrvi2SItw____session_id';
-
-
-
-// CAPA Project
-
-$portal_config['project_settings']['capa']['site_template'] = 'website/capa-template.php';
-$portal_config['project_settings']['capa']['available_actions'] = array('info', 'report', 'run', 'try');
-$portal_config['project_settings']['capa']['diy_server'] = 'itsidiy.concord.org';
-$portal_config['project_settings']['capa']['diy_manager_user'] = 'user';
-$portal_config['project_settings']['capa']['diy_manager_password'] = 'password';
-$portal_config['project_settings']['capa']['diy_server'] = 'capadiy.concord.org';
-$portal_config['project_settings']['capa']['diy_session_name'] = '_CAPA_Do_It_Yourself_Tjc8FDLwSBbwH2OOHxJzTg____session_id';
 
 
 
@@ -62,7 +60,7 @@ $portal_config['project_settings']['capa']['diy_session_name'] = '_CAPA_Do_It_Yo
 
 $portal_config['default_language'] = 'en';
 
-$portal_config['default_project'] = 'udl'; 
+$portal_config['default_project'] = 'itsi'; 
 
 $portal_config['mystery_database_connection'] = 'mysql://user:password@localhost/mystery4';
 $portal_config['portal_database_connection'] = 'mysql://user:password@localhost/ccportal';
@@ -72,7 +70,7 @@ $portal_config['rails_database_connection'] = 'mysql://user:password@localhost/d
 $portal_config['error_log'] = '/web/logs/portal_error_log';
 $portal_config['security_log'] = '/web/logs/portal_security_log';
 
-$portal_config['cookie_domain'] = '.concord.local';
+$portal_config['cookie_domain'] = '.concord.org';
 $portal_config['session_name'] = 'ccportal_session';
 
 

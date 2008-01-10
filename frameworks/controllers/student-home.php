@@ -18,8 +18,6 @@ $usage = portal_get_diy_activity_usage_from_db($student_id);
 
 echo portal_generate_student_activity_list($student_id, $class_id, $usage);
 
-echo '<h2 style="margin-top: 1.5em;">Additional Activities</h2>';
-
 $teacher_info = portal_get_member_info($class_info['class_teacher']);
 
 $conditions = array();
@@ -80,7 +78,14 @@ for ($i = 0; $i < count($activities); $i++) {
 
 }
 
-echo $list;
+if ($list != '') {
+
+	echo '<h2 style="margin-top: 1.5em;">Additional Activities</h2>';
+	
+	echo $list;
+	
+}
+
 $page_title = 'Home';
 
 //mystery_print_r(portal_get_student_classes($_SESSION['portal']['member_id']));
