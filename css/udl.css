@@ -1,0 +1,669 @@
+/* 
+This is the additional CSS file for the Global Lab Site 
+
+This file assumes that YUI reset/grids is already in place
+
+Any "sized" block element should consist of a container and a content element
+
+- Put widths, heights and positions on the "container" elements
+
+- Put borders and padding on the "content" elements
+
+
+	Pixel to Percentage Relations 
+	
+	PX	%
+	---  ----
+	10	77
+	11	85
+	12	93
+	13	100
+	14	107
+	15	114
+	16	122
+	17	129
+	18	136
+	19	144
+	20	152
+	21	159
+	22	167
+	23	174
+	24	182
+	25	189
+	26	197
+	27	208
+	28	215
+	29	223
+	30	231
+	31	238
+	32	246
+	33	254
+	34	262
+	35	269
+	36	277
+	37	285
+	38	292
+	39	300
+	40	308
+
+	WinFF  13px/em
+	WinIE  13.33px/em
+	
+
+
+*/
+
+
+body {
+	background-color: #ffffff;
+	font-family: "Trebuchet MS", Verdana, Helvetica;
+	background-image: url(/images/udl-soft-tree.jpg);
+	background-repeat: no-repeat;
+	background-position: left top;
+}
+
+strong {
+	font-weight: bold;
+}
+
+em {
+	font-style: italic;
+}
+
+img {
+	border: 0px;
+}
+
+ul, ol {
+	margin-left: 1em;
+}
+
+a:link {
+	color: #004A16;
+	text-decoration: underline;
+}
+
+a:visited {
+	color: #1B3A23;
+	text-decoration: underline;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+
+
+#main-container {
+	position: relative;
+	margin-top: 10px;
+}
+
+#main-content {
+}
+
+
+
+#page-container {
+	position: relative;
+	margin-left: 200px;
+}
+
+#page-content {
+	font-size: 100%;
+	text-align: left;
+	border-left: 2px solid #6C6C6C;
+	padding-left: 25px;
+	min-height: 1100px;
+}
+
+
+#page-content h1, 
+#page-content h2, 
+#page-content h3, 
+#page-content h4, 
+#page-content h5, 
+#page-content h6 {
+	color: #000000;
+	font-weight: bold;
+	margin: 0em 0em 1em 0em;
+}
+
+#page-content h1 {
+	font-size: 152%;
+}
+
+#page-content h2 {
+	font-size: 136%;
+}
+
+#page-content h3 {
+	font-size: 122%;
+}
+
+#page-content p {
+	font-size: 122%;
+	margin: 0em 0em 1em 0em;
+}
+
+#page-content td {
+	/*font-size: 122%;*/
+}
+
+#page-content ul {
+	padding-left: 15px;
+	list-style-type: disc;
+}
+
+#page-content li {
+	font-size: 122%;
+	margin: 0em 0em 1.2em 0em;
+}
+
+
+label {
+	float: left;
+	width: 100px;
+	text-align: right;
+	font-weight: bold;
+	clear: left;
+	padding-right: 10px;
+}
+
+input {
+	font-size: 77%;
+	background-color: #E0EDE3;
+}
+
+textarea {
+	font-size: 77%;
+	background-color: #E0EDE3;
+}
+
+select {
+	font-size: 77%;
+	background-color: #E0EDE3;
+}
+
+
+/*.left-column-container {
+	float: left;
+	width: 50%;
+}*/
+
+.left-column-content {
+	padding: 0px 10px;
+}
+
+/*.right-column-container {
+	float: right;
+	width: 50%;
+
+}*/
+
+.right-column-content {
+	padding: 0px 10px;
+}
+
+.clear-both {
+	font-size: 1px;
+	clear: both;
+}
+
+
+.form-field-info {
+	margin-left: 110px;
+	font-size: 85%;
+	display: block;
+	color: #999999;
+}
+
+
+
+
+
+
+
+
+
+#copyright-container {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 200px;
+}
+
+#copyright-content {
+	text-align: center;
+	font-size: 77%;
+	color: #999999;
+}
+
+
+#sidebar-container {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 200px;
+}
+
+#sidebar-content {
+	padding: 5px;
+	text-align: center;
+}
+
+.user-info-box {
+	text-align: left;
+	font-size: 114%;
+	margin: 20px 0px 20px 25px;
+}
+
+.user-info-box td {
+	text-align: left;
+	font-size: 86%;
+	padding: 1px 3px;
+}
+
+.user-navigation {
+	text-align: left;
+	margin: 20px 0px 20px 25px;
+	font-size: 1.5em;
+}
+
+.user-navigation ul {
+	margin: 0px 0px 0px 15px;
+	list-style: disc inside;
+}
+
+.user-navigation li {
+	margin: 0em 0em 1em 0em;
+}
+
+
+.user-navigation-small {
+	text-align: left;
+	margin: 20px 0px 20px 25px;
+	font-size: 1.1em;
+}
+
+.user-navigation-small ul {
+	margin: 0px 0px 0px 15px;
+	list-style: disc inside;
+}
+
+.user-navigation-small li {
+	margin: 0em 0em 1em 0em;
+}
+
+.user-navigation-small p {
+	margin: 0em 0em 1em 0em;
+}
+
+.heading-description {
+	font-size: 90%;
+	font-weight: normal;
+}
+
+.heading-link:link, .heading-link:visited {
+	font-size: 70%;
+	font-weight: normal;
+	text-decoration: underline;
+	padding-left: 20px;
+}
+
+.notebox {
+	background-color: #FFFF99;
+	font-size: 85%;
+}
+
+.error-message {
+	color: #CC0000;
+}
+
+.alert-message {
+	color: #009900;
+}
+
+
+.important-highlight-word {
+	font-weight: bold;
+	font-size: 150%;
+	color: #009900;
+	padding-left: 100px;
+}
+
+
+
+
+
+	#activity-chart {
+		width: 90%;
+	}
+	
+	#activity-chart-navigation {
+		width: 250px;
+		vertical-align: top;
+	}
+	
+		#activity-chart-navigation ul {
+			margin: 0px;
+			padding: 0px;
+			list-style: none;
+		}
+	
+		#activity-chart-navigation li {
+			font-size: 100%;
+			font-weight: bold;
+			padding: 8px 4px;
+			margin: 0px 0px 0px 0px;
+			list-style: none;
+			border-bottom: 1px solid #666666;
+			border-right: 1px solid #666666;
+			cursor: pointer;
+		}
+	
+	#activity-chart-panels {
+		vertical-align: top;
+	}
+	
+	.heading-info {
+		font-weight: normal;
+		font-size: 12px;
+	}
+	
+	.heading-info label {
+		float: none;
+		cursor: pointer;
+	}
+	
+	.activity-title {
+		font-weight: bold;
+	}
+	
+	.activity-info {
+		font-weight: normal;
+		font-size: 86%;
+		color: #333333;
+		margin-left: 120px;
+	}
+
+	.activity-description {
+		display: none;
+		width: 300px;
+		border: 1px solid #999999;
+		padding: 3px;
+		background-color: #D2AD63;
+		margin: 5px 0px 0px 120px;
+	}
+	
+	.activity-image {
+		background-color: #ffffff;
+	}
+	
+	.activity-box {
+		margin: 5px 10px;
+		/*width: 75px;
+		float: left;
+		text-align: center;*/
+	}
+	
+	.level5 {
+		background-color: #A3C380;
+	}
+	
+	.level6 {
+		background-color: #F3D6AC;
+	}
+	
+	.level3 {
+		background-color: #FEDE58;
+	}
+	
+	.level4 {
+		background-color: #DE8000;
+	}
+
+	.level999 {
+		background-color: #FEC762;
+	}
+	
+	.unit-activities {
+		padding: 5px;
+		min-height: 375px;
+	}
+
+	#page-content .unit-title {
+		margin: 0px;
+		padding: 0px;
+	}
+	
+.navigation-count {
+	text-decoration: none;
+	font-weight: normal;
+}
+
+
+.roster-table {
+	border: 1px solid #6A0E04;
+}
+
+.roster-table th {
+	padding: 4px;
+	background-color: #DAB4B0;
+	font-weight: bold;
+	border: 1px solid #6A0E04;
+}
+
+.roster-table td {
+	padding: 3px;
+	background-color: #ffffff;
+	border: 1px solid #6A0E04;
+}
+
+.activity-header {
+	padding: 4px;
+	background-color: #ffffff;
+	font-weight: bold;
+	border: 1px solid #6A0E04;
+}
+
+#activity-table-container {
+
+}
+
+#activity-table-container table {
+	border: 1px solid #6A0E04;
+}
+
+#activity-table-container th {
+	padding: 4px;
+	background-color: #DAB4B0;
+	font-weight: bold;
+	border: 1px solid #6A0E04;
+}
+
+#activity-table-container td {
+	padding: 3px;
+	background-color: #ffffff;
+	border: 1px solid #6A0E04;
+}
+
+.icon-legend-box {
+	position: absolute;
+	top: 5px;
+	right: 90px;
+	width: 200px;
+}
+
+.icon-legend-box p {
+	text-align: right;
+	font-size: 92%;
+}
+
+#icon-legend {
+	position: absolute;
+	top: 23px;
+	right: 0px;
+	background-color: #cccccc;
+	border: 1px solid #999999;
+
+}
+
+
+/*********************************************
+     CSS ROUNDED BOXESs
+*********************************************/
+
+.roundedbox {
+	margin: 10px;
+}
+
+	.b-top {
+		display:block; 
+		background:transparent; 
+		font-size:1px;
+	}
+	
+	.b-bottom {
+		display:block; 
+		background:transparent; 
+		font-size:1px; 
+	}
+	
+	.b-b1, .b-b2, .b-b3, .b-b4 {
+		display:block; 
+		/* hide overflow:hidden from IE5/Mac */ 
+		/* \*/ 
+		overflow: hidden; 
+		/* */ 
+	}
+	
+	.b-b1, .b-b2, .b-b3 {height:1px;}
+	.b-b2, .b-b3, .b-b4 {background:#ffffff; border-left:1px solid #777777; border-right:1px solid #777777;}
+	.b-b1 {margin:0 5px; background:#777777;}
+	.b-b2 {margin:0 3px; border-width:0 2px;}
+	.b-b3 {margin:0 2px;}
+	.b-b4 {height:2px; margin:0 1px;}
+	
+	
+	.b-contentbox {
+		background-color: #ffffff;
+		padding: 0px 15px;
+		border-left: 1px solid #777777;
+		border-right: 1px solid #777777;
+	}
+	
+		.b-contentbox h1, .b-contentbox h2, .b-contentbox h3 {
+			margin: 0px;
+			padding: 15px 0px;
+		}
+		
+		.b-contentbox p {
+			margin: 0px;
+			padding: 5px 0px;
+		}
+		
+		.b-contentbox table, .b-contentbox form {
+			margin: 0px;
+			padding: 0px;
+		}
+		
+		.b-contentbox table {
+			margin-top: 5px;
+		}
+
+		.b-contentbox ul {
+			margin: 0px;
+			padding: 10px 0px 10px 25px;
+		}
+
+
+/*********************************************
+     TABLE SORTER STYLES
+*********************************************/
+
+
+table.tablesorter {
+	font-family:arial;
+	background-color: #CDCDCD;
+	margin:10px 0pt 15px;
+	font-size: 100%;
+	width: 90%;
+	text-align: left;
+}
+
+table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+	background-color: #E6EEE7;
+	border: 1px solid #FFF;
+	font-size: 107%;
+	padding: 4px;
+}
+
+table.tablesorter thead tr .header {
+	background-image: url(/images/widgets/tables/bg.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+}
+
+table.tablesorter tbody td {
+	color: #3D3D3D;
+	padding: 4px;
+	background-color: #FFF;
+	vertical-align: top;
+}
+
+table.tablesorter tbody tr.odd td {
+	background-color: #EDF4EE;
+}
+
+table.tablesorter thead tr .headerSortUp {
+	background-image: url(/images/widgets/tables/asc.gif);
+}
+
+table.tablesorter thead tr .headerSortDown {
+	background-image: url(/images/widgets/tables/desc.gif);
+}
+
+table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
+	background-color: #7FD486;
+}
+
+
+
+
+/***********************************
+STAR RATING STYLES
+***********************************/
+
+.comment-rating-container {
+	position: relative;
+}
+
+.rating-stars {
+   cursor: pointer;
+   margin: 2em;
+   position: absolute;
+   top: -30px;
+   left: 75px;
+}
+.cancel,
+.star {
+   float: left;
+   width: 17px;
+   height: 15px;
+   overflow: hidden;
+   text-indent: -999em;
+   cursor: pointer;
+   display: block;
+}
+.cancel {background: url(/images/delete.gif) no-repeat 0 -16px;}
+
+.star {background: url(/images/star.gif) no-repeat 0 0px;}
+   
+span.rating-stars span.on {
+   background-position: 0 -16px;
+}
+span.rating-stars span.hover {
+	background-position: 0 -32px;
+}
