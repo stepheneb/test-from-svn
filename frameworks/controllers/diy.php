@@ -6,6 +6,14 @@ $diy_action = $_PORTAL['activity'];
 
 $diy_id = $_PORTAL['action'];
 
+// prefer to use a uuid if one is specified
+
+$uuid = portal_lookup_diy_uuid($diy_id);
+
+if ($uuid != '') {
+	$diy_id = $uuid;
+}
+
 $student_id = @$_PORTAL['params']['student'];
 
 // These actions require logging into the DIY first, so we'll do that

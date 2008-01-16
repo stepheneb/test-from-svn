@@ -125,7 +125,7 @@ function portal_auth($username, $password) {
 		$_SESSION['portal']['sds_member_id'] = $results[0]['sds_member_id'];
 		$_SESSION['portal']['member_username'] = $username;
 		$_SESSION['portal']['member_password_ue'] = $password_ue;
-		$_SESSION['portal']['taking_course'] = $results[0]['taking_course'];
+		$_SESSION['portal']['taking_course'] = @$results[0]['taking_course'];
 
 		// log this page view
 
@@ -3022,6 +3022,28 @@ function portal_lookup_diy_model_type($probe_id) {
 
 }
 
+function portal_lookup_diy_uuid($diy_id) {
+
+	static $lookup = array();
+	
+	if (count($lookup) == 0) {
+	
+		$query = 'SELECT id, uuid FROM ' . $GLOBALS['portal_config']['diy_table_prefix'] . $GLOBALS['portal_config']['diy_activities_name'];
+		$params = array();
+		
+		$results = mystery_select_query($query, $params, 'rails_dbh');
+		
+		$lookup = mystery_convert_results_to_lookup_array($results, 'id', 'uuid');
+	
+	}
+	
+	if (@$lookup[$diy_id] == '') {
+		$lookup[$diy_id] = '';
+	}
+	
+	return $lookup[$diy_id];
+
+}
 
 function portal_get_diy_activities_from_db($conditions = array(), $params = array(), $options = array()) {
 
