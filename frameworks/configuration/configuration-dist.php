@@ -35,6 +35,7 @@ $portal_config['project_settings']['itsi']['diy_activities_name'] = 'activities'
 $portal_config['project_settings']['itsi']['diy_manager_user'] = 'username';
 $portal_config['project_settings']['itsi']['diy_manager_password'] = 'password';
 $portal_config['project_settings']['itsi']['diy_session_name'] = '_ITSI_Do_It_Yourself_Tjc8FDLwSBbwH2OOHxJzTg____session_id';
+$portal_config['project_settings']['itsi']['diy_use_uuid'] = 'no';
 
 
 // UDL Project
@@ -51,6 +52,7 @@ $portal_config['project_settings']['udl']['diy_activities_name'] = 'external_otr
 $portal_config['project_settings']['udl']['diy_manager_user'] = 'username';
 $portal_config['project_settings']['udl']['diy_manager_password'] = 'password';
 $portal_config['project_settings']['udl']['diy_session_name'] = '_Universal_Design_in_Science_Education_OWCgmRUr8s1GQfrvi2SItw____session_id';
+$portal_config['project_settings']['udl']['diy_use_uuid'] = 'yes';
 
 
 

@@ -33,6 +33,7 @@ $portal_config['diy_server_path'] = $portal_config['project_settings'][$_PORTAL[
 $portal_config['diy_table_prefix'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_table_prefix'];
 $portal_config['diy_activities_name'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_activities_name'];
 $portal_config['diy_session_name'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_session_name'];
+$portal_config['diy_use_uuid'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_use_uuid'];
 
 
 // setup any contstants we want to use

@@ -6,12 +6,16 @@ $diy_action = $_PORTAL['activity'];
 
 $diy_id = $_PORTAL['action'];
 
-// prefer to use a uuid if one is specified
+// prefer to use a uuid if one is specified and the project settings desire it
 
-$uuid = portal_lookup_diy_uuid($diy_id);
+if ($portal_config['diy_use_uuid'] =='yes') {
+	
+	$uuid = portal_lookup_diy_uuid($diy_id);
+	
+	if ($uuid != '') {
+		$diy_id = $uuid;
+	}
 
-if ($uuid != '') {
-	$diy_id = $uuid;
 }
 
 $student_id = @$_PORTAL['params']['student'];
