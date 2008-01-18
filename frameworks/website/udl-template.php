@@ -6,7 +6,6 @@
 	<title>UDL <?php echo $sassy_config['site_title']; ?> - <?php echo $page_title; ?></title>
 
 	<link rel="stylesheet" type="text/css" href="/scripts/reset-fonts-grids.css"> 
-	<link type="text/css" rel="stylesheet" href="http://yui.yahooapis.com/2.2.2/build/datatable/assets/datatable.css"> 
 
 	<script type="text/javascript" src="/scripts/utilities.js"></script> 
 	<script type="text/javascript" src="/scripts/yahoo-dom-event.js"></script> 
