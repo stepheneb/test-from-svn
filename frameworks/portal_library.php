@@ -1519,6 +1519,58 @@ function portal_generate_member_list($type = 'compact') {
 
 }
 
+function portal_generate_member_type_list($selected_type) {
+
+	// this function is only used in the member editing page
+
+	global $portal_config;
+
+	$list = '';
+
+	$list_parts = array();
+	
+	$student_selected = '';
+	$teacher_selected = '';
+	$admin_selected = '';
+	$superuser_selected = '';
+	
+	switch ($selected_type) {
+	
+		case 'student':
+			$student_selected = ' selected="selected"';
+		break;
+	
+		case 'teacher':
+			$teacher_selected = ' selected="selected"';
+		break;
+	
+		case 'admin':
+			$admin_selected = ' selected="selected"';
+		break;
+	
+		case 'superuser':
+			$superuser_selected = ' selected="selected"';
+		break;
+	
+	}
+	
+	$list_parts[] = '<option value="student"' . $student_selected . '>Student</option>';
+	$list_parts[] = '<option value="teacher"' . $teacher_selected . '>Teacher</option>';
+	
+	if ($_SESSION['portal']['member_type'] == 'admin' || $_SESSION['portal']['member_type'] == 'superuser') {
+		$list_parts[] = '<option value="admin"' . $admin_selected . '>School Administrator</option>';
+	} 
+	
+	if ($_SESSION['portal']['member_type'] == 'superuser') {
+		$list_parts[] = '<option value="superuser"' . $superuser_selected . '>System Administrator</option>';
+	}
+	
+	$list = '<select name="member_type">' . implode("\n", $list_parts) . '</select>';
+	
+	return $list;
+
+}
+
 function portal_generate_member_option_list() {
 
 	// this function is only used in the admin pages

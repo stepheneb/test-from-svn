@@ -49,6 +49,14 @@ if (isset($_PORTAL['params']['process'])) {
 	
 	$errors = array();
 
+	if ($_SESSION['portal']['member_type'] == 'superuser' || $_SESSION['portal']['member_type'] == 'admin') {
+		$data['member_type'] = $_REQUEST['member_type'];
+		if ($_SESSION['portal']['member_type'] == 'admin' && $_REQUEST['member_type'] == 'superuser') {
+			trigger_error('Security Error! Member ' . $_SESSION['portal']['member_id'] . '  tried to become a superuser', E_USER_WARNING);
+			mystery_redirect('/');
+		}
+	}
+
 	if ($_REQUEST['password'] != '') {
 
 		$data['member_password'] = md5(strtolower($_REQUEST['password']));
@@ -82,7 +90,7 @@ if (isset($_PORTAL['params']['process'])) {
 			$errors[] = 'Could not update member information';
 		}
 		
-		portal_update_cc_member_info($member_info['cc_member_id'], $_SESSION['portal']['member_username'], $_REQUEST['password'], $_REQUEST['first_name'], $_REQUEST['last_name'], $_REQUEST['email']);
+		portal_update_cc_member_info($member_info['cc_member_id'], $member_info['member_username'], $_REQUEST['password'], $_REQUEST['first_name'], $_REQUEST['last_name'], $_REQUEST['email']);
 		
 		portal_update_diy_member_info(portal_get_diy_member_id_from_db($member_info['member_username']), $_REQUEST['first_name'], $_REQUEST['last_name'], $_REQUEST['email'], $_REQUEST['interface']);
 	
@@ -136,6 +144,7 @@ if (isset($_PORTAL['params']['process'])) {
 
 	$email_field = '';
 	$class_field = '';
+	$type_field = '';
 		
 	if ($member_info['member_type'] == 'student') {
 
@@ -159,6 +168,10 @@ if (isset($_PORTAL['params']['process'])) {
 		$email_field = '<p><label for="email">Email</label> <input type="text" name="email" id="email" value="' . @$member_info['member_email'] . '" size="35"></p>';
 
 	}
+	
+	if ($_SESSION['portal']['member_type'] == 'admin' || $_SESSION['portal']['member_type'] == 'superuser') {
+		$type_field = '<p><label for="member-type">Type</label> ' . portal_generate_member_type_list(@$member_info['member_type']) . '</p>';
+	}
 
 	echo '
 	<form action="/member/edit/' . $member_id . '/process/" method="post">
@@ -176,12 +189,16 @@ if (isset($_PORTAL['params']['process'])) {
 	<p><label for="interface">Interface</label> ' . portal_generate_interface_list(@$member_info['member_interface']) . '</p>
 
 	' . $class_field . '
+	
+	' . $type_field . '
 
 	<p><label for="submit">&nbsp;</label> <input type="submit" id="submit" value="Save"></p>
 	
 	<div class="clear-both">&nbsp;</div>
 	
 	</form>
+	
+	<p><a href="/member/delete/' . $member_id . '/">Do you need to delete this member?</a></p>
 	';
 
 }

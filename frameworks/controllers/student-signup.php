@@ -4,6 +4,10 @@ $page_title = 'Student Sign-up';
 
 if ($_PORTAL['action'] == 'process') {
 
+	$_SESSION['current_selected_class'] = @$_REQUEST['class_id'];
+
+	$_SESSION['current_interface'] = @$_REQUEST['interface'];
+
 	$member_id = portal_process_student_registration($_REQUEST);
 	
 	if ($member_id == 0 || $member_id == '') {
@@ -30,12 +34,14 @@ if ($_PORTAL['action'] == 'process') {
 			
 			<ul>
 			
-			<li><a href="/">Return to my home page</a></li>
-			
-			<li><a href="/student/add/">Add a new student</a></li>
+			<li><a href="/student/add/">Add another new student</a></li>
 		
+			<li><a href="/class/roster/' . @$_REQUEST['class_id'] . '/">View the roster for this student\'s class</a></li>
+
 			<li><a href="/member/edit/' . $member_id . '/">Edit this student</a></li>
 		
+			<li><a href="/">Return to my home page</a></li>
+			
 			</ul>
 			
 			';
@@ -75,9 +81,9 @@ if ($_PORTAL['action'] == 'process') {
 			$teacher_id = '';
 		}
 
-		$custom_fields .= portal_generate_class_select_list($_SESSION['portal']['member_school'], $teacher_id);
+		$custom_fields .= portal_generate_class_select_list($_SESSION['portal']['member_school'], $teacher_id, @$_SESSION['current_selected_class']);
 
-		$custom_fields .= '<p><label for="interface">Interface</label> ' . portal_generate_interface_list($_SESSION['portal']['member_school'], $teacher_id) . '</p>';
+		$custom_fields .= '<p><label for="interface">Interface</label> ' . portal_generate_interface_list(@$_SESSION['current_interface']) . '</p>';
 
 		$custom_fields .= '<input type="hidden" name="school_id" value="' . $_SESSION['portal']['member_school'] . '">';
 

@@ -9,12 +9,12 @@ if ($_SESSION['portal']['member_type'] != 'superuser') {
 
 }
 
-if ($_PORTAL['activity'] == 'school' && $_PORTAL['action'] == 'process' && $_REQUEST['school_id'] != $_SESSION['portal']['member_school']) {
-	$_SESSION['portal']['member_school'] = $_REQUEST['school_id'];
+if ($_PORTAL['activity'] == 'school' && $_PORTAL['action'] == 'process' && @$_REQUEST['school_id'] != $_SESSION['portal']['member_school']) {
+	$_SESSION['portal']['member_school'] = @$_REQUEST['school_id'];
 	$member_info = portal_get_member_info($_SESSION['portal']['member_id']);
 }
 
-if ($_PORTAL['activity'] == 'member' && $_PORTAL['action'] == 'process' && $_REQUEST['school_id'] != $_SESSION['portal']['member_school']) {
+if ($_PORTAL['activity'] == 'member' && $_PORTAL['action'] == 'process' && @$_REQUEST['school_id'] != $_SESSION['portal']['member_school']) {
 	$member_info = portal_get_member_info($_REQUEST['member_id']);
 	$_SESSION['portal']['member_id'] = $_REQUEST['member_id'];
 	$_SESSION['user_first_name'] = $member_info['member_first_name'];

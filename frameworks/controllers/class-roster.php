@@ -31,10 +31,12 @@ $students = portal_get_class_students($class_id);
 
 $student_count = count($students);
 
+$_SESSION['current_selected_class'] = $class_id;
+
 echo '
 <h2>Class Roster: ' . $class_info['class_name'] . '</h2>
 
-<p>' . $student_count . ' students enrolled in this class</p>
+<p>' . $student_count . ' students enrolled in this class. <a href="/student/add/">Add another student to this class.</a></p>
 
 <table class="roster-table">
 
