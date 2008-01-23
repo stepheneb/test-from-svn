@@ -2877,6 +2877,12 @@ function portal_generate_user_navigation() {
 		$nav_items[] = '<li><a href="/about/">About</a></li>';
 	}
 
+	if ($_PORTAL['section'] == 'help' && $_PORTAL['activity'] == '') {
+		$nav_items[] = '<li><strong>Help</strong></li>';
+	} else {
+		$nav_items[] = '<li><a href="/help/">Help</a></li>';
+	}
+
 	if (count($nav_items) > 0) {
 
 		$nav .= '
