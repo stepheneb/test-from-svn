@@ -34,6 +34,8 @@ $portal_config['diy_table_prefix'] = $portal_config['project_settings'][$_PORTAL
 $portal_config['diy_activities_name'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_activities_name'];
 $portal_config['diy_session_name'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_session_name'];
 $portal_config['diy_use_uuid'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_use_uuid'];
+$portal_config['diy_runnable_type_name'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_runnable_type_name'];
+
 
 
 // setup any contstants we want to use
@@ -1035,7 +1037,7 @@ function portal_get_diy_activity_usage_from_db($member_id) {
 	
 	$query = 'SELECT runnable_id AS diy_id FROM ' . $GLOBALS['portal_config']['diy_table_prefix'] . 'learners WHERE user_id = ? AND runnable_type = ?';
 
-	$params = array($member_diy_id, 'Activity');
+	$params = array($member_diy_id, $GLOBALS['portal_config']['diy_runnable_type_name']);
 
 	$results = mystery_select_query($query, $params, 'rails_dbh');
 	
@@ -1927,8 +1929,14 @@ function portal_get_class_diy_activities($class_id) {
 	$diy_ids = array();
 
 	// get the general diy activities
+	
+	$field = 'diy_identifier';
+	
+	if ($GLOBALS['portal_config']['diy_use_uuid'] == 'yes') {
+		$field = 'diy_uuid';
+	}
 
-	$query = 'SELECT diy_identifier FROM portal_class_activities AS pca LEFT JOIN portal_activities AS pa ON pca.activity_id=pa.activity_id LEFT JOIN portal_units AS pu ON pa.activity_unit=pu.unit_id WHERE pca.class_id = ? AND pu.unit_project = ?';
+	$query = 'SELECT ' . $field . ' AS diy_identifier FROM portal_class_activities AS pca LEFT JOIN portal_activities AS pa ON pca.activity_id=pa.activity_id LEFT JOIN portal_units AS pu ON pa.activity_unit=pu.unit_id WHERE pca.class_id = ? AND pu.unit_project = ?';
 	
 	$params = array($class_id, $_PORTAL['project_info']['project_id']);
 	
@@ -1959,19 +1967,25 @@ function portal_get_class_diy_activities($class_id) {
 	}
 	
 	// now get the name/id information from the diy
-		
+	
+	$diy_field = 'id';
+	
+	if ($GLOBALS['portal_config']['diy_use_uuid'] == 'yes') {
+		$diy_field = 'uuid';
+	}
+	
 	$query = 'SELECT 
-	ida.id AS activity_id, 
+	ida.' . $diy_field . ' AS activity_id, 
 	ida.name AS activity_name
-	FROM ' . $GLOBALS['portal_config']['diy_table_prefix'] . 'activities AS ida
-	WHERE id IN ("' . implode('","', $diy_ids) . '")
+	FROM ' . $GLOBALS['portal_config']['diy_table_prefix'] . $GLOBALS['portal_config']['diy_activities_name'] . ' AS ida
+	WHERE ' . $diy_field . ' IN ("' . implode('","', $diy_ids) . '")
 	ORDER BY activity_name
 	';
 	
 	$params = array();
 	
 	$results = mystery_select_query($query, $params, 'rails_dbh');
-	
+		
 	return $results;
 
 }

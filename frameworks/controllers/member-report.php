@@ -23,7 +23,10 @@ echo '
 <h2>Report for ' . $member_info['member_first_name'] . ' ' . $member_info['member_last_name'] . ' in ' . @$class_info['class_name'] . '</h2>
 ';
 
+$old_uuid_setting = $GLOBALS['portal_config']['diy_use_uuid'];
+$GLOBALS['portal_config']['diy_use_uuid'] = 'no';
 $class_activities = portal_get_class_diy_activities($class_id);
+$GLOBALS['portal_config']['diy_use_uuid'] = $old_uuid_setting;
 
 $usage = portal_get_diy_activity_usage_from_db($student_id);
 

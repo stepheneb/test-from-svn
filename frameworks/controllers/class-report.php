@@ -17,7 +17,10 @@ echo '
 <h2>Report for ' . $class_info['class_name'] . '</h2>
 ';
 
+$old_uuid_setting = $GLOBALS['portal_config']['diy_use_uuid'];
+$GLOBALS['portal_config']['diy_use_uuid'] = 'no';
 $class_activities = portal_get_class_diy_activities($class_id);
+$GLOBALS['portal_config']['diy_use_uuid'] = $old_uuid_setting;
 
 $students = portal_get_class_students($class_id);
 
