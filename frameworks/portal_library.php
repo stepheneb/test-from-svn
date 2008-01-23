@@ -35,6 +35,7 @@ $portal_config['diy_activities_name'] = $portal_config['project_settings'][$_POR
 $portal_config['diy_session_name'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_session_name'];
 $portal_config['diy_use_uuid'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_use_uuid'];
 $portal_config['diy_runnable_type_name'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_runnable_type_name'];
+$portal_config['diy_param_order'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_param_order'];
 
 
 
@@ -995,21 +996,24 @@ function portal_get_diy_member_id($member_id) {
 
 	$member_info = portal_get_member_info($member_id);
 	
-	if ($member_info['diy_member_id'] != 0 && $member_info['diy_member_id'] != '999999'  && $member_info['diy_member_id'] != '7777777') {
-		return $member_info['diy_member_id'];
-	}
+	// PB: We can't cache the member id from the diy because they might be different diys for the same user and they don't
+	// maintain id numbers between them...  so we need to lookup up the ID EVERY SINGLE TIME!!!!
+	
+	//if ($member_info['diy_member_id'] != 0 && $member_info['diy_member_id'] != '999999'  && $member_info['diy_member_id'] != '7777777') {
+	//	return $member_info['diy_member_id'];
+	//}
 
 	$diy_member_id = portal_get_diy_member_id_from_db($member_info['member_username']);
 	
-	if ($diy_member_id) {
-	
-		// update this record (probably for the last time)
-
-		$data['diy_member_id'] = $diy_member_id;
-		
-		$status = mystery_update_query('portal_members', $data, 'member_id', $member_id, 'portal_dbh');
-	
-	}
+	//if ($diy_member_id) {
+	//
+	//	// update this record (probably for the last time)
+	//
+	//	$data['diy_member_id'] = $diy_member_id;
+	//	
+	//	$status = mystery_update_query('portal_members', $data, 'member_id', $member_id, 'portal_dbh');
+	//
+	//}
 	
 	return $diy_member_id;
 

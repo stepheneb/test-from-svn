@@ -42,6 +42,8 @@ echo '
 
 for ($h = 0; $h < count($students); $h++) {
 
+	$student_diy_id = portal_get_diy_member_id_from_db($students[$h]['member_username']);
+	
 	echo '
 	<tr>
 		<td><a href="/member/report/' . $students[$h]['member_id'] . '">' . $students[$h]['member_last_name'] . ', ' . $students[$h]['member_first_name'] . '</a></td>
@@ -55,7 +57,7 @@ for ($h = 0; $h < count($students); $h++) {
 		$report_link = '&nbsp;';
 	
 		if (in_array($class_activities[$i]['activity_id'], $usage)) {
-			$report_link = portal_simple_icon_link('work', '/diy/work/' . $class_activities[$i]['activity_id'] . '/student/' . $students[$h]['diy_member_id'] . '/', 'View work by ' . $students[$h]['member_first_name'] . ' ' . $students[$h]['member_last_name'] . ' on ' . $class_activities[$i]['activity_name'] . '');
+			$report_link = portal_simple_icon_link('work', '/diy/work/' . $class_activities[$i]['activity_id'] . '/student/' . $student_diy_id . '/', 'View work by ' . $students[$h]['member_first_name'] . ' ' . $students[$h]['member_last_name'] . ' on ' . $class_activities[$i]['activity_name'] . '');
 		}
 	
 		echo '

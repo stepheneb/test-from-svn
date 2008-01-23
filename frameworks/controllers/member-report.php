@@ -38,12 +38,14 @@ echo '
 </tr>
 ';
 
+$student_diy_id = portal_get_diy_member_id_from_db($member_info['member_username']);
+
 for ($i = 0; $i < count($class_activities); $i++) {
 
 	$report_link = '&nbsp;';
 
 	if (in_array($class_activities[$i]['activity_id'], $usage)) {
-		$report_link = portal_simple_icon_link('work', '/diy/work/' . $class_activities[$i]['activity_id'] . '/student/' . $member_info['diy_member_id'] . '/', 'View this student\'s work');
+		$report_link = portal_simple_icon_link('work', '/diy/work/' . $class_activities[$i]['activity_id'] . '/student/' . $student_diy_id . '/', 'View this student\'s work');
 	}
 
 	echo '

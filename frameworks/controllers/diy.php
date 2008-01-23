@@ -49,6 +49,25 @@ if ($interface_id == '') {
 	$interface_id = 6;
 }
 
+switch($portal_config['diy_param_order']) {
+
+	case 'member/interface':
+		$member_interface_path = $member_id . '/' . $interface_id;
+		$student_interface_path = $student_id . '/' . $interface_id;
+	break;
+	
+	case 'interface/member':
+		$member_interface_path = $interface_id . '/' . $member_id;
+		$student_interface_path = $interface_id . '/' . $student_id;
+	break;
+
+	default:
+		$member_interface_path = '';
+		$student_interface_path = '';
+	break;
+
+} 
+
 
 switch($diy_action) {
 
@@ -76,13 +95,13 @@ switch($diy_action) {
 	
 	case 'view':
 
-		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $interface_id . '/' . $member_id . '/view';
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $member_interface_path . '/view';
 	
 	break;
 	
 	case 'run':
 
-		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $interface_id . '/' . $member_id;
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $member_interface_path;
 	
 	break;
 
@@ -100,7 +119,7 @@ switch($diy_action) {
 	
 	case 'work':
 	
-		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $interface_id . '/' . $student_id . '/view';
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $student_interface_path . '/view';
 	
 	break;
 	
