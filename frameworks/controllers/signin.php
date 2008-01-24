@@ -120,14 +120,6 @@ echo '
 
 	</form>
 
-</div>
-</div>
-
-</td><td valign="top">
-
-<div class="right-column-container">
-<div class="right-column-content">
-
 	<h2>First Time Here?</h2>
 	
 	<ul>
@@ -146,6 +138,16 @@ echo '
 	
 	</ul>
 
+
+</div>
+</div>
+
+</td><td valign="top">
+
+<div class="right-column-container">
+<div class="right-column-content">
+
+<img src="/images/students-using-portal.jpg">
 
 </div>
 </div>
