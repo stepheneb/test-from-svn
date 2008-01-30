@@ -164,7 +164,7 @@ echo '
 <td valign="top" width="50%" style="padding: 5px;">
 <h3>Flash Support</h3>
 
-<p><a href="http://jnlp.concord.org/mozswing/mozswing.jnlp">Install Embedded Flash Support</a></p>
+<p><a href="http://jnlp.concord.org/dev/mozswing/mozswing.jnlp">Install Embedded Flash Support</a></p>
 
 <p><strong>Note:</strong> You may need to install <a href="http://www.mozilla.com/firefox/">Firefox</a> and the <a href="http://www.adobe.com/go/getflashplayer">Flash Player</a> if it is not already on your
 system.</p>
