@@ -39,6 +39,8 @@ $portal_config['project_settings']['itsi']['diy_session_name'] = '_ITSI_Do_It_Yo
 $portal_config['project_settings']['itsi']['diy_use_uuid'] = 'no';
 $portal_config['project_settings']['itsi']['diy_param_order'] = 'interface/member';
 
+$portal_config['project_settings']['itsi']['extra_navigation_items'] = array();
+
 
 // UDL Project
 
@@ -58,7 +60,12 @@ $portal_config['project_settings']['udl']['diy_session_name'] = '_Universal_Desi
 $portal_config['project_settings']['udl']['diy_use_uuid'] = 'yes';
 $portal_config['project_settings']['udl']['diy_param_order'] = 'member/interface';
 
-
+$portal_config['project_settings']['udl']['extra_navigation_items'] = array();
+$portal_config['project_settings']['udl']['extra_navigation_items'][] = array(
+	'label' => 'Teacher Guides',
+	'value' => 'http://udl.concord.org/share/teacher-guides/',
+	'deny' => 'student'
+);
 
 /****************************************
         General Configuration

@@ -37,7 +37,7 @@ $portal_config['diy_use_uuid'] = $portal_config['project_settings'][$_PORTAL['pr
 $portal_config['diy_runnable_type_name'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_runnable_type_name'];
 $portal_config['diy_param_order'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_param_order'];
 
-
+$portal_config['extra_navigation_items'] = @$portal_config['project_settings'][$_PORTAL['project']]['extra_navigation_items'];
 
 // setup any contstants we want to use
 
@@ -2789,7 +2789,7 @@ function portal_generate_icon_legend() {
 
 function portal_generate_user_navigation() {
 
-	global $_PORTAL;
+	global $_PORTAL, $portal_config;
 
 	$nav = '';
 	
@@ -2882,6 +2882,19 @@ function portal_generate_user_navigation() {
 	} else {
 		$nav_items[] = '<li><a href="/help/">Help</a></li>';
 	}
+	
+	for ($i = 0; $i < count($portal_config['extra_navigation_items']); $i++) {
+	
+		$label = $portal_config['extra_navigation_items'][$i]['label'];
+		$value = $portal_config['extra_navigation_items'][$i]['value'];
+		$deny = $portal_config['extra_navigation_items'][$i]['deny'];
+
+		if (@$_SESSION['portal']['member_type'] != $deny && @$_SESSION['portal']['member_type'] != '') {
+			$nav_items[] = '<li><a href="' . $value . '">' . $label . '</a></li>';
+		}
+	
+	}
+	
 
 	if (count($nav_items) > 0) {
 
@@ -3620,13 +3633,31 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 		
 		$description = portal_web_output_filter($activities[$i]['activity_description']);
 		
+		$sensor_probe_string = '';
+		
+		if (@$activities[$i]['sensor_type'] != 'None' || @$activities[$i]['model_type'] != 'None') {
+			
+			$sensor_probe_string_parts = array();
+			
+			if (@$activities[$i]['sensor_type'] != 'None') {
+				$sensor_probe_string_parts[] = 'Sensor: ' . @$activities[$i]['sensor_type'];
+			}
+		
+			if (@$activities[$i]['model_type'] != 'None') {
+				$sensor_probe_string_parts[] = 'Model: ' . @$activities[$i]['model_type'];
+			}
+			
+			$sensor_probe_string = '(' . implode('; ', $sensor_probe_string_parts) . ')';
+			
+		}
+		
 		$activity_box = '
 		<div class="activity-box">
 			<div class="activity-title">
 			' . $activity_options . ' ' . portal_web_output_filter($activities[$i]['activity_name']) . ' 
 			</div>
 			<div class="activity-info">
-			(Sensor: ' . @$activities[$i]['sensor_type'] . '; Model: ' . @$activities[$i]['model_type'] . ')
+			' . $sensor_probe_string . '
 			</div>
 			<div class="activity-description" id="activity-description-' . $id_prefix . $activities[$i]['activity_id'] . '">
 			' . $description . '
