@@ -1247,10 +1247,10 @@ function portal_subscribe_class_to_diy_activities($class_id, $old_activities, $n
 		$data = array();
 		$data['class_id'] = $class_id;
 		$data['diy_activity_id'] = $to_add[$i];
-		$data['diy_activity_id'] = $_PORTAL['project_info']['project_id'];
+		$data['project_id'] = $_PORTAL['project_info']['project_id'];
 		
 		$id = mystery_insert_query('portal_class_diy_activities', $data, 'class_diy_activity_id', 'portal_dbh');
-	
+		
 	}
 
 }
