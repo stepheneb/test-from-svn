@@ -39,6 +39,10 @@ $portal_config['diy_param_order'] = $portal_config['project_settings'][$_PORTAL[
 
 $portal_config['extra_navigation_items'] = @$portal_config['project_settings'][$_PORTAL['project']]['extra_navigation_items'];
 
+// Revert the project key to get activities working correctly if this is a special -dev project
+
+$_PORTAL['project'] = str_replace('-dev', '', $_PORTAL['project']);
+
 // setup any contstants we want to use
 
 $portal_image_types = array(
