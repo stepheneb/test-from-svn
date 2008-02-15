@@ -147,8 +147,15 @@ echo '
 <div class="right-column-container">
 <div class="right-column-content">
 
-<img src="/images/students-using-portal.jpg">
+';
 
+if (@$portal_config['show_front_page_image'] != 'no') {
+
+	echo '<img src="/images/students-using-portal.jpg">';
+
+}
+
+echo '
 </div>
 </div>
 

@@ -21,23 +21,7 @@ $_MYSTERY['external_auth_functions'][] = 'portal_auth';
 $_PORTAL['project'] = portal_get_project_key();
 $_PORTAL['project_info'] = portal_get_project_info_by_key($_PORTAL['project']);
 
-$portal_config['site_template'] = $portal_config['project_settings'][$_PORTAL['project']]['site_template'];
-$portal_config['available_actions'] = $portal_config['project_settings'][$_PORTAL['project']]['available_actions'];
-$portal_config['use_diy_activities'] = $portal_config['project_settings'][$_PORTAL['project']]['use_diy_activities'];
-$portal_config['show_activities_link_to_students'] = $portal_config['project_settings'][$_PORTAL['project']]['show_activities_link_to_students'];
-
-$portal_config['diy_manager_user'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_manager_user'];
-$portal_config['diy_manager_password'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_manager_password'];
-$portal_config['diy_server'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_server'];
-$portal_config['diy_server_path'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_server_path'];
-$portal_config['diy_table_prefix'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_table_prefix'];
-$portal_config['diy_activities_name'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_activities_name'];
-$portal_config['diy_session_name'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_session_name'];
-$portal_config['diy_use_uuid'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_use_uuid'];
-$portal_config['diy_runnable_type_name'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_runnable_type_name'];
-$portal_config['diy_param_order'] = $portal_config['project_settings'][$_PORTAL['project']]['diy_param_order'];
-
-$portal_config['extra_navigation_items'] = @$portal_config['project_settings'][$_PORTAL['project']]['extra_navigation_items'];
+portal_convert_project_settings_to_local($_PORTAL['project']);
 
 // Revert the project key to get activities working correctly if this is a special -dev project
 
@@ -177,6 +161,18 @@ function portal_get_project_info_by_key($key) {
 		return $results[0];
 	} else {
 		return $results;
+	}
+
+}
+
+function portal_convert_project_settings_to_local($project_key) {
+
+	global $portal_config;
+
+	foreach ($portal_config['project_settings'][$project_key] as $key => $value) {
+	
+		$portal_config[$key] = $value;
+	
 	}
 
 }
