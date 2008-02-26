@@ -325,9 +325,9 @@ function show_section(section_id, link_object) {
 	} else if (link_object.className.match("level4")) {
 		bc = '#D4EBD2';
 	} else if (link_object.className.match("level5")) {
-		bc = '#A3C380';
+		bc = '#6EAAB6';
 	} else if (link_object.className.match("level6")) {
-		bc = '#F3D6AC';
+		bc = '#EEE38B';
 	} else if (link_object.className.match("level999")) {
 		bc = '#D6C754';
 	} else {

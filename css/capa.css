@@ -55,11 +55,10 @@ Any "sized" block element should consist of a container and a content element
 
 
 body {
-	background-color: #ffffff;
-	font-family: "Trebuchet MS", Verdana, Helvetica;
-	background-image: url(/images/udl-soft-tree.jpg);
+	background-color: #FFFFFF;
+	background-image: url(../images/capa-bulb-background.gif);
 	background-repeat: no-repeat;
-	background-position: left top;
+	background-position: center center;
 }
 
 strong {
@@ -79,12 +78,12 @@ ul, ol {
 }
 
 a:link {
-	color: #004A16;
+	color: #000099;
 	text-decoration: underline;
 }
 
 a:visited {
-	color: #1B3A23;
+	color: #0000cc;
 	text-decoration: underline;
 }
 
@@ -124,7 +123,7 @@ a:hover {
 #page-content h4, 
 #page-content h5, 
 #page-content h6 {
-	color: #000000;
+	color: #330000;
 	font-weight: bold;
 	margin: 0em 0em 1em 0em;
 }
@@ -172,17 +171,14 @@ label {
 
 input {
 	font-size: 77%;
-	background-color: #E0EDE3;
 }
 
 textarea {
 	font-size: 77%;
-	background-color: #E0EDE3;
 }
 
 select {
 	font-size: 77%;
-	background-color: #E0EDE3;
 }
 
 
@@ -241,6 +237,7 @@ select {
 
 
 #sidebar-container {
+	background-color: #ffffff;
 	position: absolute;
 	top: 0px;
 	left: 0px;
@@ -338,6 +335,7 @@ select {
 
 	#activity-chart {
 		width: 90%;
+		background-color: #ffffff;
 	}
 	
 	#activity-chart-navigation {
@@ -407,24 +405,24 @@ select {
 		text-align: center;*/
 	}
 	
-	.level5 {
-		background-color: #6EAAB6;
+	.level1 {
+		background-color: #A3BDA2;
 	}
 	
-	.level6 {
-		background-color: #EEE38B;
+	.level2 {
+		background-color: #C6958B;
 	}
 	
 	.level3 {
-		background-color: #FEDE58;
+		background-color: #BA9C61;
 	}
 	
 	.level4 {
-		background-color: #DE8000;
+		background-color: #D4EBD2;
 	}
 
 	.level999 {
-		background-color: #FEC762;
+		background-color: #D6C754;
 	}
 	
 	.unit-activities {
