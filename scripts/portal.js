@@ -328,6 +328,8 @@ function show_section(section_id, link_object) {
 		bc = '#6EAAB6';
 	} else if (link_object.className.match("level6")) {
 		bc = '#EEE38B';
+	} else if (link_object.className.match("level7")) {
+		bc = '#CAC9E4';
 	} else if (link_object.className.match("level999")) {
 		bc = '#D6C754';
 	} else {
