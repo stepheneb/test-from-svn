@@ -198,7 +198,7 @@ if (isset($_PORTAL['params']['process'])) {
 	
 	<div class="clear-both">&nbsp;</div>
 		
-	<h2>Activities <span class="heading-description">(Total Selected: <span id="total-selected">' . $total_activity_count . '</span>)</span></h2>
+	<h2>' . $portal_config['activities_navigation_word'] . ' <span class="heading-description">(Total Selected: <span id="total-selected">' . $total_activity_count . '</span>)</span></h2>
 
 	' . $activity_grid . '
 

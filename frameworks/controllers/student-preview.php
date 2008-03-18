@@ -67,7 +67,7 @@ for ($i = 0; $i < count($activities); $i++) {
 
 if ($list != '') {
 
-	echo '<h2 style="margin-top: 1.5em;">Additional Activities</h2>';
+	echo '<h2 style="margin-top: 1.5em;">Additional ' . strtolower($portal_config['activities_navigation_word']) . '</h2>';
 	
 	echo $list;
 	

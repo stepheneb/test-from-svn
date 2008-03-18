@@ -27,11 +27,12 @@ $portal_config['project_settings']['itsi']['site_template'] = 'website/itsi-temp
 $portal_config['project_settings']['itsi']['available_actions'] = array('create', 'copy', 'edit', 'info', 'preview', 'report', 'run', 'try');
 $portal_config['project_settings']['itsi']['use_diy_activities'] = 'yes';
 $portal_config['project_settings']['itsi']['show_activities_link_to_students'] = 'yes';
+$portal_config['project_settings']['itsi']['activities_navigation_word'] = 'Activities';
 
 $portal_config['project_settings']['itsi']['diy_server'] = 'itsidiy.concord.org';
 $portal_config['project_settings']['itsi']['diy_server_path'] = '';
 $portal_config['project_settings']['itsi']['diy_table_prefix'] = 'itsidiy_';
-$portal_config['project_settings']['itsi']['diy_activities_name'] = 'activities';
+$portal_config['project_settings']['itsi']['diy_activities_name'] = 'Activities';
 $portal_config['project_settings']['itsi']['diy_runnable_type_name'] = 'Activity';
 $portal_config['project_settings']['itsi']['diy_manager_user'] = 'username';
 $portal_config['project_settings']['itsi']['diy_manager_password'] = 'password';
@@ -48,6 +49,7 @@ $portal_config['project_settings']['udl']['site_template'] = 'website/udl-templa
 $portal_config['project_settings']['udl']['available_actions'] = array('info', 'report', 'run', 'try');
 $portal_config['project_settings']['udl']['use_diy_activities'] = 'no';
 $portal_config['project_settings']['udl']['show_activities_link_to_students'] = 'no';
+$portal_config['project_settings']['udl']['activities_navigation_word'] = 'Units';
 
 $portal_config['project_settings']['udl']['diy_server'] = 'rails.dev.concord.org';
 $portal_config['project_settings']['udl']['diy_server_path'] = '/udl';

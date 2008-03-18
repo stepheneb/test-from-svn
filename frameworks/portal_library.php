@@ -2818,9 +2818,9 @@ function portal_generate_user_navigation() {
 		if ($_SESSION['portal']['member_type'] != 'student' || $GLOBALS['portal_config']['show_activities_link_to_students'] == 'yes') {
 			
 			if ($_PORTAL['section'] == 'activity' && $_PORTAL['activity'] == 'create') {
-				$nav_items[] = '<li><strong>Activities</strong></li>';
+				$nav_items[] = '<li><strong>' . $portal_config['activities_navigation_word'] . '</strong></li>';
 			} else {
-				$nav_items[] = '<li><a href="/activities/">Activities</a></li>';
+				$nav_items[] = '<li><a href="/activities/">' . $portal_config['activities_navigation_word'] . '</a></li>';
 			}
 		
 		}
@@ -2883,7 +2883,7 @@ function portal_generate_user_navigation() {
 		$nav_items[] = '<li><a href="/help/">Help</a></li>';
 	}
 	
-	for ($i = 0; $i < count($portal_config['extra_navigation_items']); $i++) {
+	for ($i = 0; $i < count(@$portal_config['extra_navigation_items']); $i++) {
 	
 		$label = $portal_config['extra_navigation_items'][$i]['label'];
 		$value = $portal_config['extra_navigation_items'][$i]['value'];
@@ -2911,6 +2911,27 @@ function portal_generate_user_navigation() {
 	}
 
 	return $nav;
+
+}
+
+function portal_generate_technical_notes_section() {
+
+	$note = '
+	<h2>Technical Notes</h2>
+
+	<h3>Flash Support</h3>
+	
+	<p><a href="http://jnlp.concord.org/dev/mozswing/mozswing.jnlp">Install Embedded Flash Support</a></p>
+	
+	<p><strong>Note:</strong> You may need to install <a href="http://www.mozilla.com/firefox/">Firefox</a> and the <a href="http://www.adobe.com/go/getflashplayer">Flash Player</a> if it is not already on your
+	system.</p>
+	
+	<h3>Mac OS X Web Start Fix</h3>
+	
+	<p>If you are using MacOS 10.4 or later, you will almost certainly need to <a href="http://confluence.concord.org/display/CCTR/How+to+fix+the+WebStart+bug"><strong>fix a Java Web Start bug</strong></a>. You will need to follow the steps on that page once for each computer on which you run our activities, and additionally each time that java is updated.</p>
+	';
+	
+	return $note;
 
 }
 

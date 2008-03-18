@@ -1,5 +1,7 @@
 <?php
 
+$page_title = 'Info';
+
 if ($_SESSION['portal']['member_type'] != 'student') {
 	$email_field = '<strong>Email:</strong> ' . $_SESSION['user_email'] . '<br>';
 } else {

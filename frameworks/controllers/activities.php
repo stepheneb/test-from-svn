@@ -1,11 +1,11 @@
 <?php
 
-$page_title = 'Activities';
+$page_title = '' . $portal_config['activities_navigation_word'] . '';
 
 if (in_array('create', $GLOBALS['portal_config']['available_actions'])) {
 	
 	echo '
-	<h2>Activity Creation</h2>
+	<h2>Creation</h2>
 	
 	<p>Activities used in the ITSI project are created using a system called <strong><a href="/diy/home/" target="_blank">Do-It-Yourself</a></strong>.</p>
 	

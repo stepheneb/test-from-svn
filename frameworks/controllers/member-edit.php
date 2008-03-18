@@ -197,9 +197,13 @@ if (isset($_PORTAL['params']['process'])) {
 	<div class="clear-both">&nbsp;</div>
 	
 	</form>
-	
-	<p><a href="/member/delete/' . $member_id . '/">Do you need to delete this member?</a></p>
 	';
+	
+	if ($_SESSION['portal']['member_type'] != 'student') {
+	
+		echo '<p><a href="/member/delete/' . $member_id . '/">Do you need to delete this member?</a></p>';
+	
+	}
 
 }
 

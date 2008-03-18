@@ -28,4 +28,6 @@ echo '
 
 include 'controllers/member-info.php';
 
+echo portal_generate_technical_notes_section();
+
 ?>

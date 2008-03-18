@@ -161,41 +161,10 @@ echo '
 
 </td>
 </tr>
-<tr>
-<td colspan="2">
-<h2>Technical Notes</h2>
-</td>
-</tr>
-
-<tr>
-<td valign="top" width="50%" style="padding: 5px;">
-<h3>Flash Support</h3>
-
-<p><a href="http://jnlp.concord.org/dev/mozswing/mozswing.jnlp">Install Embedded Flash Support</a></p>
-
-<p><strong>Note:</strong> You may need to install <a href="http://www.mozilla.com/firefox/">Firefox</a> and the <a href="http://www.adobe.com/go/getflashplayer">Flash Player</a> if it is not already on your
-system.</p>
-
-</td>
-<td valign="top" width="50%" style="padding: 5px;">
-
-<h3>Mac OS X Webstart Fix</h3>
-
-<p>If you are using MacOS 10.4 or later, you will almost certainly 
-need to run our <a href="http://itsidiy.concord.org/FixJavaWebStart.dmg">Fix Java Web Start</a> program once on each 
-computer you run our activities on. </p>
-
-<p>If you update 
-Java on your Macintosh you will need to run this program again. This 
-program fixes a problem on Macintosh computers where starting a Java Web 
-Start program the second time freezes without completion.</p>
-
-<p>If the above fix does not work for you, you can find <a href="http://confluence.concord.org/display/CCTR/WebStart+OSX+Java+1.5+Fix">additional suggestions on our site.</a></p>
-
-</td>
-</tr>
 
 </table>
+
+' . portal_generate_technical_notes_section() . '
 
 
 <div class="clear-both">&nbsp;</div>
