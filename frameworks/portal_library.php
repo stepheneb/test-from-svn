@@ -556,6 +556,7 @@ function portal_process_member_registration($request) {
 		$data['member_email'] = $request['email'];
 		$data['member_type'] = $request['type'];
 		$data['member_school'] = $request['school_id'];
+		$data['member_grade'] = @$request['grade_level'];
 		$data['cc_member_id'] = $cc_member_id;
 		$data['diy_member_id'] = $diy_member_id;
 		$data['sds_member_id'] = $sds_member_id;

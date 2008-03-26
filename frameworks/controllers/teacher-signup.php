@@ -35,6 +35,8 @@ if ($_PORTAL['action'] == 'process') {
 
 	$state_list = portal_generate_db_form_list('school_state', '', 'mystery4.mystery_states', 'state_abbr', 'state_name', 'list', '', '', array(), array('<option value=""></option>'), 35);
 
+	$district_list = portal_generate_db_form_list('school_district', '', 'portal_schools', 'school_district', 'school_district', 'list', '', '', array(), array('<option value=""></option><option value="other">Other (Please specify…)</option>'), 35);
+
 	echo '
 	<form action="/signup/teacher/process/" method="post">
 	
@@ -52,9 +54,9 @@ if ($_PORTAL['action'] == 'process') {
 
 	<div id="school-fields">
 	
-		<p><label for="school-name">School Name</label> <input type="text" name="school_name" id="school-name" value="" size="35"></p>
+		<p><label for="school-district">School District</label> ' . $district_list . ' <input type="text" name="school_district_text" id="school-district-text" value="" size="35"></p>
 
-		<p><label for="school-district">School District</label> <input type="text" name="school_district" id="school-district" value="" size="35"></p>
+		<p><label for="school-name">School Name</label> <input type="text" name="school_name" id="school-name" value="" size="35"></p>
 
 		<p><label for="school-address-1">Address 1</label> <input type="text" name="school_address_1" id="school-address-1" value="" size="35"></p>
 
@@ -77,28 +79,35 @@ if ($_PORTAL['action'] == 'process') {
 	<script type="text/javascript">
 	
 		function toggle_school_fields() {
-		
-			var school_id = get_select_box_value("school-id");
-			
-			var fields = document.getElementById("school-fields");
-
-			if (school_id == "other") {
-				fields.style.display = "block";
+			if ($("#school-id").val() == "other") {
+				$("#school-fields").show();
 			} else {
-				fields.style.display = "none";
+				$("#school-fields").hide();
 			}
-		
+		}
+
+		function toggle_district_fields() {
+			if ($("#school-district").val() == "other") {
+				// show the other text box and change the names of the fields
+				$("#school-district-text").show();
+				$("#school-district").attr("name", "school_district_list");
+				$("#school-district-text").attr("name", "school_district");
+			} else {
+				$("#school-district-text").hide();
+				$("#school-district-text").attr("name", "school_district_text");
+				$("#school-district").attr("name", "school_district");
+			}
 		}
 		
-		addLoadEvent(
+		$(document).ready(
 
 			function() {
 
-				document.getElementById("school-id").onchange = function() {
-					toggle_school_fields();
-				}
+				$("#school-id").change(toggle_school_fields);
+				$("#school-district").change(toggle_district_fields);
 
 				toggle_school_fields();
+				toggle_district_fields();
 
 			}
 		

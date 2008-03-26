@@ -77,6 +77,7 @@ if (isset($_PORTAL['params']['process'])) {
 	$data['member_first_name'] = $_REQUEST['first_name'];
 	$data['member_last_name'] = $_REQUEST['last_name'];
 	$data['member_interface'] = $_REQUEST['interface'];
+	$data['member_grade'] = @$_REQUEST['grade_level'];
 
 
 	// FIXME - add the admin role if appropriate/requested
@@ -145,6 +146,7 @@ if (isset($_PORTAL['params']['process'])) {
 	$email_field = '';
 	$class_field = '';
 	$type_field = '';
+	$grade_field = '';
 		
 	if ($member_info['member_type'] == 'student') {
 
@@ -166,7 +168,11 @@ if (isset($_PORTAL['params']['process'])) {
 	} else {
 
 		$email_field = '<p><label for="email">Email</label> <input type="text" name="email" id="email" value="' . @$member_info['member_email'] . '" size="35"></p>';
-
+		
+	}
+	
+	if ($member_info['member_type'] == 'student') {
+		$grade_field = '<p><label for="grade-level">Grade Level</label> <input type="text" name="grade_level" id="grade-level" value="' . @$member_info['member_grade'] . '" size="10"></p>';
 	}
 	
 	if ($_SESSION['portal']['member_type'] == 'admin' || $_SESSION['portal']['member_type'] == 'superuser') {
@@ -182,6 +188,8 @@ if (isset($_PORTAL['params']['process'])) {
 
 	<p><label for="last-name">Last Name</label> <input type="text" name="last_name" id="last-name" value="' . @$member_info['member_last_name'] . '" size="35"></p>
 	
+	' . $grade_field . '
+
 	' . $email_field . '
 
 	<p><label for="password">New Password</label> <input type="text" name="password" id="password" value="" size="35"> <span class="form-field-info"><strong>Warning:</strong> this field will display your password<br><strong>Note:</strong> your password must be between 4 and 40 characters long</span></p>
