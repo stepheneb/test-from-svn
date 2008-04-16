@@ -7,7 +7,11 @@ $host_prefix = portal_get_host_prefix();
 
 if ($project_key != $host_prefix) {
 	
-	$new_url = 'http://' . str_replace($host_prefix, $project_key, $_SERVER['HTTP_HOST']) . @$_SERVER['REQUEST_URI'];
+	if ($host_prefix == 'portal') {
+		$new_url = 'http://' . $project_key . '.' . $_SERVER['HTTP_HOST'] . @$_SERVER['REQUEST_URI'];
+	} else {
+		$new_url = 'http://' . str_replace($host_prefix, $project_key, $_SERVER['HTTP_HOST']) . @$_SERVER['REQUEST_URI'];
+	}
 	
 	mystery_redirect($new_url);
 	
