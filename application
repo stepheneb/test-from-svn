@@ -2,6 +2,17 @@
 
 // This is the portal site
 
+$project_key = portal_get_project_key();
+$host_prefix = portal_get_host_prefix();
+
+if ($project_key != $host_prefix) {
+	
+	$new_url = 'http://' . str_replace($host_prefix, $project_key, $_SERVER['HTTP_HOST']) . @$_SERVER['REQUEST_URI'];
+	
+	mystery_redirect($new_url);
+	
+}
+
 $no_auth_sections = array('signin','signout','about','help','reminder','signup','signupsubmit','contact','preview','diy');
 
 if (@$_SESSION['is_logged_in'] != 'yes' && !in_array($_PORTAL['section'], $no_auth_sections)) {

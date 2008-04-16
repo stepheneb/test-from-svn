@@ -139,7 +139,7 @@ function portal_auth($username, $password) {
 
 function portal_get_project_key() {
 
-	$key = preg_replace('~^([^.]+).*~', '\1', $_SERVER['HTTP_HOST']);
+	$key = portal_get_host_prefix();
 	
 	if ($key == '' || $key == 'portal' || !isset($GLOBALS['portal_config']['project_settings'][$key])) {
 		$key = $GLOBALS['portal_config']['default_project'];
@@ -147,6 +147,14 @@ function portal_get_project_key() {
 	
 	return $key;
 
+}
+
+function portal_get_host_prefix() {
+
+	$prefix = preg_replace('~^([^.]+).*~', '\1', $_SERVER['HTTP_HOST']);
+
+	return $prefix;
+	
 }
 
 function portal_get_project_info_by_key($key) {
