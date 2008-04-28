@@ -987,7 +987,7 @@ function portal_post_xml_to_diy($xml, $path) {
 
 function portal_get_diy_member_id_from_db($member_username) {
 
-	$query = 'SELECT id FROM ' . $GLOBALS['portal_config']['diy_table_prefix'] . 'users WHERE login = ?';
+	$query = 'SELECT id FROM ' . $GLOBALS['portal_config']['diy_database'] . '.' . $GLOBALS['portal_config']['diy_table_prefix'] . 'users WHERE login = ?';
 	
 	$params = array($member_username);
 	
@@ -1030,7 +1030,7 @@ function portal_get_diy_member_id($member_id) {
 
 function portal_get_sds_member_id_from_db($diy_member_id) {
 
-	$query = 'SELECT sds_sail_user_id FROM ' . $GLOBALS['portal_config']['diy_table_prefix'] . 'users WHERE id = ?';
+	$query = 'SELECT sds_sail_user_id FROM ' . $GLOBALS['portal_config']['diy_database'] . '.' . $GLOBALS['portal_config']['diy_table_prefix'] . 'users WHERE id = ?';
 	
 	$params = array($diy_member_id);
 	
@@ -1048,7 +1048,7 @@ function portal_get_diy_activity_usage_from_db($member_id) {
 
 	$member_diy_id = portal_get_diy_member_id($member_id);
 	
-	$query = 'SELECT runnable_id AS diy_id FROM ' . $GLOBALS['portal_config']['diy_table_prefix'] . 'learners WHERE user_id = ? AND runnable_type = ?';
+	$query = 'SELECT runnable_id AS diy_id FROM ' . $GLOBALS['portal_config']['diy_database'] . '.' . $GLOBALS['portal_config']['diy_table_prefix'] . 'learners WHERE user_id = ? AND runnable_type = ?';
 
 	$params = array($member_diy_id, $GLOBALS['portal_config']['diy_runnable_type_name']);
 
@@ -1990,7 +1990,7 @@ function portal_get_class_diy_activities($class_id) {
 	$query = 'SELECT 
 	ida.' . $diy_field . ' AS activity_id, 
 	ida.name AS activity_name
-	FROM ' . $GLOBALS['portal_config']['diy_table_prefix'] . $GLOBALS['portal_config']['diy_activities_name'] . ' AS ida
+	FROM ' . $GLOBALS['portal_config']['diy_database'] . '.' . $GLOBALS['portal_config']['diy_table_prefix'] . $GLOBALS['portal_config']['diy_activities_name'] . ' AS ida
 	WHERE ' . $diy_field . ' IN ("' . implode('","', $diy_ids) . '")
 	ORDER BY activity_name
 	';
@@ -3096,7 +3096,7 @@ function portal_lookup_diy_probe_type($probe_id) {
 	
 	if (count($lookup) == 0) {
 	
-		$query = 'SELECT id, name FROM ' . $GLOBALS['portal_config']['diy_table_prefix'] . 'probe_types';
+		$query = 'SELECT id, name FROM ' . $GLOBALS['portal_config']['diy_database'] . '.' . $GLOBALS['portal_config']['diy_table_prefix'] . 'probe_types';
 		$params = array();
 		
 		$results = mystery_select_query($query, $params, 'rails_dbh');
@@ -3125,7 +3125,7 @@ function portal_lookup_diy_model_type($probe_id) {
 	
 	if (count($lookup) == 0) {
 	
-		$query = 'SELECT im.id, mt.name FROM ' . $GLOBALS['portal_config']['diy_table_prefix'] . 'models AS im LEFT JOIN ' . $GLOBALS['portal_config']['diy_table_prefix'] . 'model_types AS mt ON im.model_type_id=mt.id';
+		$query = 'SELECT im.id, mt.name FROM ' . $GLOBALS['portal_config']['diy_database'] . '.' . $GLOBALS['portal_config']['diy_table_prefix'] . 'models AS im LEFT JOIN ' . $GLOBALS['portal_config']['diy_database'] . '.' . $GLOBALS['portal_config']['diy_table_prefix'] . 'model_types AS mt ON im.model_type_id=mt.id';
 		$params = array();
 		
 		$results = mystery_select_query($query, $params, 'rails_dbh');
@@ -3148,7 +3148,7 @@ function portal_lookup_diy_uuid($diy_id) {
 	
 	if (count($lookup) == 0) {
 	
-		$query = 'SELECT id, uuid FROM ' . $GLOBALS['portal_config']['diy_table_prefix'] . $GLOBALS['portal_config']['diy_activities_name'];
+		$query = 'SELECT id, uuid FROM ' . $GLOBALS['portal_config']['diy_database'] . '.' . $GLOBALS['portal_config']['diy_table_prefix'] . $GLOBALS['portal_config']['diy_activities_name'];
 		$params = array();
 		
 		$results = mystery_select_query($query, $params, 'rails_dbh');
@@ -3199,8 +3199,8 @@ function portal_get_diy_activities_from_db($conditions = array(), $params = arra
 	further_probetype_id,
 	"My Activities" AS subject_name,
 	CONCAT(last_name, ", ", first_name) AS unit_name
-	FROM ' . $GLOBALS['portal_config']['diy_table_prefix'] . 'activities AS ida
-	LEFT JOIN ' . $GLOBALS['portal_config']['diy_table_prefix'] . 'users AS idu
+	FROM ' . $GLOBALS['portal_config']['diy_database'] . '.' . $GLOBALS['portal_config']['diy_table_prefix'] . 'activities AS ida
+	LEFT JOIN ' . $GLOBALS['portal_config']['diy_database'] . '.' . $GLOBALS['portal_config']['diy_table_prefix'] . 'users AS idu
 	ON ida.user_id=idu.id
 	';
 
@@ -3498,6 +3498,20 @@ function portal_get_all_activities($order = 'unit_order, activity_order') {
 	return $activities;
 
 }
+function portal_generate_accommodations($class_id) {
+
+	$list = '';
+
+	if (@$GLOBALS['portal_config']['use_accommodations'] == 'yes') {
+
+		$list = '<p>Accommodations would be here</p>';
+	
+	}
+
+	return $list;
+
+}
+
 
 function portal_generate_activity_grid($activity_ids = array(), $diy_activity_ids = array(), $mode = '') {
 

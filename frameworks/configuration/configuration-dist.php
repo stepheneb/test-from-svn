@@ -26,11 +26,14 @@ $portal_config['project_settings'] = array(); // used for project portal instanc
 $portal_config['project_settings']['itsi']['site_template'] = 'website/itsi-template.php';
 $portal_config['project_settings']['itsi']['available_actions'] = array('create', 'copy', 'edit', 'info', 'preview', 'report', 'run', 'try');
 $portal_config['project_settings']['itsi']['use_diy_activities'] = 'yes';
+$portal_config['project_settings']['itsi']['use_accommodations'] = 'no';
+$portal_config['project_settings']['itsi']['accommodations_name'] = 'Accommodations';
 $portal_config['project_settings']['itsi']['show_activities_link_to_students'] = 'yes';
 $portal_config['project_settings']['itsi']['activities_navigation_word'] = 'Activities';
 
 $portal_config['project_settings']['itsi']['diy_server'] = 'itsidiy.concord.org';
 $portal_config['project_settings']['itsi']['diy_server_path'] = '';
+$portal_config['project_settings']['itsi']['diy_database'] = 'rails';
 $portal_config['project_settings']['itsi']['diy_table_prefix'] = 'itsidiy_';
 $portal_config['project_settings']['itsi']['diy_activities_name'] = 'Activities';
 $portal_config['project_settings']['itsi']['diy_runnable_type_name'] = 'Activity';
@@ -48,11 +51,14 @@ $portal_config['project_settings']['itsi']['extra_navigation_items'] = array();
 $portal_config['project_settings']['udl']['site_template'] = 'website/udl-template.php';
 $portal_config['project_settings']['udl']['available_actions'] = array('info', 'report', 'run', 'try');
 $portal_config['project_settings']['udl']['use_diy_activities'] = 'no';
+$portal_config['project_settings']['udl']['use_accommodations'] = 'yes';
+$portal_config['project_settings']['udl']['accommodations_name'] = 'UDL Settings';
 $portal_config['project_settings']['udl']['show_activities_link_to_students'] = 'no';
 $portal_config['project_settings']['udl']['activities_navigation_word'] = 'Units';
 
 $portal_config['project_settings']['udl']['diy_server'] = 'rails.dev.concord.org';
 $portal_config['project_settings']['udl']['diy_server_path'] = '/udl';
+$portal_config['project_settings']['udl']['diy_database'] = 'rails';
 $portal_config['project_settings']['udl']['diy_table_prefix'] = 'udl_';
 $portal_config['project_settings']['udl']['diy_activities_name'] = 'external_otrunk_activities';
 $portal_config['project_settings']['udl']['diy_runnable_type_name'] = 'ExternalOtrunkActivity';
@@ -68,6 +74,54 @@ $portal_config['project_settings']['udl']['extra_navigation_items'][] = array(
 	'value' => 'http://udl.concord.org/share/teacher-guides/',
 	'deny' => 'student'
 );
+
+// CAPA Project
+
+$portal_config['project_settings']['capa']['site_template'] = 'website/capa-template.php';
+$portal_config['project_settings']['capa']['available_actions'] = array('info', 'report', 'run', 'try');
+$portal_config['project_settings']['capa']['use_diy_activities'] = 'no';
+$portal_config['project_settings']['capa']['show_activities_link_to_students'] = 'no';
+$portal_config['project_settings']['capa']['show_front_page_image'] = 'no';
+$portal_config['project_settings']['capa']['activities_navigation_word'] = 'Assessments';
+
+$portal_config['project_settings']['capa']['diy_server'] = 'rails.dev.concord.org';
+$portal_config['project_settings']['capa']['diy_server_path'] = '/capa';
+$portal_config['project_settings']['capa']['diy_table_prefix'] = 'capa_';
+$portal_config['project_settings']['capa']['diy_activities_name'] = 'external_otrunk_activities';
+$portal_config['project_settings']['capa']['diy_runnable_type_name'] = 'ExternalOtrunkActivity';
+$portal_config['project_settings']['capa']['diy_manager_user'] = 'cstaudt';
+$portal_config['project_settings']['capa']['diy_manager_password'] = 'cstaudt';
+$portal_config['project_settings']['capa']['diy_session_name'] = '_CAPA_6u52dphuaWIvhMslWT2p0A____session_id';
+$portal_config['project_settings']['capa']['diy_use_uuid'] = 'no';
+$portal_config['project_settings']['capa']['diy_param_order'] = 'member/interface';
+
+$portal_config['project_settings']['capa']['extra_navigation_items'] = array();
+
+
+// PAEMST Project
+
+$portal_config['project_settings']['paemst']['site_template'] = 'website/paemst-template.php';
+$portal_config['project_settings']['paemst']['available_actions'] = array('create', 'copy', 'edit', 'info', 'preview', 'report', 'run', 'try');
+$portal_config['project_settings']['paemst']['use_diy_activities'] = 'yes';
+$portal_config['project_settings']['paemst']['show_activities_link_to_students'] = 'yes';
+$portal_config['project_settings']['paemst']['activities_navigation_word'] = 'Activities';
+
+$portal_config['project_settings']['paemst']['diy_server'] = 'paemst.diy.concord.org';
+$portal_config['project_settings']['paemst']['diy_server_path'] = '';
+$portal_config['project_settings']['paemst']['diy_database'] = 'pamsdiy';
+$portal_config['project_settings']['paemst']['diy_table_prefix'] = 'pamsdiy_';
+$portal_config['project_settings']['paemst']['diy_activities_name'] = 'activities';
+$portal_config['project_settings']['paemst']['diy_runnable_type_name'] = 'Activity';
+$portal_config['project_settings']['paemst']['diy_manager_user'] = 'cstaudt';
+$portal_config['project_settings']['paemst']['diy_manager_password'] = 'cstaudt';
+$portal_config['project_settings']['paemst']['diy_session_name'] = '_PAEMST_Activity_Authoring_iOwV_y9hSw5mwTNV4o__tg____session_id';
+$portal_config['project_settings']['paemst']['diy_use_uuid'] = 'no';
+$portal_config['project_settings']['paemst']['diy_param_order'] = 'interface/member';
+
+$portal_config['project_settings']['paemst']['extra_navigation_items'] = array();
+
+
+
 
 /****************************************
         General Configuration
