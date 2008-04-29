@@ -1,5 +1,17 @@
 <?php
 
+/**********************
+
+The $_PORTAL array is
+typically like this:
+
+$_PORTAL['section']
+$_PORTAL['activity']
+$_PORTAL['action']
+$_PORTAL['params']
+
+**********************/
+
 $_PORTAL = array();
 
 $_PORTAL = portal_parse_uri(@$_SERVER['REQUEST_URI']);
@@ -2890,6 +2902,12 @@ function portal_generate_user_navigation() {
 		$nav_items[] = '<li><strong>Help</strong></li>';
 	} else {
 		$nav_items[] = '<li><a href="/help/">Help</a></li>';
+	}
+	
+	if ($_PORTAL['section'] == 'support' && $_PORTAL['activity'] == '') {
+		$nav_items[] = '<li><strong>Support</strong></li>';
+	} else {
+		$nav_items[] = '<li><a href="/support/">Support</a></li>';
 	}
 	
 	for ($i = 0; $i < count(@$portal_config['extra_navigation_items']); $i++) {
