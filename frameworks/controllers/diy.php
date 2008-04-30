@@ -95,7 +95,7 @@ switch($diy_action) {
 	
 	case 'view':
 
-		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $member_interface_path . '/view';
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $member_interface_path . '/preview';
 	
 	break;
 	
