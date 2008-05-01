@@ -152,6 +152,12 @@ if (isset($_PORTAL['params']['process'])) {
 
 	$class_info = portal_web_output_filter($class_info);
 	
+	// generate accomations if applicable
+	
+	//$accommodations = portal_generate_accommodations($id_param);
+	
+	$accommodations = '';
+	
 	// generate the activity grid
 	
 	$activity_grid = portal_generate_activity_grid($class_info['activities'], $class_info['diy_activities'], 'setup');
@@ -193,6 +199,8 @@ if (isset($_PORTAL['params']['process'])) {
 	
 	</tr>
 	</table>
+	
+	' . $accommodations. '
 	
 	<p><label for="submit">&nbsp;</label> <input type="submit" id="submit" value="Save this Class"></p>
 	

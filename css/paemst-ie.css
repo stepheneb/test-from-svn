@@ -1,0 +1,25 @@
+/* This file is for custom CSS rules for Internet Explorer */
+
+/*
+#page-container {
+	margin-left: 0px;
+}
+
+#page-content {
+	padding-left: 200px;
+	height: 1100px;
+}
+
+.unit-activities {
+	height: 375px;
+}
+*/
+
+#page-content {
+	height: 1100px;
+}
+
+#sidebar-container, #copyright-container {
+	margin-left: -255px;
+}
+

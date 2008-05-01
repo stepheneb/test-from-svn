@@ -16,12 +16,12 @@
 	<script type="text/javascript" src="/scripts/jquery-1.2.min.js"></script> 
 	<script type="text/javascript" src="/scripts/jquery.tablesorter.pack.js"></script> 
 
-	<link rel="stylesheet" type="text/css" href="/css/itsi.css">
+	<link rel="stylesheet" type="text/css" href="/css/paemst.css">
 
 	<script type="text/javascript" src="/scripts/portal.js"></script>
 
 	<!--[if lt IE 7]>
-	<link rel="stylesheet" href="/css/itsi-ie.css" type="text/css">
+	<link rel="stylesheet" href="/css/paemst-ie.css" type="text/css">
 	<![endif]-->
 
 </head>
@@ -43,7 +43,7 @@
 	<div id="sidebar-container">
 	<div id="sidebar-content">
 	
-		<div><a href="http://itsi.concord.org/"><img src="/images/itsi-logo-150.gif" alt="ITSI"></a></div>
+		<div><a href="http://www.paemst.org/"><img src="/images/paemst-logo-200.png" alt="PAEMST"></a></div>
 		
 		<?php echo portal_generate_user_info_box(); ?>
 
