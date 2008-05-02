@@ -26,13 +26,13 @@ if (@$_SESSION['is_logged_in'] == 'yes') {
 
 	portal_setup_diy_session();
 	
-	$member_id = @$_SESSION['diy_member_id'];
+	//$member_id = @$_SESSION['diy_member_id'];
 	
-	if (!$member_id) {
+	//if (!$member_id) {
 	
 		$member_id = portal_get_diy_member_id($_SESSION['portal']['member_id']);
 
-	}
+	//}
 
 } else {
 
