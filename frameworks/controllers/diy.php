@@ -66,7 +66,10 @@ switch($portal_config['diy_param_order']) {
 		$student_interface_path = '';
 	break;
 
-} 
+}
+
+$reporting_param = $portal_config['diy_reporting_parameter'];
+
 
 
 switch($diy_action) {
@@ -119,7 +122,7 @@ switch($diy_action) {
 	
 	case 'work':
 	
-		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $student_interface_path . '/view';
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $student_interface_path . '/view' . $reporting_param;
 	
 	break;
 	

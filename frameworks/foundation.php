@@ -33,7 +33,10 @@ if (!preg_match($re1, $current_include_path) && !preg_match($re2, $current_inclu
 
 // Include required resources
 
-// main configuration options should be first
+// main settings should be first
+include_once 'configuration/settings.php';
+
+// additional configuration options should be next
 include_once 'configuration/configuration.php';
 
 // include any developer overrides
