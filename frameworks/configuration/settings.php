@@ -143,7 +143,7 @@ $portal_config['default_project'] = 'udl';
 $portal_config['error_log'] = '/web/logs/portal_error_log';
 $portal_config['security_log'] = '/web/logs/portal_security_log';
 
-$portal_config['cookie_domain'] = '.concord.local';
+$portal_config['cookie_domain'] = '.concord.org';
 $portal_config['session_name'] = 'ccportal_session';
 
 
