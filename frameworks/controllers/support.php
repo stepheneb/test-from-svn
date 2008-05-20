@@ -12,7 +12,7 @@ if ($_PORTAL['activity'] == 'process') {
 	
 	$subject = '[PORTAL] Support Request';
 
-	$cc = array('sfentress@concord.org');
+	$cc = array('sfentress@concord.org','carolyn@concord.org','stephen.bannasch@gmail.com');
 
 	$bcc = array();
 
