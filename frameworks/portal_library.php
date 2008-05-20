@@ -628,9 +628,22 @@ function portal_get_unique_username($first_name, $last_name, $email) {
 	
 		// look only for the ones that are the usernames suffixed with numbers to avoid accidental matches.
 		// case in point, danielc1 looked for danielc* then found danielcalder@mac.com and gave an error
+		
+		// added the $ because for a user named evan stern, we kept getting evans1 even though it already existed
+		// mysql (sunflower)> SELECT user_username FROM mystri_users WHERE user_username = 'evans' OR user_username REGEXP 'evans[0-9]+' ORDER BY user_username;
+		// | user_username    |
+		// +------------------+
+		// | evans1           | 
+		// | revans1@aisd.net | 
+		//
+		// mysql (sunflower)> SELECT user_username FROM mystri_users WHERE user_username = 'evans' OR user_username REGEXP 'evans[0-9]+$' ORDER BY user_username;
+		// | user_username |
+		// +---------------+
+		// | evans1        | 
+
 	
 		$query = 'SELECT user_username FROM mystri_users WHERE user_username = ? OR user_username REGEXP ? ORDER BY user_username';
-		$params = array($temp, $temp . '[0-9]+');
+		$params = array($temp, $temp . '[0-9]+$');
 		
 		$results = mystery_select_query($query, $params, 'sunflower_dbh');
 		
