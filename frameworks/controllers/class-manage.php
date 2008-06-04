@@ -154,9 +154,7 @@ if (isset($_PORTAL['params']['process'])) {
 	
 	// generate accomations if applicable
 	
-	//$accommodations = portal_generate_accommodations($id_param);
-	
-	$accommodations = '';
+	$accommodations = '<p><em>These settings apply for the whole class.  You can change settings for particular students on the class roster page.</em></p>' . portal_generate_class_accommodations($id_param);
 	
 	// generate the activity grid
 	

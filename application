@@ -39,7 +39,7 @@ echo '<br><br><br><br>';
 
 // echo 'UUID: ' . portal_generate_uuid() . '<br>';
 
-/*if ($_SERVER['REMOTE_ADDR'] == '66.65.241.45' || `hostname` == 'tikal.local') {
+if (trim(`hostname`) == 'tikal.local') {
 
 	mystery_print_r($include_file, '#990099');
 	
@@ -49,6 +49,6 @@ echo '<br><br><br><br>';
 
 	mystery_print_r($_SESSION, '#990000');
 
-}*/
+}
 
 ?>

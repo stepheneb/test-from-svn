@@ -19,8 +19,7 @@ if ($_PORTAL['action'] == 'process') {
 	$data['school_city'] = $_REQUEST['school_city'];
 	$data['school_state'] = $_REQUEST['school_state'];
 	$data['school_zip'] = $_REQUEST['school_zip'];
-	$data['school_country'] = 'United States';
-	$data['creation_date'] = date('Y-m-d H:i:s');
+	$data['school_country'] = $_REQUEST['school_country'];
 
 	$status = mystery_update_query('portal_schools', $data, 'school_id', $_SESSION['portal']['member_school'], 'portal_dbh');
 	
@@ -44,6 +43,8 @@ if ($_PORTAL['action'] == 'process') {
 	
 	$state_list = portal_generate_db_form_list('school_state', @$school_info['school_state'], 'mystery4.mystery_states', 'state_abbr', 'state_name', 'list', '', '', array(), array('<option value=""></option>'), 35);
 	
+	$country_list = portal_generate_db_form_list('school_country', $school_info['district_school'], 'mystery4.mystery_countries', 'country_name', 'country_name', 'list', '', '', array(), array('<option value=""></option>'), 50);
+
 	$school_info = portal_web_output_filter($school_info);
 
 	echo '
@@ -62,6 +63,8 @@ if ($_PORTAL['action'] == 'process') {
 	<p><label for="school-state">State</label> ' . $state_list . '</p>
 
 	<p><label for="school-zip">Zip</label> <input type="text" name="school_zip" id="school-zip" value="' . @$school_info['school_zip'] . '" size="35"></p>
+
+	<p><label for="school-country">Country</label> ' . $country_list . '</p>
 
 	<p><label for="submit">&nbsp;</label> <input type="submit" id="submit" value="Save"></p>
 	

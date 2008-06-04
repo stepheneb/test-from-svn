@@ -105,7 +105,7 @@ function portal_auth($username, $password) {
 	
 	if (strlen($password) != 32) { $password = md5($password); }
 
-	$query = 'SELECT * FROM portal_members WHERE (member_email = ? OR member_username = ?) AND member_password = ?';
+	$query = 'SELECT pm.*,ps.school_district AS member_district FROM portal_members AS pm LEFT JOIN portal_schools AS ps ON pm.member_school=ps.school_id WHERE (member_email = ? OR member_username = ?) AND member_password = ?';
 	$params = array($username, $username, $password);
 
 	$results = mystery_select_query($query, $params, 'portal_dbh');
@@ -123,6 +123,8 @@ function portal_auth($username, $password) {
 		
 		$_SESSION['portal']['member_id'] = $results[0]['member_id'];
 		$_SESSION['portal']['member_school'] = $results[0]['member_school'];
+		$_SESSION['portal']['member_district'] = $results[0]['member_district'];
+		$_SESSION['portal']['member_source'] = $results[0]['member_source'];
 		$_SESSION['portal']['member_type'] = $results[0]['member_type'];
 		$_SESSION['portal']['member_interface'] = $results[0]['member_interface'];
 		$_SESSION['portal']['diy_member_id'] = $results[0]['diy_member_id'];
@@ -281,7 +283,7 @@ function portal_process_school_registration($request) {
 
 }
 
-function portal_process_teacher_registration($request) {
+function portal_process_teacher_registration($request, $type = 'teacher') {
 
 	// this function will register a new teacher
 
@@ -296,7 +298,7 @@ function portal_process_teacher_registration($request) {
 		return 0;
 	
 	}
-	
+		
 	if ($request['school_id'] == 'other') {
 	
 		$request['school_id'] = portal_process_school_registration($request);
@@ -305,7 +307,7 @@ function portal_process_teacher_registration($request) {
 	
 	// Now set up the member in the portal
 	
-	$request['type'] = 'teacher';
+	$request['type'] = $type;
 	$request['member_interface'] = 6;
 
 	$member_id = portal_process_member_registration($request);
@@ -581,6 +583,7 @@ function portal_process_member_registration($request) {
 		$data['diy_member_id'] = $diy_member_id;
 		$data['sds_member_id'] = $sds_member_id;
 		$data['member_interface'] = $request['member_interface'];
+		$data['member_source'] = $request['source'];
 		$data['creation_date'] = date('Y-m-d H:i:s');
 
 		$member_id = mystery_insert_query('portal_members', $data, 'member_id', 'portal_dbh');
@@ -1405,6 +1408,23 @@ function portal_get_school_info($school_id) {
 
 	$query = 'SELECT * FROM portal_schools WHERE school_id = ?';
 	$params = array($school_id);
+	
+	$results = mystery_select_query($query, $params, 'portal_dbh');
+	
+	if (count($results) > 0) {
+		return $results[0];
+	} else {
+		return $results;
+	}
+	
+}
+
+function portal_get_district_info($district_id) {
+
+	// this function gets information about a school.
+
+	$query = 'SELECT * FROM portal_districts WHERE district_id = ?';
+	$params = array($district_id);
 	
 	$results = mystery_select_query($query, $params, 'portal_dbh');
 	
@@ -3387,7 +3407,7 @@ function portal_get_prepared_diy_activities($member_id) {
 	$my_students = mystery_convert_results_to_simple_array($results, 'member_id');
 	
 	
-	$query = 'SELECT member_username, member_id, member_school FROM portal_members';
+	$query = 'SELECT member_username, member_id, member_school,member_source,school_district AS member_district FROM portal_members AS pm LEFT JOIN portal_schools AS ps ON pm.member_school=ps.school_id LEFT JOIN portal_districts AS pd ON ps.school_district=pd.district_id';
 	$params = array();
 	
 	$results = mystery_select_query($query, $params, 'portal_dbh');
@@ -3403,6 +3423,8 @@ function portal_get_prepared_diy_activities($member_id) {
 		$this_username = $results[$i]['member_username'];
 		$this_member_id = $results[$i]['member_id'];
 		$this_school = $results[$i]['member_school'];
+		$this_district = $results[$i]['member_district'];
+		$this_source = $results[$i]['member_source'];
 		
 		if ($this_username == $member_info['member_username']) {
 			$subject_keys[$this_username] = 'My Activities';
@@ -3410,6 +3432,10 @@ function portal_get_prepared_diy_activities($member_id) {
 			$subject_keys[$this_username] = 'My Student Activities';
 		} elseif ($this_school == $_SESSION['portal']['member_school']) {
 			$subject_keys[$this_username] = 'My School Activities';
+		} elseif ($this_district == $_SESSION['portal']['member_district']) {
+			$subject_keys[$this_username] = 'My District Activities';
+		} elseif ($this_source == $_SESSION['portal']['member_source'] && trim($this_source) != '') {
+			$subject_keys[$this_username] = 'My Event Activities';
 		} else {
 			$subject_keys[$this_username] = 'Other Activities';
 		}
@@ -3529,13 +3555,47 @@ function portal_get_all_activities($order = 'unit_order, activity_order') {
 	return $activities;
 
 }
-function portal_generate_accommodations($class_id) {
+
+
+function portal_get_accommodations($project_id) {
+
+	$query = 'SELECT * FROM portal_accommodations WHERE accommodation_project = ?';
+	$params = array($project_id);
+	
+	$results = mystery_select_query($query, $params, 'portal_dbh');
+	
+	return $results;
+	
+}
+
+function portal_get_member_accommodations($member_id) {
+
+	$query = 'SELECT * FROM  portal_accommodation_usage WHERE usage_type = ? AND usage_type_id = ?';
+	$params = array('member', $member_id);
+	
+	$results = mystery_select_query($query, $params, 'portal_dbh');
+	
+	return $results;
+	
+}
+
+function portal_get_class_accommodations($class_id) {
+
+	$query = 'SELECT * FROM portal_accommodation_usage WHERE usage_type = ? AND usage_type_id = ?';
+	$params = array('class', $class_id);
+	
+	$results = mystery_select_query($query, $params, 'portal_dbh');
+	
+	return $results;
+	
+}
+
+function portal_generate_member_accommodations($member_id) {
 
 	$list = '';
 
 	if (@$GLOBALS['portal_config']['use_accommodations'] == 'yes') {
-
-		$list = '<p>Accommodations would be here</p>';
+	
 	
 	}
 
@@ -3543,6 +3603,42 @@ function portal_generate_accommodations($class_id) {
 
 }
 
+
+function portal_generate_class_accommodations($class_id) {
+
+	$list = '';
+
+	if (@$GLOBALS['portal_config']['use_accommodations'] == 'yes') {
+	
+		$accommodations = portal_get_accommodations($GLOBALS['_PORTAL']['project_info']['project_id']);
+				
+		$class_settings = portal_get_class_accommodations($class_id);
+		
+		$list_parts = array();
+		
+		for ($i = 0; $i < count($accommodations); $i++) {
+
+			$list_parts[] = '<li>' . portal_generate_accommodation_row($accommodations[$i], $class_settings) . '</li>';
+		
+		}
+		
+		$list = '<ul>' . implode("\n", $list_parts) . '</ul>';
+	
+	}
+
+	return $list;
+
+}
+
+function portal_generate_accommodation_row($accommodation, $settings = array()) {
+
+	// this function takes a particular accomodation and displays it in a checkbox row.
+	
+	//mystery_print_r($accommodation);
+	
+	return '<strong>' . $accommodation['accommodation_name'] . '</strong>: ' . $accommodation['accommodation_values'];
+
+}
 
 function portal_generate_activity_grid($activity_ids = array(), $diy_activity_ids = array(), $mode = '') {
 

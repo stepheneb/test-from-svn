@@ -72,6 +72,10 @@ function portal_determine_resource($uri) {
 			$include_file = 'controllers/diy.php';
 		break;
 		
+		case 'otrunk':
+			$include_file = 'controllers/otrunk.php';
+		break;
+		
 		case 'course':
 			$include_file = 'controllers/course.php';
 		break;
@@ -138,6 +142,18 @@ function portal_determine_resource($uri) {
 			
 				case 'edit':
 					$include_file = 'controllers/school-edit.php';
+				break;
+			
+			}
+			
+		break;
+		
+		case 'district':
+		
+			switch($_PORTAL['activity']) {
+			
+				case 'edit':
+					$include_file = 'controllers/district-edit.php';
 				break;
 			
 			}

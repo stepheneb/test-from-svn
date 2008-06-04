@@ -6,6 +6,8 @@ $school_id = $_SESSION['portal']['member_school'];
 
 $school_info = portal_get_school_info($school_id);
 
+$district_info = portal_get_district_info($school_info['school_district']);
+
 $options = array();
 
 $options['type'] = 'compact';
@@ -21,6 +23,15 @@ echo '
 
 <br>
 
+<h2>Our District <a class="heading-link" href="/district/edit/' . $district_info['district_id'] . '/">' . portal_icon('setup') . ' Change this information</a></h2>
+
+<p>
+<strong>' . $district_info['district_name'] . '</strong><br>
+' . $district_info['district_address_1'] . ' ' . $district_info['district_address_2'] . '<br>
+' . $district_info['district_city'] . ', ' . $district_info['district_state'] . ' ' . $district_info['district_zip'] . '
+</p>
+
+<br>
 
 <h2>Our Teachers <a class="heading-link" href="/teacher/add/">' . portal_icon('add') . ' Add a new teacher</a></h2>
 
