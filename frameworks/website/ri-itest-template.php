@@ -3,9 +3,9 @@
 <html lang="en">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
-	<title>RI-ITEST <?php echo $sassy_config['site_title']; ?> - <?php echo $page_title; ?></title>
-
-	<link rel="stylesheet" type="text/css" href="/scripts/reset-fonts-grids.css"> 
+	<title>RI-ITEST: <?php echo $sassy_config['site_title']; ?> - <?php echo $page_title; ?></title>
+	<meta name="keywords" content="<?php echo $page_keywords; ?>">
+	<meta name="description" content="<?php echo $page_description; ?>">
 
 	<script type="text/javascript" src="/scripts/utilities.js"></script> 
 	<script type="text/javascript" src="/scripts/yahoo-dom-event.js"></script> 
@@ -23,48 +23,63 @@
 	<link rel="stylesheet" href="/css/ri-itest-ie.css" type="text/css">
 	<![endif]-->
 
+
 </head>
 <body>
 
-<div id="main-container">
-<div id="main-content">
+<div id="container">
 
-	<div id="page-container">
-	<div id="page-content">
+	<div id="content-container">
 	
-	<h1>RI-ITEST Portal — <?php echo $page_title; ?></h1>
-	
-	%%PAGE_CONTENT%%
+		<div id="overlay"><a href="#" title="Image: Biological Molecule 1CRN"></a></div>
+
+		<div id="navigation">
+
+			<ul>
+				<li><span><a href="http://ri-itest.concord.org/" title="RI-ITEST Home">Home</a></span></li>
+				<li><span><a href="http://ri-itest.concord.org/about/" title="Details about the RI-ITEST project">About</a></span></li>
+				<li><span><a href="http://ri-itest.concord.org/pubs/" title="Read or view our publications">Publications</a></span></li>
+				<li><span><a href="http://mw2.concord.org/tmp.jnlp?address=http://mw2.concord.org/myhome.jsp?client=mw" title="Run our Activities using Molecular Workbench">Activities</a></span></li>
+				<li><span><a href="http://moodle.concord.org/cc/course/view.php?id=15" title="The RI-ITEST Course">Course</a></span></li>
+				<li><strong class="nav-selected"><a href="/" title="Portal Home">Portal</a></strong></li>
+			</ul>
+
+		</div>
 		
-	</div>
-	</div>
-	
-	<div id="sidebar-container">
-	<div id="sidebar-content">
-	
-		<div><a href="http://ri-itest.concord.org/"><img src="/images/ri-itest-logo-150.gif" alt="RI-ITEST"></a></div>
+		<div id="main-content">
+				
+		<?php 
+			$options = array('ignore-home' => 'yes'); 
+			echo portal_generate_user_navigation($options);
+		?>
+
+		<?php echo str_replace('<br>', ' ', str_replace('<br><br>', ' | ', portal_generate_user_info_box())); ?>
+
+		%%PAGE_CONTENT%%
 		
-		<?php echo portal_generate_user_info_box(); ?>
-
-		<?php echo portal_generate_user_navigation(); ?>
-
-		<?php // echo sassy_generate_navbar('main', "\n","<div id=\"navigation\">\n<ul>","</ul>\n</div>",'','<li><span class="%%CLASS%%">%%LINK%%</span></li>'); ?>
+		<div style="clear: right;"></div>
 		
-	</div>
-	</div>
-	
-	<div id="copyright-container">
-	<div id="copyright-content">
-	
-		<div><a href="http://www.concord.org/"><img src="/images/cc_logo_gray_text.gif" alt="The Concord Consortium"></a><br>
-		<br>© 2008 All Rights Reserved</div>
+		</div>
+		
+		<div id="copyright">
 
-	</div>
+			<p>© Copyright <?php echo date('Y'); ?>, The Concord Consortium, Inc.</p>
+	
+			<p class="updated-info">Last updated: <?php echo date('m/d/Y', getlastmod()); ?></p>
+			
+			<p class="legal">These materials are based upon work supported by the National 
+			Science Foundation under grant number ESI-0737649.</p>
+
+			<p class="legal">Any opinions, findings, and conclusions
+			or recommendations expressed in this material are those of
+			the author(s) and do not necessarily reflect the views
+			of the National Science Foundation.</p>
+
+		</div>
+		
 	</div>
 
 </div>
-</div>
-
 
 </body>
 </html>

@@ -1,6 +1,6 @@
 <?php
 
-$page_title = 'Help';
+$page_title = 'Getting Started';
 
 if (@$_SESSION['is_logged_in'] != 'yes') {
 
@@ -249,5 +249,44 @@ if (@$_SESSION['is_logged_in'] != 'yes') {
 	';
 	
 }	
+
+echo '
+
+<div style="color: #444444;">
 	
+<h2>Video Demonstrations</h2>
+
+<p>The following video demonstrations will help you get to know the above pieces of technology:</p>
+
+<p><strong>Please note:</strong> The following videos require the Flash Player installed and enabled on your computer.  <a href="http://www.adobe.com/go/getflashplayer">You can download the Flash Player from Adobe.</a></p>
+
+<h3>General Demos</h3>
+
+<ul>
+
+<li><a href="http://itsi.concord.org/overview/video/overview/overview.html">Overview</a> - A quick overview of how the system works</li>
+<li><a href="http://itsi.concord.org/overview/video/intro/intro.html">Introduction</a> - An introduction to the portal and its activities</li>
+<li><a href="http://itsi.concord.org/overview/video/registration/registration.html">Sign up</a> - How students and teachers can sign up to use the portal</li>
+
+<li><a href="http://itsi.concord.org/overview/video/studentwork/studentwork.html">Student Work</a> - This video demonstrates how students save their work and how teachers can then view it later.</li>
+<li><a href="http://itsi.concord.org/overview/video/activities/Activities.html">Activities</a> - Creating and Editing your own activities</li>
+<!--li><a href="http://itsi.concord.org/overview/video/comments/comments.html">Comments</a> - This video demonstrates how to use our new comments and ratings system</li-->
+
+</ul>
+
+<h3>Molecular Workbench Demos</h3>
+
+<ul>
+
+<li><a href="http://itsi.concord.org/overview/video/mw1/MW%20Basics%20Part%201.html">Molecular Workbench Part 1</a></li>
+<li><a href="http://itsi.concord.org/overview/video/mw2/MW%20Part%202.html">Molecular Workbench Part 2</a></li>
+<li><a href="http://itsi.concord.org/overview/video/mw3/MW%20Part%203.html">Molecular Workbench Part 3</a></li>
+<li><a href="http://itsi.concord.org/overview/video/mw4/mw_part_4.html">Molecular Workbench Part 4</a></li>
+
+</ul>
+
+</div>
+
+';
+
 ?>

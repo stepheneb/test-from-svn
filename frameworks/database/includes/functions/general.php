@@ -348,6 +348,24 @@ function mystery_convert_results_to_lookup_array($results, $key_field, $value_fi
 
 }
 
+function mystery_convert_results_to_full_lookup_array($results, $key_field) {
+
+	$lookup = array();
+	
+	for ($i = 0; $i < count($results); $i++) {
+	
+		if ($results[$i][$key_field] == '') {
+			$results[$i][$key_field] = 'null-key';
+		}
+	
+		$lookup[strtolower($results[$i][$key_field])] = $results[$i]; 
+	
+	}
+	
+	return $lookup;
+
+}
+
 
 
 ?>

@@ -22,9 +22,15 @@ $portal_config['project_settings'] = array(); // used for project portal instanc
 // 
 // 
 
+// WWW Project
+
+$portal_config['project_settings']['www']['display_name'] = 'Portal Directory';
+$portal_config['project_settings']['www']['site_template'] = 'website/template.php';
+
 
 // ITSI Project
 
+$portal_config['project_settings']['itsi']['display_name'] = 'ITSI Project Portal';
 $portal_config['project_settings']['itsi']['site_template'] = 'website/itsi-template.php';
 $portal_config['project_settings']['itsi']['available_actions'] = array('create', 'copy', 'edit', 'info', 'preview', 'report', 'run', 'try');
 $portal_config['project_settings']['itsi']['use_diy_activities'] = 'yes';
@@ -51,6 +57,7 @@ $portal_config['project_settings']['itsi']['extra_navigation_items'] = array();
 
 // UDL Project
 
+$portal_config['project_settings']['udl']['display_name'] = 'UDL Project Portal';
 $portal_config['project_settings']['udl']['site_template'] = 'website/udl-template.php';
 $portal_config['project_settings']['udl']['available_actions'] = array('info', 'report', 'run', 'try');
 $portal_config['project_settings']['udl']['use_diy_activities'] = 'no';
@@ -83,6 +90,7 @@ $portal_config['project_settings']['udl']['extra_navigation_items'][] = array(
 
 // CAPA Project
 
+$portal_config['project_settings']['capa']['display_name'] = 'CAPA Project Portal';
 $portal_config['project_settings']['capa']['site_template'] = 'website/capa-template.php';
 $portal_config['project_settings']['capa']['available_actions'] = array('info', 'report', 'run', 'try');
 $portal_config['project_settings']['capa']['use_diy_activities'] = 'no';
@@ -105,8 +113,9 @@ $portal_config['project_settings']['capa']['diy_reporting_parameter'] = '?report
 
 $portal_config['project_settings']['capa']['extra_navigation_items'] = array();
 
-// CAPA Project
+// RI-ITEST Project
 
+$portal_config['project_settings']['ri-itest']['display_name'] = 'RI-ITEST Project Portal';
 $portal_config['project_settings']['ri-itest']['site_template'] = 'website/ri-itest-template.php';
 $portal_config['project_settings']['ri-itest']['available_actions'] = array('info', 'report', 'run', 'try');
 $portal_config['project_settings']['ri-itest']['use_diy_activities'] = 'no';
@@ -122,16 +131,16 @@ $portal_config['project_settings']['ri-itest']['diy_activities_name'] = 'externa
 $portal_config['project_settings']['ri-itest']['diy_runnable_type_name'] = 'ExternalOtrunkActivity';
 $portal_config['project_settings']['ri-itest']['diy_manager_user'] = 'cstaudt';
 $portal_config['project_settings']['ri-itest']['diy_manager_password'] = 'cstaudt';
-$portal_config['project_settings']['ri-itest']['diy_session_name'] = '_ri-itest_6u52dphuaWIvhMslWT2p0A____session_id';
+$portal_config['project_settings']['ri-itest']['diy_session_name'] = '_RI_ITEST_DIY__61NaanuKkGxoOcfe_alCA____session_id';
 $portal_config['project_settings']['ri-itest']['diy_use_uuid'] = 'no';
 $portal_config['project_settings']['ri-itest']['diy_param_order'] = 'interface/member';
 $portal_config['project_settings']['ri-itest']['diy_reporting_parameter'] = '?reporting=report_mode';
 
 $portal_config['project_settings']['ri-itest']['extra_navigation_items'] = array();
 
-
 // PAEMST Project
 
+$portal_config['project_settings']['paemst']['display_name'] = 'Presidential Award Portal';
 $portal_config['project_settings']['paemst']['site_template'] = 'website/paemst-template.php';
 $portal_config['project_settings']['paemst']['available_actions'] = array('create', 'copy', 'edit', 'info', 'preview', 'report', 'run', 'try');
 $portal_config['project_settings']['paemst']['use_diy_activities'] = 'yes';

@@ -17,22 +17,30 @@ if ($project_key != $host_prefix) {
 	
 }
 
-$no_auth_sections = array('signin','signout','about','help','support','reminder','signup','signupsubmit','contact','preview','diy');
+if ($project_key == 'www') {
 
-if (@$_SESSION['is_logged_in'] != 'yes' && !in_array($_PORTAL['section'], $no_auth_sections)) {
+	$include_file = 'controllers/portal-instance-list.php';	
+
+} else {
 	
-	if (!preg_match('~signout~', $_SERVER['REQUEST_URI'])) {
-		mystery_cookie('lastlocation', $_SERVER['REQUEST_URI']);
+	$no_auth_sections = array('signin','signout','about','help','support','reminder','signup','signupsubmit','contact','preview','diy');
+	
+	if (@$_SESSION['is_logged_in'] != 'yes' && !in_array($_PORTAL['section'], $no_auth_sections)) {
+		
+		if (!preg_match('~signout~', $_SERVER['REQUEST_URI'])) {
+			mystery_cookie('lastlocation', $_SERVER['REQUEST_URI']);
+		}
+		
+		mystery_redirect('/signin/');
+	
 	}
 	
-	mystery_redirect('/signin/');
-
+	$log_id = portal_log_member_access(@$_SESSION['portal']['member_id'], @$_SESSION['portal']['school_id']);
+	
+	$include_file = portal_determine_resource($_SERVER['REQUEST_URI']);
+		
 }
 
-$log_id = portal_log_member_access(@$_SESSION['portal']['member_id'], @$_SESSION['portal']['school_id']);
-
-$include_file = portal_determine_resource($_SERVER['REQUEST_URI']);
-	
 include_once $include_file;
 
 echo '<br><br><br><br>';

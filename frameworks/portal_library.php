@@ -155,8 +155,9 @@ function portal_get_project_key() {
 
 	$key = portal_get_host_prefix();
 	
-	if ($key == '' || $key == 'portal' || !isset($GLOBALS['portal_config']['project_settings'][$key])) {
-		$key = $GLOBALS['portal_config']['default_project'];
+	if ($key == '' || $key == 'www' || $key == 'portal' || !isset($GLOBALS['portal_config']['project_settings'][$key])) {
+		// $key = $GLOBALS['portal_config']['default_project'];
+		$key == 'www';
 	}
 	
 	return $key;
@@ -2841,7 +2842,7 @@ function portal_generate_icon_legend() {
 }
 
 
-function portal_generate_user_navigation() {
+function portal_generate_user_navigation($options = array()) {
 
 	global $_PORTAL, $portal_config;
 
@@ -2850,10 +2851,14 @@ function portal_generate_user_navigation() {
 	$nav_items = array();
 	$small_nav_items = array();
 
-	if ($_PORTAL['section'] == '' && $_PORTAL['activity'] == '') {
-		$nav_items[] = '<li><strong>Home</strong></li>';
-	} else {
-		$nav_items[] = '<li><a href="/">Home</a></li>';
+	if (@$options['ignore-home'] != 'yes') {
+	
+		if ($_PORTAL['section'] == '' && $_PORTAL['activity'] == '') {
+			$nav_items[] = '<li><strong>Home</strong></li>';
+		} else {
+			$nav_items[] = '<li><a href="/">Home</a></li>';
+		}
+	
 	}
 
 	if (@$_SESSION['is_logged_in'] == 'yes') {
@@ -2932,9 +2937,9 @@ function portal_generate_user_navigation() {
 	}
 
 	if ($_PORTAL['section'] == 'help' && $_PORTAL['activity'] == '') {
-		$nav_items[] = '<li><strong>Help</strong></li>';
+		$nav_items[] = '<li><strong>Getting Started</strong></li>';
 	} else {
-		$nav_items[] = '<li><a href="/help/">Help</a></li>';
+		$nav_items[] = '<li><a href="/help/">Getting Started</a></li>';
 	}
 	
 	if ($_PORTAL['section'] == 'support' && $_PORTAL['activity'] == '') {
@@ -3161,6 +3166,29 @@ function portal_lookup_diy_probe_type($probe_id) {
 	}
 	
 	return $lookup[$probe_id];
+
+}
+
+function portal_lookup_project_info($project_short_name) {
+
+	static $lookup = array();
+	
+	if (count($lookup) == 0) {
+	
+		$query = 'SELECT * FROM portal_projects';
+		$params = array();
+		
+		$results = mystery_select_query($query, $params, 'portal_dbh');
+		
+		$lookup = mystery_convert_results_to_full_lookup_array($results, 'project_name');
+	
+	}
+	
+	if (@$lookup[$project_short_name] == '') {
+		$lookup[$project_short_name] = array();
+	}
+	
+	return $lookup[$project_short_name];
 
 }
 

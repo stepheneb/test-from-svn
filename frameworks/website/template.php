@@ -33,7 +33,7 @@
 	<div id="page-container">
 	<div id="page-content">
 	
-	<h1>ITSI Portal — <?php echo $page_title; ?></h1>
+	<h1>Portal — <?php echo $page_title; ?></h1>
 	
 	%%PAGE_CONTENT%%
 		
@@ -43,13 +43,8 @@
 	<div id="sidebar-container">
 	<div id="sidebar-content">
 	
-		<div><a href="http://itsi.concord.org/"><img src="/images/itsi-logo-150.gif" alt="ITSI"></a></div>
-		
-		<?php echo portal_generate_user_info_box(); ?>
-
-		<?php echo portal_generate_user_navigation(); ?>
-
-		<?php // echo sassy_generate_navbar('main', "\n","<div id=\"navigation\">\n<ul>","</ul>\n</div>",'','<li><span class="%%CLASS%%">%%LINK%%</span></li>'); ?>
+		<div><a href="http://itsi.concord.org/"><img src="/images/cc_logo_gray_text.gif" alt="The Concord Consortium"></a><br>
+		<br>© 2008 All Rights Reserved</div>
 		
 	</div>
 	</div>
@@ -57,8 +52,6 @@
 	<div id="copyright-container">
 	<div id="copyright-content">
 	
-		<div><a href="http://itsi.concord.org/"><img src="/images/cc_logo_gray_text.gif" alt="The Concord Consortium"></a><br>
-		<br>© 2007 All Rights Reserved</div>
 
 	</div>
 	</div>

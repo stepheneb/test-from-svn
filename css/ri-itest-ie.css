@@ -1,25 +1,11 @@
-/* This file is for custom CSS rules for Internet Explorer */
-
-/*
-#page-container {
-	margin-left: 0px;
+#overlay {
+	background-image: url(http://ri-itest.concord.org/images/gifs/logo-with-molecule.gif);
 }
 
-#page-content {
-	padding-left: 200px;
-	height: 1100px;
+#copyright {
+	background-image: url(http://ri-itest.concord.org/images/gifs/cc_logo_gray_text.gif);
 }
 
-.unit-activities {
-	height: 375px;
+.news-box {
+	background-image: url(http://ri-itest.concord.org/images/gifs/brown-gradient.gif);
 }
-*/
-
-#page-content {
-	height: 1100px;
-}
-
-#sidebar-container, #copyright-container {
-	margin-left: -215px;
-}
-
