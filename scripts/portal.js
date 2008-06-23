@@ -316,7 +316,7 @@ function show_section(section_id, link_object) {
 	
 	var bc = '';
 	
-	if (link_object.className.match("level1")) {
+	if (link_object.className.match("level1$")) {
 		bc = '#A3BDA2';
 	} else if (link_object.className.match("level2")) {
 		bc = '#C6958B';
@@ -330,6 +330,12 @@ function show_section(section_id, link_object) {
 		bc = '#EEE38B';
 	} else if (link_object.className.match("level7")) {
 		bc = '#CAC9E4';
+	} else if (link_object.className.match("level8")) {
+		bc = '#CAC9E4';
+	} else if (link_object.className.match("level9")) {
+		bc = '#C1CFDD';
+	} else if (link_object.className.match("level10")) {
+		bc = '#7C94AA';
 	} else if (link_object.className.match("level999")) {
 		bc = '#D6C754';
 	} else {

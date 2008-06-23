@@ -25,7 +25,7 @@ switch ($_PORTAL['action']) {
 		echo '
 		<h1>Teacher Registration — Step 1 — Find your school</h1>
 		
-		<table width="100%">
+		<table width="100%" class="registration-form">
 			<tr>
 				<td width="50%" valign="top">
 					<form action="/signup/teacher/search-results/" method="post">
@@ -146,7 +146,7 @@ switch ($_PORTAL['action']) {
 		
 		<p>Click on one of the below links to join a school or district, or add your district on the right.</p>
 		
-		<table width="100%">
+		<table width="100%" class="registration-form">
 
 		<tr>
 

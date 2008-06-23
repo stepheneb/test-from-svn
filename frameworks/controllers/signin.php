@@ -95,7 +95,7 @@ mystery_cookie('cookietest','yes');
 // display the sign-in and registration links
 
 echo '
-<table width="100%">
+<table width="95%">
 <tr>
 <td valign="top" width="50%">
 

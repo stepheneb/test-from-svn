@@ -391,13 +391,23 @@ a:hover {
 }
 
 
+.registration-form ul {
+	padding: 0;
+	margin: 0;
+}
+
+.registration-form li {
+	padding-left: 10px;
+}
+
 label {
-	float: left;
-	width: 100px;
-	text-align: right;
+	display: block;
+	/*float: left;
+	width: 100px;*/
+	text-align: left;
 	font-weight: bold;
-	clear: left;
-	padding-right: 10px;
+	/*clear: left;
+	padding-right: 10px;*/
 }
 
 input {
@@ -439,7 +449,7 @@ select {
 
 
 .form-field-info {
-	margin-left: 110px;
+	/*margin-left: 110px;*/
 	font-size: 85%;
 	display: block;
 	color: #999999;
@@ -566,7 +576,7 @@ select {
 
 	#activity-chart {
 		width: 90%;
-		background-color: #ffffff;
+		background-color: #EDF1F4;
 	}
 	
 	#activity-chart-navigation {
@@ -581,7 +591,7 @@ select {
 		}
 	
 		#activity-chart-navigation li {
-			font-size: 100%;
+			font-size: 86%;
 			font-weight: bold;
 			padding: 8px 4px;
 			margin: 0px 0px 0px 0px;
@@ -621,8 +631,8 @@ select {
 		width: 300px;
 		border: 1px solid #999999;
 		padding: 3px;
-		background-color: #D2AD63;
-		margin: 5px 0px 0px 120px;
+		background-color: #EDF1F4;
+		margin: 5px 0px 0px 5px;
 	}
 	
 	.activity-image {
@@ -654,6 +664,14 @@ select {
 
 	.level7 {
 		background-color: #CAC9E4;
+	}
+
+	.level9 {
+		background-color: #C1CFDD;
+	}
+
+	.level10 {
+		background-color: #7C94AA;
 	}
 
 	.level999 {
@@ -723,21 +741,23 @@ select {
 
 .icon-legend-box {
 	position: absolute;
-	top: 5px;
-	right: 90px;
+	top: 33px;
+	left: 315px;
 	width: 200px;
 }
 
 .icon-legend-box p {
-	text-align: right;
+	text-align: left;
 	font-size: 92%;
+	color: #ffffff;
+	font-weight: bold;
 }
 
 #icon-legend {
 	position: absolute;
 	top: 23px;
-	right: 0px;
-	background-color: #cccccc;
+	left: 0px;
+	background-color: #C1CFDD;
 	border: 1px solid #999999;
 
 }
