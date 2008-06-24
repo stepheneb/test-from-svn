@@ -157,7 +157,7 @@ function portal_get_project_key() {
 	
 	if ($key == '' || $key == 'www' || $key == 'portal' || !isset($GLOBALS['portal_config']['project_settings'][$key])) {
 		// $key = $GLOBALS['portal_config']['default_project'];
-		$key == 'www';
+		$key = 'www';
 	}
 	
 	return $key;
@@ -584,7 +584,7 @@ function portal_process_member_registration($request) {
 		$data['diy_member_id'] = $diy_member_id;
 		$data['sds_member_id'] = $sds_member_id;
 		$data['member_interface'] = $request['member_interface'];
-		$data['member_source'] = $request['source'];
+		$data['member_source'] = @$request['source'];
 		$data['creation_date'] = date('Y-m-d H:i:s');
 
 		$member_id = mystery_insert_query('portal_members', $data, 'member_id', 'portal_dbh');
