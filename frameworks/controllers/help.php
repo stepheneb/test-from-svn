@@ -253,10 +253,10 @@ if (@$_SESSION['is_logged_in'] != 'yes') {
 echo '
 
 <div style="color: #444444;">
-	
-<h2>Video Demonstrations</h2>
 
-<p>The following video demonstrations will help you get to know the above pieces of technology:</p>
+<h2>Interactive and Video Demonstrations</h2>
+
+<p>The following video and interactive demonstrations will help you get to know the above pieces of technology:</p>
 
 <p><strong>Please note:</strong> The following videos require the Flash Player installed and enabled on your computer.  <a href="http://www.adobe.com/go/getflashplayer">You can download the Flash Player from Adobe.</a></p>
 
@@ -272,6 +272,12 @@ echo '
 <li><a href="http://itsi.concord.org/overview/video/activities/Activities.html">Activities</a> - Creating and Editing your own activities</li>
 <!--li><a href="http://itsi.concord.org/overview/video/comments/comments.html">Comments</a> - This video demonstrates how to use our new comments and ratings system</li-->
 
+</ul>
+
+<h3>Tool Help</h3>
+
+<ul>
+	<li><a href="http://udl.concord.org/artwork/tool_hints/graph_tool_hints/graph_tool_hints.html">Graphing Tool</a></li>
 </ul>
 
 <h3>Molecular Workbench Demos</h3>

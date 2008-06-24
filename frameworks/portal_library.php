@@ -809,7 +809,13 @@ function portal_setup_diy_session($username = '', $password = '') {
 	$data['password'] = $password;
 	$data['commit'] = 'Log in';
 	
+	//trigger_error('POST DATA: ' . var_export($data, true));
+	
 	list($headers, $content) = portal_post_to_diy($data, $path);
+
+	//trigger_error('HEADERS: ' . var_export($headers, true));
+
+	//trigger_error('CONTENT: ' . var_export($content, true));
 
 	preg_match('~' . $portal_config['diy_session_name'] . '=([^;]+);~', $headers, $matches);
 	

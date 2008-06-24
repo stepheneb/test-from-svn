@@ -31,6 +31,14 @@ if (@$_SESSION['is_logged_in'] == 'yes') {
 	//if (!$member_id) {
 	
 		$member_id = portal_get_diy_member_id($_SESSION['portal']['member_id']);
+		
+		//trigger_error('SESSION: ' . $_SESSION['portal']['member_id'] . '; Lookup: ' . $member_id);
+		
+		//trigger_error($_MYSTERY['rails_dbh']->last_query);
+		
+		if ($member_id == '') {
+			$member_id = 1;
+		}
 
 	//}
 
