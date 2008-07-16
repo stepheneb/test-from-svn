@@ -109,7 +109,7 @@ $portal_config['project_settings']['capa']['diy_manager_password'] = 'cstaudt';
 $portal_config['project_settings']['capa']['diy_session_name'] = '_CAPA_6u52dphuaWIvhMslWT2p0A____session_id';
 $portal_config['project_settings']['capa']['diy_use_uuid'] = 'no';
 $portal_config['project_settings']['capa']['diy_param_order'] = 'interface/member';
-$portal_config['project_settings']['capa']['diy_reporting_parameter'] = '?reporting=report_mode';
+$portal_config['project_settings']['capa']['diy_reporting_parameter'] = '?reporting=report_mode%26otrunk.root.localid%3Dscript_report_object';
 
 $portal_config['project_settings']['capa']['extra_navigation_items'] = array();
 
