@@ -79,7 +79,7 @@ switch ($_PORTAL['action']) {
 			$city_param = '%';
 		}
 		
-		$query = 'SELECT * FROM portal_schools AS ps LEFT JOIN portal_districts AS pd ON ps.school_district=pd.district_id WHERE school_country = ? AND school_state = ? AND school_city = ? ORDER BY district_name';
+		$query = 'SELECT * FROM portal_schools AS ps LEFT JOIN portal_districts AS pd ON ps.school_district=pd.district_id WHERE school_country = ? AND school_state = ? AND school_city = ? ORDER BY district_name, school_name';
 		$params = array($country_param, $state_param, $city_param);
 		
 		$results = mystery_select_query($query, $params, 'portal_dbh');
@@ -95,7 +95,11 @@ switch ($_PORTAL['action']) {
 			';
 
 			for ($i = 0; $i < $result_count; $i++) {
-				$school_results .= $results[$i]['district_name'] . ' - <a href="/signup/teacher/info/?school_id=' . $results[$i]['school_id'] . '">' . $results[$i]['school_name'] . '</a>';
+				$district_display = $results[$i]['district_name'];
+				if ($district_display == '') {
+					$district_display = 'N/A';
+				}
+				$school_results .= '<li><a href="/signup/teacher/info/?school_id=' . $results[$i]['school_id'] . '">' . $results[$i]['school_name'] . '</a><br><small>(' . $district_display . ')</small></li>';
 			}
 			
 			$school_results .= '
@@ -124,7 +128,7 @@ switch ($_PORTAL['action']) {
 			';
 
 			for ($i = 0; $i < $result_count; $i++) {
-				$district_results .= '<a href="/signup/teacher/add-school/?district_id=' . $results[$i]['district_id'] . '">' . $results[$i]['district_name'] . '</a>';
+				$district_results .= '<li><a href="/signup/teacher/add-school/?district_id=' . $results[$i]['district_id'] . '">' . $results[$i]['district_name'] . '</a></li>';
 			}
 			
 			$district_results .= '

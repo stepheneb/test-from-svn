@@ -394,10 +394,13 @@ a:hover {
 .registration-form ul {
 	padding: 0;
 	margin: 0;
+	list-style-type: disc;
 }
 
 .registration-form li {
 	padding-left: 10px;
+	display: block;
+	margin: 15px 0;
 }
 
 label {

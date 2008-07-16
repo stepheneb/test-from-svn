@@ -113,6 +113,31 @@ $portal_config['project_settings']['capa']['diy_reporting_parameter'] = '?report
 
 $portal_config['project_settings']['capa']['extra_navigation_items'] = array();
 
+// Loops Project
+
+$portal_config['project_settings']['loops']['display_name'] = 'LOOPS Project Portal';
+$portal_config['project_settings']['loops']['site_template'] = 'website/capa-template.php';
+$portal_config['project_settings']['loops']['available_actions'] = array('create', 'copy', 'edit', 'info', 'preview', 'report', 'run', 'try');
+$portal_config['project_settings']['loops']['use_diy_activities'] = 'yes';
+$portal_config['project_settings']['loops']['show_activities_link_to_students'] = 'no';
+$portal_config['project_settings']['loops']['show_front_page_image'] = 'yes';
+$portal_config['project_settings']['loops']['activities_navigation_word'] = 'Activities';
+
+$portal_config['project_settings']['loops']['diy_server'] = 'loops.diy.concord.org';
+$portal_config['project_settings']['loops']['diy_server_path'] = '';
+$portal_config['project_settings']['loops']['diy_database'] = 'loopsdiy';
+$portal_config['project_settings']['loops']['diy_table_prefix'] = 'loopsdiy_';
+$portal_config['project_settings']['loops']['diy_activities_name'] = 'external_otrunk_activities';
+$portal_config['project_settings']['loops']['diy_runnable_type_name'] = 'ExternalOtrunkActivity';
+$portal_config['project_settings']['loops']['diy_manager_user'] = 'cstaudt';
+$portal_config['project_settings']['loops']['diy_manager_password'] = 'cstaudt';
+$portal_config['project_settings']['loops']['diy_session_name'] = '_LOOPS_Do_It_Yourself_rBdqY6SqM_eXV4DFBArnfQ____session_id';
+$portal_config['project_settings']['loops']['diy_use_uuid'] = 'no';
+$portal_config['project_settings']['loops']['diy_param_order'] = 'interface/member';
+$portal_config['project_settings']['loops']['diy_reporting_parameter'] = '?reporting=report_mode';
+
+$portal_config['project_settings']['loops']['extra_navigation_items'] = array();
+
 // RI-ITEST Project
 
 $portal_config['project_settings']['ri-itest']['display_name'] = 'RI-ITEST Project Portal';
