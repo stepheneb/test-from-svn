@@ -116,7 +116,7 @@ $portal_config['project_settings']['capa']['extra_navigation_items'] = array();
 // Loops Project
 
 $portal_config['project_settings']['loops']['display_name'] = 'LOOPS Project Portal';
-$portal_config['project_settings']['loops']['site_template'] = 'website/capa-template.php';
+$portal_config['project_settings']['loops']['site_template'] = 'website/loops-template.php';
 $portal_config['project_settings']['loops']['available_actions'] = array('create', 'copy', 'edit', 'info', 'preview', 'report', 'run', 'try');
 $portal_config['project_settings']['loops']['use_diy_activities'] = 'yes';
 $portal_config['project_settings']['loops']['show_activities_link_to_students'] = 'no';
