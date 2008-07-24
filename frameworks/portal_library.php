@@ -2929,9 +2929,9 @@ function portal_generate_user_navigation($options = array()) {
 	} else {
 	
 		if ($_PORTAL['section'] == 'preview' && $_PORTAL['activity'] == '') {
-			$nav_items[] = '<li><strong>Activities</strong></li>';
+			$nav_items[] = '<li><strong>' . $portal_config['activities_navigation_word'] . '</strong></li>';
 		} else {
-			$nav_items[] = '<li><a href="/preview/">Activities</a></li>';
+			$nav_items[] = '<li><a href="/preview/">' . $portal_config['activities_navigation_word'] . '</a></li>';
 		}
 	
 	}
