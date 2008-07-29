@@ -28,6 +28,8 @@ echo '
 
 include 'controllers/member-info.php';
 
-echo portal_generate_technical_notes_section();
+echo '
+<p>IMPORTANT! Before running our software and activities, please view our <a href="/requirements/">Technical Notes and Requirements section</a>.</p>
+';
 
 ?>

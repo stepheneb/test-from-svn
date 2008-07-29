@@ -32,6 +32,14 @@ function portal_determine_resource($uri) {
 			$include_file = 'controllers/help.php';
 		break;
 		
+		case 'faq':
+			$include_file = 'controllers/faq.php';
+		break;
+		
+		case 'requirements':
+			$include_file = 'controllers/requirements.php';
+		break;
+		
 		case 'support':
 			$include_file = 'controllers/support.php';
 		break;

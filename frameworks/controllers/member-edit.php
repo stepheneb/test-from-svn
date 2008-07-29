@@ -207,7 +207,7 @@ if (isset($_PORTAL['params']['process'])) {
 	</form>
 	';
 	
-	if ($_SESSION['portal']['member_type'] != 'student') {
+	if ($_SESSION['portal']['member_type'] != 'student' && $member_id != $_SESSION['portal']['member_id']) {
 	
 		echo '<p><a href="/member/delete/' . $member_id . '/">Do you need to delete this member?</a></p>';
 	

@@ -2729,15 +2729,26 @@ function portal_generate_user_info_box() {
 	
 	global $portal_config;
 	
+	if (@$portal_config['show_probe_interface'] == 'no') {
+	
+		$my_info_link = '| <a href="/member/edit/' . @$_SESSION['portal']['member_id'] . '/">My Info</a>';
+	
+	} else {
+		
+		$my_info_link = '<br><br>
+		<strong>Probe Interface:</strong><br>
+		<a href="/member/edit/' . $_SESSION['portal']['member_id'] . '/" title="Click to change interface">' . $portal_config['interfaces'][$_SESSION['portal']['member_interface']] . '</a>
+		';
+
+	}
+	
 	if (@$_SESSION['is_logged_in'] == 'yes') {
 	
 		$box .= '
 		<div class="user-info-box">
 		Welcome, <strong>' . $_SESSION['user_first_name'] . ' ' . $_SESSION['user_last_name'] . '</strong><br>
 		<a href="/signout/">Sign out?</a>
-		<br><br>
-		<strong>Probe Interface:</strong><br>
-		<a href="/member/edit/' . $_SESSION['portal']['member_id'] . '/" title="Click to change interface">' . $portal_config['interfaces'][$_SESSION['portal']['member_interface']] . '</a>
+		' . $my_info_link . '
 		</div>
 		';
 	
@@ -2948,6 +2959,18 @@ function portal_generate_user_navigation($options = array()) {
 		$nav_items[] = '<li><a href="/help/">Getting Started</a></li>';
 	}
 	
+	if ($_PORTAL['section'] == 'faq' && $_PORTAL['activity'] == '') {
+		$nav_items[] = '<li><strong>FAQ</strong></li>';
+	} else {
+		$nav_items[] = '<li><a href="/faq/">FAQ</a></li>';
+	}
+	
+	if ($_PORTAL['section'] == 'requirements' && $_PORTAL['activity'] == '') {
+		$nav_items[] = '<li><strong>Requirements</strong></li>';
+	} else {
+		$nav_items[] = '<li><a href="/requirements/">Requirements</a></li>';
+	}
+	
 	if ($_PORTAL['section'] == 'support' && $_PORTAL['activity'] == '') {
 		$nav_items[] = '<li><strong>Support</strong></li>';
 	} else {
@@ -2984,28 +3007,6 @@ function portal_generate_user_navigation($options = array()) {
 	return $nav;
 
 }
-
-function portal_generate_technical_notes_section() {
-
-	$note = '
-	<h2>Technical Notes</h2>
-
-	<h3>Flash Support</h3>
-	
-	<p><a href="http://jnlp.concord.org/dev/mozswing/mozswing.jnlp">Install Embedded Flash Support</a></p>
-	
-	<p><strong>Note:</strong> You may need to install <a href="http://www.mozilla.com/firefox/">Firefox</a> and the <a href="http://www.adobe.com/go/getflashplayer">Flash Player</a> if it is not already on your
-	system.</p>
-	
-	<h3>Mac OS X Web Start Fix</h3>
-	
-	<p>If you are using MacOS 10.4 or later, you will almost certainly need to <a href="http://confluence.concord.org/display/CCTR/How+to+fix+the+WebStart+bug"><strong>fix a Java Web Start bug</strong></a>. You will need to follow the steps on that page once for each computer on which you run our activities, and additionally each time that java is updated.</p>
-	';
-	
-	return $note;
-
-}
-
 
 function portal_web_output_filter($variable) {
 
@@ -3840,7 +3841,7 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 		
 		$sensor_probe_string = '';
 		
-		if (@$activities[$i]['sensor_type'] != 'None' || @$activities[$i]['model_type'] != 'None') {
+		if (@$portal_config['show_probe_model_info'] != 'no' && (@$activities[$i]['sensor_type'] != 'None' || @$activities[$i]['model_type'] != 'None')) {
 			
 			$sensor_probe_string_parts = array();
 			

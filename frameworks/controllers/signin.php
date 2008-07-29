@@ -164,8 +164,7 @@ echo '
 
 </table>
 
-' . portal_generate_technical_notes_section() . '
-
+<p>IMPORTANT! Before running our software and activities, please view our <a href="/requirements/">Technical Notes and Requirements section</a>.</p>
 
 <div class="clear-both">&nbsp;</div>
 

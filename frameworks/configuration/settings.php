@@ -96,6 +96,8 @@ $portal_config['project_settings']['capa']['available_actions'] = array('info', 
 $portal_config['project_settings']['capa']['use_diy_activities'] = 'no';
 $portal_config['project_settings']['capa']['show_activities_link_to_students'] = 'no';
 $portal_config['project_settings']['capa']['show_front_page_image'] = 'no';
+$portal_config['project_settings']['capa']['show_probe_interface'] = 'no';
+$portal_config['project_settings']['capa']['show_probe_model_info'] = 'no';
 $portal_config['project_settings']['capa']['activities_navigation_word'] = 'Assessments';
 
 $portal_config['project_settings']['capa']['diy_server'] = 'rails.dev.concord.org';

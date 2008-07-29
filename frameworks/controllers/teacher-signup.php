@@ -7,10 +7,29 @@
 // would involve showing who the administrator is at each school in the list, but that gets really ugly and can still be forged.
 
 if (@$_PORTAL['action'] == '') {
-	$_PORTAL['action'] = 'search';
+	$_PORTAL['action'] = 'select';
 }
 
 switch ($_PORTAL['action']) {
+
+	// STEP 0 - Ask if College or K-12 school
+	
+	case 'select':
+	
+		echo '
+		<p>Which of the following best describes you?</p>
+	
+		<ul>
+			<li><a href="/signup/teacher/search/?district_id=1000">I am an instructor at a college or university</a></li>
+			
+			<li><a href="/signup/teacher/search/">I am a teacher at an elementary, middle or high school</a></li>
+		</ul>
+	
+		';
+	
+	break;
+
+
 
 	// STEP 1 - Search for the School
 
@@ -37,7 +56,7 @@ switch ($_PORTAL['action']) {
 
 						<p><strong>State/Province:</strong><br>' . $state_list . '</p>
 						
-						<p><input type="hidden" name="country" value="United States"><input type="submit" value="Continue to Step 2"></p>
+						<p><input type="hidden" name="district_id" value="' . @$_REQUEST['district_id'] . '"><input type="hidden" name="country" value="United States"><input type="submit" value="Continue to Step 2"></p>
 					</form>
 				</td>
 				<td width="50%" valign="top">
@@ -48,7 +67,7 @@ switch ($_PORTAL['action']) {
 						
 						<p><strong>Country:</strong><br>' . $country_list . '</p>
 						
-						<p><input type="submit" value="Continue to Step 2"></p>
+						<p><input type="hidden" name="district_id" value="' . @$_REQUEST['district_id'] . '"><input type="submit" value="Continue to Step 2"></p>
 					</form>
 				</td>
 			</tr>
@@ -145,60 +164,90 @@ switch ($_PORTAL['action']) {
 
 		$country_list = portal_generate_db_form_list('district_country', @$_REQUEST['country'], 'mystery4.mystery_countries', 'country_name', 'country_name', 'list', '', '', array(), array('<option value=""></option>'), 50);
 
-		echo '
-		<h1>Teacher Registration — Step 2 — Choose</h1>
+		if (@$_REQUEST['district_id'] != '') {
 		
-		<p>Click on one of the below links to join a school or district, or add your district on the right.</p>
-		
-		<table width="100%" class="registration-form">
-
-		<tr>
-
-			<td width="33%" valign="top">
-
-				<h2>Matching Schools</h2>
-
-				' . $school_results . '
+			echo '
+			<h1>Teacher Registration — Step 2 — Choose</h1>
 			
-			</td>
+			<p>Click on one of the below links to join a school, or <a href="/signup/teacher/add-school/?district_id=' . $_REQUEST['district_id'] . '">add your school now</a>.</p>
+			
+			<table width="100%" class="registration-form">
 	
-			<td width="33%" valign="top">
-
-				<h2>Matching Districts</h2>
-
-				' . $district_results . '
-			
-			</td>
+			<tr>
 	
-			<td width="33%" valign="top">
-
-				<h2>Add a New District</h2>
-
-				<form action="/signup/teacher/add-school/" method="post">
+				<td width="33%" valign="top">
 	
-					<p><strong>District Name </strong><br><input type="text" name="district_name" id="district-name" value="" size="35"></p>
-			
-					<p><strong>Address 1</strong><br> <input type="text" name="district_address_1" id="district-address-1" value="" size="35"></p>
-			
-					<p><strong>Address 2</strong><br> <input type="text" name="district_address_2" id="district-address-2" value="" size="35"></p>
-			
-					<p><strong>City</strong><br> <input type="text" name="district_city" id="district-city" value="' . @$_REQUEST['city'] . '" size="35"></p>
-			
-					<p><strong>State</strong><br> ' . $state_list . '</p>
-			
-					<p><strong>Zip</strong><br><input type="text" name="district_zip" id="district-zip" value="" size="35"></p>
+					<h2>Matching Schools</h2>
+	
+					' . $school_results . '
+					
+					<p>Your school not listed? <a href="/signup/teacher/add-school/?district_id=' . $_REQUEST['district_id'] . '">Add your school now.</a></p>
 				
-					<p><strong>Country</strong><br> ' . $country_list . '</p>
-
-					<p><input type="submit" value="Continue to Step 3"></p>
-				</form>
+				</td>
 			
-			</td>
+			</tr>
+			
+			</table>
+			';
+			
+		} else {
 
-		</tr>
-
-		</table>
-		';
+			echo '
+			<h1>Teacher Registration — Step 2 — Choose</h1>
+			
+			<p>Click on one of the below links to join a school or district, or add your district on the right.</p>
+			
+			<table width="100%" class="registration-form">
+	
+			<tr>
+	
+				<td width="33%" valign="top">
+	
+					<h2>Matching Schools</h2>
+	
+					' . $school_results . '
+				
+				</td>
+		
+				<td width="33%" valign="top">
+	
+					<h2>Matching Districts</h2>
+	
+					' . $district_results . '
+				
+				</td>
+		
+				<td width="33%" valign="top">
+	
+					<h2>Add a New District</h2>
+	
+					<form action="/signup/teacher/add-school/" method="post">
+		
+						<p><strong>District Name </strong><br><input type="text" name="district_name" id="district-name" value="" size="35"></p>
+				
+						<p><strong>Address 1</strong><br> <input type="text" name="district_address_1" id="district-address-1" value="" size="35"></p>
+				
+						<p><strong>Address 2</strong><br> <input type="text" name="district_address_2" id="district-address-2" value="" size="35"></p>
+				
+						<p><strong>City</strong><br> <input type="text" name="district_city" id="district-city" value="' . @$_REQUEST['city'] . '" size="35"></p>
+				
+						<p><strong>State</strong><br> ' . $state_list . '</p>
+				
+						<p><strong>Zip</strong><br><input type="text" name="district_zip" id="district-zip" value="" size="35"></p>
+					
+						<p><strong>Country</strong><br> ' . $country_list . '</p>
+	
+						<p><input type="submit" value="Continue to Step 3"></p>
+					</form>
+				
+				</td>
+	
+			</tr>
+	
+			</table>
+			';
+		
+		}
 	
 	break;
 
@@ -239,6 +288,8 @@ switch ($_PORTAL['action']) {
 	
 		<p><strong>School Name</strong> <br><input type="text" name="school_name" id="school-name" value="" size="35"></p>
 
+		<p><strong>Department</strong> <br><input type="text" name="school_department" id="school-department" value="" size="35"></p>
+
 		<p><strong>Address 1</strong> <br><input type="text" name="school_address_1" id="school-address-1" value="" size="35"></p>
 
 		<p><strong>Address 2</strong> <br><input type="text" name="school_address_2" id="school-address-2" value="" size="35"></p>
@@ -270,6 +321,7 @@ switch ($_PORTAL['action']) {
 			
 			$data['school_name'] = $_REQUEST['school_name'];
 			$data['school_district'] = $_REQUEST['district_id'];
+			$data['school_department'] = $_REQUEST['school_department'];
 			$data['school_address_1'] = $_REQUEST['school_address_1'];
 			$data['school_address_2'] = $_REQUEST['school_address_2'];
 			$data['school_city'] = $_REQUEST['school_city'];
