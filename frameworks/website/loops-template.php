@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
-	<title>RI-ITEST: <?php echo $sassy_config['site_title']; ?> - <?php echo $page_title; ?></title>
+	<title>LOOPS: <?php echo $sassy_config['site_title']; ?> - <?php echo $page_title; ?></title>
 	<meta name="keywords" content="<?php echo $page_keywords; ?>">
 	<meta name="description" content="<?php echo $page_description; ?>">
 
@@ -19,9 +19,6 @@
 
 	<script type="text/javascript" src="/scripts/portal.js"></script>
 
-	<!--[if lt IE 7]>
-	<link rel="stylesheet" href="/css/loops-ie.css" type="text/css">
-	<![endif]-->
 
 
 </head>
@@ -37,8 +34,8 @@
 	<div id="navigation">
 	
 	<ul>
-		<li><span><a href="/">Home</strong></a></li>
-		<li><span><a href="/about/" title="Details about the CAPA project">About</a></span></li>
+		<li><span><a href="http://loops.concord.org/">Home</strong></a></li>
+		<li><span><a href="http://loops.concord.org/about/" title="Details about the CAPA project">About</a></span></li>
 		<li><span><strong>Portal</strong></span></li>
 		<li><span><a href="http://loops.diy.concord.org/" title="The DIY is where you can create new activities">DIY</a></span></li>
 	</ul>
