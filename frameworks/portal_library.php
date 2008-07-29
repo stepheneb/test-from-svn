@@ -646,7 +646,7 @@ function portal_get_unique_username($first_name, $last_name, $email) {
 		// | evans1        | 
 
 	
-		$query = 'SELECT user_username FROM mystri_users WHERE user_username = ? OR user_username REGEXP ? ORDER BY  ORDER BY ROUND(RIGHT(user_username,LENGTH(user_username)-LENGTH(?)));';
+		$query = 'SELECT user_username FROM mystri_users WHERE user_username = ? OR user_username REGEXP ? ORDER BY ROUND(RIGHT(user_username,LENGTH(user_username)-LENGTH(?)));';
 		$params = array($temp, $temp . '[0-9]+$', $temp);
 		
 		$results = mystery_select_query($query, $params, 'sunflower_dbh');
