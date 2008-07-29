@@ -37,7 +37,6 @@
 		<li><span><a href="http://loops.concord.org/">Home</strong></a></li>
 		<li><span><a href="http://loops.concord.org/about/" title="Details about the CAPA project">About</a></span></li>
 		<li><span><strong>Portal</strong></span></li>
-		<li><span><a href="http://loops.diy.concord.org/" title="The DIY is where you can create new activities">DIY</a></span></li>
 	</ul>
 	
 	</div>

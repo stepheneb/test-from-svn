@@ -131,7 +131,8 @@ $portal_config['project_settings']['loops']['diy_activities_name'] = 'external_o
 $portal_config['project_settings']['loops']['diy_runnable_type_name'] = 'ExternalOtrunkActivity';
 $portal_config['project_settings']['loops']['diy_manager_user'] = 'portaladmin';
 $portal_config['project_settings']['loops']['diy_manager_password'] = '@dminu5er';
-$portal_config['project_settings']['loops']['diy_session_name'] = '_LOOPS_Do_It_Yourself_rBdqY6SqM_eXV4DFBArnfQ____session_id';
+$portal_config['project_settings']['loops']['diy_session_name'] = '_LOOPS_Do_It_Yourself_qKF2HYm0TXXUoZOHBMMjGQ____session_id';
+
 $portal_config['project_settings']['loops']['diy_use_uuid'] = 'no';
 $portal_config['project_settings']['loops']['diy_param_order'] = 'interface/member';
 $portal_config['project_settings']['loops']['diy_reporting_parameter'] = '?reporting=report_mode';
