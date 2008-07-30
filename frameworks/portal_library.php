@@ -1224,7 +1224,7 @@ function portal_get_class_students($class_id) {
 
 }
 
-function portal_get_clas_students_diy_ids($class_id) {
+function portal_get_class_students_diy_ids($class_id) {
 
 	// This function determines the diy ids for all students in a class
 	
@@ -2121,7 +2121,6 @@ function portal_get_class_diy_activities($class_id) {
 	ida.name AS activity_name
 	FROM ' . $GLOBALS['portal_config']['diy_database'] . '.' . $GLOBALS['portal_config']['diy_table_prefix'] . $GLOBALS['portal_config']['diy_activities_name'] . ' AS ida
 	WHERE ' . $diy_field . ' IN ("' . implode('","', $diy_ids) . '")
-	ORDER BY activity_name
 	';
 	
 	$params = array();
