@@ -1224,6 +1224,36 @@ function portal_get_class_students($class_id) {
 
 }
 
+function portal_get_clas_students_diy_ids($class_id) {
+
+	// This function determines the diy ids for all students in a class
+	
+	$query = 'SELECT member_username FROM portal_class_students AS pcs LEFT JOIN portal_members AS pm ON pcs.member_id=pm.member_id WHERE class_id = ?';
+
+	$params = array($class_id);
+	
+	$results = mystery_select_query($query, $params, 'portal_dbh');
+
+	$usernames = mystery_convert_results_to_simple_array($results, 'member_username');
+	
+	$diy_ids = array();
+	
+	if (count($usernames) > 0) {
+	
+		$query2 = 'SELECT id FROM ' . $GLOBALS['portal_config']['diy_database'] . '.' . $GLOBALS['portal_config']['diy_table_prefix'] . 'users WHERE login IN ("' . implode('","', $usernames) . '")';
+	
+		$params2 = array();
+		
+		$results2 = mystery_select_query($query2, $params2, 'rails_dbh');
+		
+		$diy_ids = mystery_convert_results_to_simple_array($results2, 'id');
+	
+	}
+	
+	return $diy_ids;
+
+}
+
 
 function portal_subscribe_class_to_activities($class_id, $old_activities, $new_activities) {
 
@@ -1583,6 +1613,53 @@ function portal_generate_member_list($type = 'compact') {
 	}
 	
 	return $list;
+
+}
+
+function portal_get_diy_reports_for_activity($diy_id) {
+
+	$reports = array();
+	
+	$query = 'SELECT id, name, description FROM ' . $GLOBALS['portal_config']['diy_database'] . '.' . $GLOBALS['portal_config']['diy_table_prefix'] . 'reports WHERE reportable_type = ? AND reportable_id = ? AND public = ?';
+	$params = array($GLOBALS['portal_config']['diy_runnable_type_name'], $diy_id, 1);
+	
+	$reports = mystery_select_query($query, $params, 'rails_dbh');
+	
+	return $reports;
+
+}
+
+function portal_generate_class_aggregate_report_link($diy_id, $class_id) {
+
+	$report_link = '';
+	
+	$reports = portal_get_diy_reports_for_activity($diy_id);
+	
+	if (count($reports) > 0) {
+	
+		$class_info = portal_get_class_info($class_id);
+		$teacher_info = portal_get_member_info($class_info['class_teacher']);
+		$class_members = portal_get_class_students_diy_ids($class_id);
+		
+		$class_name = $class_info['class_name'];
+
+		$class_teacher_name = $teacher_info['member_first_name'] . ' ' . $teacher_info['member_last_name'];
+	
+		$report_links = array();
+	
+		for ($i = 0; $i < count($reports); $i++) {
+		
+			$reports[$i]['name'] = ucwords(str_replace('_', ' ', $reports[$i]['name']));
+
+			$report_links[] = '<a title="View class report: ' . $reports[$i]['name'] . '" href="/diy/report/' . $reports[$i]['id'] . '/class/' . rawurlencode(base64_encode($class_name)) . '/teacher/' . rawurlencode(base64_encode($class_teacher_name)) . '/members/' . rawurlencode(base64_encode(implode(',', $class_members))) . '/">' . portal_icon('report') . '</a>';
+		
+		}
+		
+		$report_link = '<br>' . implode(' ', $report_links);
+	
+	}
+	
+	return $report_link;
 
 }
 

@@ -110,6 +110,16 @@ switch($diy_action) {
 	
 	break;
 	
+	case 'report':
+	
+		$teacher_name = urlencode(base64_decode(rawurldecode($_PORTAL['params']['teacher'])));
+		$class_name = urlencode(base64_decode(rawurldecode($_PORTAL['params']['class'])));;
+		$member_list = urlencode(base64_decode(rawurldecode($_PORTAL['params']['members'])));;
+	
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/reports/' . $diy_id . '/sail_jnlp?users=' . $member_list . '&system.report.class.name=' . $class_name . '&system.report.teacher.name=' . $teacher_name;
+	
+	break;
+	
 	case 'run':
 
 		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $member_interface_path;
