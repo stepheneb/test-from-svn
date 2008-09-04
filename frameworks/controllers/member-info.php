@@ -14,9 +14,13 @@ echo '
 <p>
 <strong>Name:</strong> ' . $_SESSION['user_first_name'] . ' ' . $_SESSION['user_last_name'] . '<br>
 ' . $email_field . '
-<strong>Username:</strong> ' . $_SESSION['user_username'] . '<br>
-<strong>Interface:</strong> ' . $portal_config['interfaces'][$_SESSION['portal']['member_interface']] . '<br>
-<strong>Password: </strong> <em>hidden</em>
+<strong>Username:</strong> ' . $_SESSION['user_username'] . '<br>';
+
+if (! ($GLOBALS['portal_config']['show_probe_interface'] == "no")) {
+ echo '<strong>Interface:</strong> ' . $portal_config['interfaces'][$_SESSION['portal']['member_interface']] . '<br>';
+}
+
+echo '<strong>Password: </strong> <em>hidden</em>
 </p>
 
 ';

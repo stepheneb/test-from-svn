@@ -83,7 +83,7 @@ if ($_PORTAL['action'] == 'process') {
 
 		$custom_fields .= portal_generate_class_select_list($_SESSION['portal']['member_school'], $teacher_id, @$_SESSION['current_selected_class']);
 
-		$custom_fields .= '<p><label for="interface">Interface</label> ' . portal_generate_interface_list(@$_SESSION['current_interface']) . '</p>';
+		$custom_fields .= '<p>' . portal_generate_interface_list(@$_SESSION['current_interface']) . '</p>';
 
 		$custom_fields .= '<input type="hidden" name="school_id" value="' . $_SESSION['portal']['member_school'] . '">';
 

@@ -194,7 +194,7 @@ if (isset($_PORTAL['params']['process'])) {
 
 	<p><label for="password">New Password</label> <input type="text" name="password" id="password" value="" size="35"> <span class="form-field-info"><strong>Warning:</strong> this field will display your password<br><strong>Note:</strong> your password must be between 4 and 40 characters long</span></p>
 
-	<p><label for="interface">Interface</label> ' . portal_generate_interface_list(@$member_info['member_interface']) . '</p>
+	<p>' . portal_generate_interface_list(@$member_info['member_interface']) . '</p>
 
 	' . $class_field . '
 	

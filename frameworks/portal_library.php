@@ -2761,8 +2761,17 @@ function portal_generate_db_form_list($field_name, $field_values, $table_name, $
 function portal_generate_interface_list($interface_id = 0) {
 
 	global $portal_config;
+	
+	if ($portal_config['show_probe_interface'] == "no") {
+		if (! $interface_id) {
+			$interface_id = current(array_keys($portal_config['interfaces']));
+		}
+		
+		$list = '<input type="hidden" name="interface" id="interface" value="'. $interface_id . '" />';
+		return $list;
+	}
 
-	$list = '';
+	$list = '<label for="interface">Interface</label> ';
 
 	$list .= '
 	<select name="interface" id="interface">
@@ -3839,38 +3848,39 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 		$try = '';
 
 		if ($diy_id != '') {
-		
-			if (in_array('copy', $GLOBALS['portal_config']['available_actions'])) {
+			$available_actions =  portal_get_available_actions();
+			
+			if (in_array('copy', $available_actions)) {
 				$copy_title = 'Make your own version of this activity';
 				$copy = '<a href="/diy/copy/' . $diy_id . '/" target="_blank" title="' . $copy_title . '">' . portal_icon('copy', $copy_title) . '</a>';
 			}
 			
-			if (in_array('edit', $GLOBALS['portal_config']['available_actions'])) {
+			if (in_array('edit', $available_actions)) {
 				$edit_title = 'Edit this activity';
 				$edit = '<a href="/diy/edit/' . $diy_id . '/" target="_blank" title="' . $edit_title . '">' . portal_icon('setup', $edit_title) . '</a>';
 			}
 			
-			if (in_array('info', $GLOBALS['portal_config']['available_actions'])) {
+			if (in_array('info', $available_actions)) {
 				$info_title = 'View activity description';
 				$info = '<a href="#" onclick="toggle_block_element(\'activity-description-' . $id_prefix . $activities[$i]['activity_id'] . '\'); return false;" title="' . $info_title . '">' . portal_icon('info', $info_title) . '</a>';
 			}
 			
-			if (in_array('preview', $GLOBALS['portal_config']['available_actions'])) {
+			if (in_array('preview', $available_actions)) {
 				$preview_title = 'View a quick preview version of this activity';
 				$preview = '<a href="/diy/show/' . $diy_id . '/" target="_blank" title="' . $preview_title . '">' . portal_icon('preview', $preview_title) . '</a>';
 			}
 			
-			if (in_array('report', $GLOBALS['portal_config']['available_actions'])) {
+			if (in_array('report', $available_actions)) {
 				$report_title = 'View the student data from this activity';
 				$report = '<a href="/diy/usage/' . $diy_id . '/" target="_blank" title="' . $report_title . '">' . portal_icon('report', $report_title) . '</a>';
 			}
 			
-			if (in_array('run', $GLOBALS['portal_config']['available_actions'])) {
+			if (in_array('run', $available_actions)) {
 				$run_title = 'Run this activity (and save data)';
 				$run = '<a href="/diy/run/' . $diy_id .  '/" title="' . $run_title . '">' . portal_icon('run', $run_title) . '</a>';
 			}
 			
-			if (in_array('try', $GLOBALS['portal_config']['available_actions'])) {
+			if (in_array('try', $available_actions)) {
 				$try_title = 'Try this activity (as a teacher, do not save data)';
 				$try = '<a href="/diy/view/' . $diy_id .  '/" title="' . $try_title . '">' . portal_icon('try', $try_title) . '</a>';
 			}
@@ -4045,6 +4055,18 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 
 	return $activity_grid;
 	
+}
+
+function portal_get_available_actions() {
+	global $portal_config;
+	
+	$available_actions =  $portal_config['available_actions'];
+			
+	if (@$_SESSION['portal']['member_type'] != 'student' && in_array('teacher_available_actions', array_keys($portal_config)) ) {
+		$available_actions = $portal_config['teacher_available_actions'];
+	}
+	
+	return $available_actions;
 }
 
 
