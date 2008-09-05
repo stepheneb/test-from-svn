@@ -2822,7 +2822,7 @@ function portal_generate_user_info_box() {
 		
 		$my_info_link = '<br><br>
 		<strong>Probe Interface:</strong><br>
-		<a href="/member/edit/' . $_SESSION['portal']['member_id'] . '/" title="Click to change interface">' . $portal_config['interfaces'][$_SESSION['portal']['member_interface']] . '</a>
+		<a href="/member/edit/' . @$_SESSION['portal']['member_id'] . '/" title="Click to change interface">' . $portal_config['interfaces'][@$_SESSION['portal']['member_interface']] . '</a>
 		';
 
 	}
@@ -2831,7 +2831,7 @@ function portal_generate_user_info_box() {
 	
 		$box .= '
 		<div class="user-info-box">
-		Welcome, <strong>' . $_SESSION['user_first_name'] . ' ' . $_SESSION['user_last_name'] . '</strong><br>
+		Welcome, <strong>' . @$_SESSION['user_first_name'] . ' ' . @$_SESSION['user_last_name'] . '</strong><br>
 		<a href="/signout/">Sign out?</a>
 		' . $my_info_link . '
 		</div>

@@ -16,7 +16,7 @@ echo '
 ' . $email_field . '
 <strong>Username:</strong> ' . $_SESSION['user_username'] . '<br>';
 
-if (! ($GLOBALS['portal_config']['show_probe_interface'] == "no")) {
+if (! ($portal_config['show_probe_interface'] == "no")) {
  echo '<strong>Interface:</strong> ' . $portal_config['interfaces'][$_SESSION['portal']['member_interface']] . '<br>';
 }
 

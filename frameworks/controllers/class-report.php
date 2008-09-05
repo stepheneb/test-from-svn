@@ -34,7 +34,7 @@ for ($i = 0; $i < count($class_activities); $i++) {
 
 	echo '
 	<th>
-	<a title="' . $class_activities[$i]['activity_name'] . '">Activity ' . ($i + 1) . '</a>
+	<a title="' . $class_activities[$i]['activity_name'] . '">' . $class_activities[$i]['activity_name'] . '</a>
 	' . portal_generate_class_aggregate_report_link($class_activities[$i]['activity_id'], $class_id) . '
 	</th>
 	';

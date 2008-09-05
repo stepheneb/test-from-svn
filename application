@@ -59,4 +59,18 @@ if (trim(`hostname`) == 'tikal.local') {
 
 }
 
+if ($_SERVER['REMOTE_ADDR'] == '63.138.152.134') {
+
+	mystery_print_r($_MYSTERY['query_list']);
+
+	mystery_print_r($include_file, '#990099');
+	
+	mystery_print_r($_PORTAL);
+	
+	mystery_print_r($_REQUEST, '#006600');
+
+	mystery_print_r($_SESSION, '#990000');
+
+}
+
 ?>
