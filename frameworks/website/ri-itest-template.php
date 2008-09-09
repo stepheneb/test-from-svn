@@ -49,7 +49,7 @@
 		<div id="main-content">
 				
 		<?php 
-			$options = array('ignore-home' => 'yes'); 
+			// $options = array('ignore-home' => 'yes'); 
 			echo portal_generate_user_navigation($options);
 		?>
 
