@@ -3074,6 +3074,9 @@ function portal_generate_user_navigation($options = array()) {
 	
 	}
 	
+	$links = portal_generate_link_navigation();
+	
+	$nav_items = array_merge($nav_items, $links);
 
 	if (count($nav_items) > 0) {
 
@@ -3090,6 +3093,54 @@ function portal_generate_user_navigation($options = array()) {
 	}
 
 	return $nav;
+
+}
+
+function portal_get_child_links($parent_id = 0) {
+
+	$query = 'SELECT * FROM portal_links WHERE link_parent = ? AND project_id = ? AND link_enabled = ? ORDER BY link_order';
+	
+	$params = array($parent_id, $GLOBALS['_PORTAL']['project_info']['project_id'], 'Yes');
+	
+	$results = mystery_select_query($query, $params, 'portal_dbh');
+	
+	return $results;
+
+}
+
+function portal_generate_link_navigation() {
+
+	// select the names of the top level items and generate the linked list
+	
+	$results = portal_get_child_links(0);
+	
+	$links = array();
+		
+	for ($i = 0; $i < count($results); $i++) {
+	
+		$url = $results[$i]['link_href'];
+		
+		if ($url == '') {
+			$url = '/links/' . $results[$i]['link_id'] . '/';
+		}
+		
+		$al = '<a href="' . $url . '" title="' . $results[$i]['link_title'] . '">';
+		$ar = '</a>';
+	
+		if ($GLOBALS['_PORTAL']['section'] == 'links' && $GLOBALS['_PORTAL']['activity'] == $results[$i]['link_id']) {
+		
+			// don't "link" this link
+			
+			$al = '<strong>';
+			$ar = '</strong>';
+		
+		}
+
+		$links[] = '<li>' . $al .  $results[$i]['link_nav_title'] . $ar . '</li>';
+	
+	}
+		
+	return $links;
 
 }
 

@@ -23,7 +23,7 @@ if ($project_key == 'www') {
 
 } else {
 	
-	$no_auth_sections = array('signin','signout','about','help','support','reminder','signup','signupsubmit','contact','preview','diy','requirements','faq');
+	$no_auth_sections = array('signin','signout','about','help','support','reminder','signup','signupsubmit','contact','preview','diy','requirements','faq','links');
 	
 	if (@$_SESSION['is_logged_in'] != 'yes' && !in_array($_PORTAL['section'], $no_auth_sections)) {
 		
@@ -47,7 +47,7 @@ echo '<br><br><br><br>';
 
 // echo 'UUID: ' . portal_generate_uuid() . '<br>';
 
-if (trim(`hostname`) == 'tikal.local') {
+if (trim(`hostname`) == 'Athens.local') {
 
 	mystery_print_r($include_file, '#990099');
 	
@@ -56,20 +56,8 @@ if (trim(`hostname`) == 'tikal.local') {
 	mystery_print_r($_REQUEST, '#006600');
 
 	mystery_print_r($_SESSION, '#990000');
-
-}
-
-if ($_SERVER['REMOTE_ADDR'] == '63.138.152.134') {
 
 	mystery_print_r($_MYSTERY['query_list']);
-
-	mystery_print_r($include_file, '#990099');
-	
-	mystery_print_r($_PORTAL);
-	
-	mystery_print_r($_REQUEST, '#006600');
-
-	mystery_print_r($_SESSION, '#990000');
 
 }
 

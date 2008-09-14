@@ -68,6 +68,10 @@ function portal_determine_resource($uri) {
 			$include_file = 'controllers/switch.php';		
 		break;
 
+		case 'links':
+			$include_file = 'controllers/links.php';		
+		break;
+
 		case 'admin':
 			$include_file = 'controllers/admin.php';
 		break;

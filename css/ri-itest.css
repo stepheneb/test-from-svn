@@ -669,11 +669,27 @@ select {
 		background-color: #CAC9E4;
 	}
 
+	.level8 {
+		background-color: #96A3BE;
+	}
+
 	.level9 {
-		background-color: #C1CFDD;
+		background-color: #B9884A;
 	}
 
 	.level10 {
+		background-color: #81A88E;
+	}
+
+	.level11 {
+		background-color: #CCCCCC;
+	}
+
+	.level12 {
+		background-color: #C1CFDD;
+	}
+
+	.level13 {
 		background-color: #7C94AA;
 	}
 
@@ -885,6 +901,15 @@ table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSo
 	background-color: #7FD486;
 }
 
+
+
+#main-content .child-link-list a:link, 
+#main-content .child-link-list a:visited 
+{
+	color: #ffffff;
+	text-decoration: none;
+	border-bottom: none;
+}
 
 
 

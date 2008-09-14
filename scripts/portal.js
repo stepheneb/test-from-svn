@@ -331,10 +331,16 @@ function show_section(section_id, link_object) {
 	} else if (link_object.className.match("level7")) {
 		bc = '#CAC9E4';
 	} else if (link_object.className.match("level8")) {
-		bc = '#CAC9E4';
+		bc = '#96A3BE';
 	} else if (link_object.className.match("level9")) {
-		bc = '#C1CFDD';
+		bc = '#B9884A';
 	} else if (link_object.className.match("level10")) {
+		bc = '#81A88E';
+	} else if (link_object.className.match("level11")) {
+		bc = '#CCCCCC';
+	} else if (link_object.className.match("level12")) {
+		bc = '#C1CFDD';
+	} else if (link_object.className.match("level13")) {
 		bc = '#7C94AA';
 	} else if (link_object.className.match("level999")) {
 		bc = '#D6C754';
