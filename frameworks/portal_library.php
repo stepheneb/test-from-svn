@@ -3104,7 +3104,21 @@ function portal_get_child_links($parent_id = 0) {
 	
 	$results = mystery_select_query($query, $params, 'portal_dbh');
 	
-	return $results;
+	$final_results = array();
+	
+	for ($i = 0; $i < count($results); $i++) {
+
+		if (@$results[$i]['require_login'] == 'No' || @$_SESSION['is_logged_in'] == 'yes') {
+		
+			// don't add this link to the arry if they only should see it when logged in
+		
+			$final_results[] = $results[$i];
+		
+		}
+	
+	}
+	
+	return $final_results;
 
 }
 
