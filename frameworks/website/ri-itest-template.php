@@ -39,7 +39,6 @@
 				<li><span><a href="http://ri-itest.concord.org/" title="RI-ITEST Home">Home</a></span></li>
 				<li><span><a href="http://ri-itest.concord.org/about/" title="Details about the RI-ITEST project">About</a></span></li>
 				<li><span><a href="http://ri-itest.concord.org/pubs/" title="Read or view our publications">Publications</a></span></li>
-				<li><span><a href="http://mw2.concord.org/tmp.jnlp?address=http://mw2.concord.org/myhome.jsp?client=mw" title="Run our Activities using Molecular Workbench">Activities</a></span></li>
 				<li><span><a href="http://moodle.concord.org/cc/course/view.php?id=15" title="The RI-ITEST Course">Course</a></span></li>
 				<li><strong class="nav-selected"><a href="/" title="Portal Home">Portal</a></strong></li>
 			</ul>
