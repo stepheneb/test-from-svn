@@ -12,6 +12,7 @@ $class_list = portal_generate_class_list($school_id, $_SESSION['portal']['member
 $student_list = portal_generate_student_list($school_id, $_SESSION['portal']['member_id'], $options);
 
 echo '
+' . portal_generate_icon_legend() . '
 <h2>My Classes <a class="heading-link" href="/class/add/">' . portal_icon('add') . ' Add a new class</a></h2>
 
 ' . $class_list . '

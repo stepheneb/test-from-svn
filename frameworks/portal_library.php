@@ -2843,10 +2843,8 @@ function portal_generate_user_info_box() {
 
 }
 
-function portal_generate_icon_legend() {
+function portal_get_activity_icon_parts() {
 
-	$legend = '';
-	
 	$icon_parts = array();
 	
 	if (@$_SESSION['is_logged_in'] == 'yes') {
@@ -2888,6 +2886,35 @@ function portal_generate_icon_legend() {
 
 	if (in_array('preview', $GLOBALS['portal_config']['available_actions'])) {
 		$icon_parts[] = '<tr><td>' . portal_icon('preview') . '</td><td>Preview activity in browser</td></tr>';
+	}
+	
+	return $icon_parts;
+	
+}
+
+function portal_get_home_icon_parts() {
+
+	$icon_parts = array();
+
+	$icon_parts[] = '<tr><td>' . portal_icon('preview') . '</td><td>Preview class as students would see it</td></tr>';
+	$icon_parts[] = '<tr><td>' . portal_icon('setup') . '</td><td>Edit the selected item</td></tr>';
+	$icon_parts[] = '<tr><td>' . portal_icon('copy') . '</td><td>Make a copy of the selected item</td></tr>';
+	$icon_parts[] = '<tr><td>' . portal_icon('report') . '</td><td>View the selected report</td></tr>';
+	$icon_parts[] = '<tr><td>' . portal_icon('list') . '</td><td>View the class list/roster</td></tr>';
+	$icon_parts[] = '<tr><td>' . portal_icon('delete') . '</td><td>Delete the selected item</td></tr>';
+	
+	return $icon_parts;
+	
+}
+
+function portal_generate_icon_legend() {
+
+	$legend = '';
+	
+	if (@$GLOBALS['_PORTAL']['section'] == '' && @$_SESSION['is_logged_in'] == 'yes') {
+		$icon_parts = portal_get_home_icon_parts();
+	} else {
+		$icon_parts = portal_get_activity_icon_parts();
 	}
 	
 	$legend .= '
