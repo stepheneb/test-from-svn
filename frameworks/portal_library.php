@@ -2863,6 +2863,7 @@ function portal_generate_icon_legend() {
 		
 		if (@$_SESSION['portal']['member_type'] != 'student') {
 		
+			$icon_parts[] = '<tr><td>' . portal_icon('guide') . '</td><td>View Teacher Guide</td></tr>';
 			$icon_parts[] = '<tr><td>' . portal_icon('delete') . '</td><td>Delete</td></tr>';
 			$icon_parts[] = '<tr><td>' . portal_icon('list') . '</td><td>View class list</td></tr>';
 			if (in_array('report', $GLOBALS['portal_config']['available_actions'])) {
@@ -2889,7 +2890,6 @@ function portal_generate_icon_legend() {
 		$icon_parts[] = '<tr><td>' . portal_icon('preview') . '</td><td>Preview activity in browser</td></tr>';
 	}
 	
-
 	$legend .= '
 	<div class="icon-legend-box">
 
@@ -3911,6 +3911,7 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 		$report = '';
 		$run = '';
 		$try = '';
+		$guide = '';
 
 		if ($diy_id != '') {
 			$available_actions =  portal_get_available_actions();
@@ -3928,6 +3929,11 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 			if (in_array('info', $available_actions)) {
 				$info_title = 'View activity description';
 				$info = '<a href="#" onclick="toggle_block_element(\'activity-description-' . $id_prefix . $activities[$i]['activity_id'] . '\'); return false;" title="' . $info_title . '">' . portal_icon('info', $info_title) . '</a>';
+			}
+			
+			if (in_array('guide', $available_actions) && $activities[$i]['activity_teacher_guide'] != '') {
+				$guide_title = 'View the teacher guide for this activity';
+				$guide = '<a href="' . $activities[$i]['activity_teacher_guide'] . '" title="' . $guide_title . '" target="_blank">' . portal_icon('guide', $guide_title) . '</a>';
 			}
 			
 			if (in_array('preview', $available_actions)) {
@@ -3951,7 +3957,7 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 			}
 			
 		}
-		
+				
 		// don't show an edit link if hte user can't edit this activity
 		
 		if ($activities[$i]['subject_name'] != 'My Activities') {
@@ -3967,6 +3973,7 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 			$report = '';
 			$try = '';
 			$preview = '';
+			$guide = '';
 		} else {
 			$checkbox = '';
 		}
@@ -3975,6 +3982,7 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 			$report = '';
 			$run = '';
 			$copy = '';
+			$guide = '';
 		}
 
 		$activity_options = '
@@ -3982,6 +3990,7 @@ function portal_generate_activity_grid($activity_ids = array(), $diy_activity_id
 		' . $edit . '
 		' . $copy . '
 		' . $info . '
+		' . $guide . '
 		' . $report . '
 		' . $preview . '
 		' . $try . '
