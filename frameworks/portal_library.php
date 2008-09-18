@@ -2162,6 +2162,18 @@ function portal_get_classes($school_id, $conditions = array(), $params = array()
 
 }
 
+function portal_get_class_identifier($student_id) {
+  // this function returns the uuid associated with a class
+  $query = 'SELECT class_uuid FROM portal_classes WHERE class_id = (SELECT class_id FROM portal_class_students WHERE member_id = ?)';
+
+  $query_params = array();
+  $query_params[] = $student_id;
+  
+  $results = mystery_select_query($query, $query_params, 'portal_dbh');
+  
+  return $results;
+}
+
 function portal_get_students($school_id, $conditions = array(), $params = array()) {
 
 	$query = 'SELECT pm.*, pc.class_teacher FROM portal_members AS pm LEFT JOIN portal_class_students AS pcs ON pm.member_id=pcs.member_id LEFT JOIN portal_classes AS pc ON pcs.class_id=pc.class_id';
@@ -4169,6 +4181,5 @@ function portal_get_available_actions() {
 	
 	return $available_actions;
 }
-
 
 ?>

@@ -77,7 +77,7 @@ switch($portal_config['diy_param_order']) {
 }
 
 $reporting_param = $portal_config['diy_reporting_parameter'];
-
+$class_identifier = portal_get_class_identifier($student_id);  // FIXME or should it be $member_id ?
 
 
 switch($diy_action) {
@@ -113,16 +113,16 @@ switch($diy_action) {
 	case 'report':
 	
 		$teacher_name = urlencode(base64_decode(rawurldecode($_PORTAL['params']['teacher'])));
-		$class_name = urlencode(base64_decode(rawurldecode($_PORTAL['params']['class'])));;
-		$member_list = urlencode(base64_decode(rawurldecode($_PORTAL['params']['members'])));;
+		$class_name = urlencode(base64_decode(rawurldecode($_PORTAL['params']['class'])));
+		$member_list = urlencode(base64_decode(rawurldecode($_PORTAL['params']['members'])));
 	
-		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/reports/' . $diy_id . '/sail_jnlp?users=' . $member_list . '&system.report.class.name=' . $class_name . '&system.report.teacher.name=' . $teacher_name;
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/reports/' . $diy_id . '/sail_jnlp?users=' . $member_list . '&system.report.class.name=' . $class_name . '&system.report.teacher.name=' . $teacher_name . '&group_id=' . $class_identifier;
 	
 	break;
 	
 	case 'run':
 
-		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $member_interface_path;
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $member_interface_path . '?group_id=' . $class_identifier;
 	
 	break;
 
@@ -140,7 +140,7 @@ switch($diy_action) {
 	
 	case 'work':
 	
-		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $student_interface_path . '/view' . $reporting_param;
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $student_interface_path . '/view' . $reporting_param . '&group_id=' . $class_identifier;
 	
 	break;
 	

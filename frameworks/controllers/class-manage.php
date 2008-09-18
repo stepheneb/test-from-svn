@@ -60,7 +60,8 @@ if (isset($_PORTAL['params']['process'])) {
 		if ($_PORTAL['activity'] == 'add' || $_PORTAL['activity'] == 'copy') {
 	
 			$data['creation_date'] = date('Y-m-d H:i:s');
-	
+	    $data['class_uuid'] = portal_generate_uuid();
+      
 			$class_id = mystery_insert_query('portal_classes', $data, 'class_id', 'portal_dbh');
 			$class_info['activities'] = array();
 			$class_info['diy_activities'] = array();
