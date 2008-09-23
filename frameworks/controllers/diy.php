@@ -77,8 +77,7 @@ switch($portal_config['diy_param_order']) {
 }
 
 $reporting_param = $portal_config['diy_reporting_parameter'];
-$class_identifier = portal_get_class_identifier($student_id);  // FIXME or should it be $member_id ?
-
+$class_identifier = portal_get_class_identifier($_SESSION['portal']['member_id']);
 
 switch($diy_action) {
 
@@ -106,7 +105,7 @@ switch($diy_action) {
 	
 	case 'view':
 
-		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $member_interface_path . '/preview';
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $member_interface_path . '/preview' . '?group_id=' . $class_identifier;
 	
 	break;
 	

@@ -2171,7 +2171,7 @@ function portal_get_class_identifier($student_id) {
   
   $results = mystery_select_query($query, $query_params, 'portal_dbh');
   
-  return $results;
+  return array_shift(array_shift($results));
 }
 
 function portal_get_students($school_id, $conditions = array(), $params = array()) {
