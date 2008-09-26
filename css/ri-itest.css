@@ -447,7 +447,7 @@ select {
 
 .clear-both {
 	font-size: 1px;
-	clear: both;
+	clear: none;
 }
 
 
