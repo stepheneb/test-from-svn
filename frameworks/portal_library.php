@@ -1082,8 +1082,9 @@ function portal_get_sds_member_id_from_db($diy_member_id) {
 function portal_get_diy_activity_usage_from_db($member_id) {
 
 	$member_diy_id = portal_get_diy_member_id($member_id);
-	
-	$query = 'SELECT runnable_id AS diy_id FROM ' . $GLOBALS['portal_config']['diy_database'] . '.' . $GLOBALS['portal_config']['diy_table_prefix'] . 'learners WHERE user_id = ? AND runnable_type = ?';
+
+  $db_prefix = $GLOBALS['portal_config']['diy_database'] . '.' . $GLOBALS['portal_config']['diy_table_prefix'];
+	$query = 'SELECT l.runnable_id AS diy_id FROM ' . $db_prefix . 'learners AS l WHERE user_id = ? AND runnable_type = ? AND 0 < (SELECT COUNT(*) FROM ' . $db_prefix . 'learner_sessions AS ls WHERE ls.learner_id = l.id)';
 
 	$params = array($member_diy_id, $GLOBALS['portal_config']['diy_runnable_type_name']);
 
@@ -1642,6 +1643,7 @@ function portal_generate_class_aggregate_report_link($diy_id, $class_id) {
 		$class_members = portal_get_class_students_diy_ids($class_id);
 		
 		$class_name = $class_info['class_name'];
+    $class_uuid = $class_info['class_uuid'];
 
 		$class_teacher_name = $teacher_info['member_first_name'] . ' ' . $teacher_info['member_last_name'];
 	
@@ -1651,7 +1653,7 @@ function portal_generate_class_aggregate_report_link($diy_id, $class_id) {
 		
 			$reports[$i]['name'] = ucwords(str_replace('_', ' ', $reports[$i]['name']));
 
-			$report_links[] = '<a title="View class report: ' . $reports[$i]['name'] . '" href="/diy/report/' . $reports[$i]['id'] . '/class/' . rawurlencode(base64_encode($class_name)) . '/teacher/' . rawurlencode(base64_encode($class_teacher_name)) . '/members/' . rawurlencode(base64_encode(implode(',', $class_members))) . '/">' . portal_icon('report') . '</a>';
+			$report_links[] = '<a title="View class report: ' . $reports[$i]['name'] . '" href="/diy/report/' . $reports[$i]['id'] . '/class/' . rawurlencode(base64_encode($class_name)) . '/teacher/' . rawurlencode(base64_encode($class_teacher_name)) . '/members/' . rawurlencode(base64_encode(implode(',', $class_members))) . '/uuid/' . rawurlencode(base64_encode($class_uuid)) . '/">' . portal_icon('report') . '</a>';
 		
 		}
 		
