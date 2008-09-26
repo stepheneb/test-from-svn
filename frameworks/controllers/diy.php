@@ -114,7 +114,7 @@ switch($diy_action) {
 		$teacher_name = urlencode(base64_decode(rawurldecode($_PORTAL['params']['teacher'])));
 		$class_name = urlencode(base64_decode(rawurldecode($_PORTAL['params']['class'])));
 		$member_list = urlencode(base64_decode(rawurldecode($_PORTAL['params']['members'])));
-    $class_identifier = urlencode(base64_decode(rawurldecode($_PORTAL['params']['class_id'])));
+    $class_identifier = urlencode(base64_decode(rawurldecode($_PORTAL['params']['uuid'])));
 	
 		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/reports/' . $diy_id . '/sail_jnlp?users=' . $member_list . '&system.report.class.name=' . $class_name . '&system.report.teacher.name=' . $teacher_name . '&group_id=' . $class_identifier;
 	
@@ -139,7 +139,8 @@ switch($diy_action) {
 	break;
 	
 	case 'work':
-	
+  
+	  $class_identifier = portal_get_class_identifier($student_id);
 		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $student_interface_path . '/view' . $reporting_param . '&group_id=' . $class_identifier;
 	
 	break;
