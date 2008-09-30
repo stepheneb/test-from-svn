@@ -12,7 +12,7 @@ if ($_PORTAL['activity'] == 'process') {
 	
 	$subject = '[PORTAL] Support Request';
 
-	$cc = array('sfentress@concord.org','carolyn@concord.org','stephen.bannasch@gmail.com');
+	$cc = array('sfentress@concord.org','carolyn@concord.org','stephen.bannasch@gmail.com','aunger@concord.org');
 
 	$bcc = array();
 
@@ -26,8 +26,8 @@ if ($_PORTAL['activity'] == 'process') {
 From: 
 ' . @$_REQUEST['name'] . ' <' . @$_REQUEST['email'] . '>
 
-Login:
-' . @$_REQUEST['login'] . '
+Login, ID, DIY ID:
+' . @$_REQUEST['login'] . ', ' . @$_REQUEST['user_id'] . ', ' . @$_REQUEST['diy_user_id'] . '
 
 Class:
 ' . @$_REQUEST['class'] . '
