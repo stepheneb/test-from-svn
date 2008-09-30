@@ -26,11 +26,14 @@ if ($_PORTAL['activity'] == 'process') {
 From: 
 ' . @$_REQUEST['name'] . ' <' . @$_REQUEST['email'] . '>
 
+Login:
+' . @$_REQUEST['login'] . '
+
 Class:
 ' . @$_REQUEST['class'] . '
 
 Activity:
-' . @$_REQUEST['class'] . '
+' . @$_REQUEST['activity_name'] . '
 
 Number of Students:
 ' . @$_REQUEST['number_students'] . '
@@ -58,6 +61,9 @@ Time support request sent:
 
 User web browser:
 ' . $_SERVER['HTTP_USER_AGENT'] . '
+
+Portal domain:
+' . parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST) . '
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
           H A V E   A   N I C E   D A Y ! 
@@ -90,10 +96,13 @@ User web browser:
 
 	$name_value = '';
 	$email_value = '';
-	
+	$login_value = '';
+  
 	if (@$_SESSION['is_logged_in'] == 'yes') {
 	
 		$name_value = $_SESSION['user_first_name'] . ' ' . $_SESSION['user_last_name'];
+    
+    $login_value = $_SESSION['user_login'];
 	
 		if ($_SESSION['portal']['member_type'] != 'student') {
 			$email_value = $_SESSION['user_email'];
@@ -130,7 +139,7 @@ User web browser:
 	<br><small>(Please complete a separate incidence report form for each individual class period.)</small></p>
 	
 	<p><strong>Unit or activity name</strong><br>
-	<input type="text" name="UDL_activity" id="UDL_activity" size="50"></p>
+	<input type="text" name="activity_name" id="UDL_activity" size="50"></p>
 	
 	<p><strong>Number of students</strong><br>
 	<input type="text" name="number_students" id="number_students" size="10"></p>
@@ -164,7 +173,7 @@ User web browser:
 	<p><strong>Please elaborate:</strong><br>
 	<textarea name="elaborate" cols="50" rows="5" wrap="soft" id="elaborate"></textarea></p>
 
-	
+  <input type="hidden" name="login" value="' . $login_value . '" />
 	<p><input type="submit" value="Submit"></p>
 	
 	</form>
