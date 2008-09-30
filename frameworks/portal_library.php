@@ -2066,6 +2066,16 @@ function portal_get_class_info($class_id) {
 
 }
 
+function portal_get_portal_activity_name($diy_activity_id, $diy_uuid) {
+  $query = 'SELECT activity_name FROM portal_activities WHERE diy_identifier = ? OR diy_uuid_id = ?';
+  
+  $params = array($diy_activity_id, $diy_uuid);
+  
+  $results = mystery_select_query($query, $params, 'portal_dbh');
+  
+  return first(first($results));
+}
+
 function portal_get_class_diy_activities($class_id) {
 
 	global $_PORTAL;
@@ -2120,7 +2130,8 @@ function portal_get_class_diy_activities($class_id) {
 	
 	$query = 'SELECT 
 	ida.' . $diy_field . ' AS activity_id, 
-	ida.name AS activity_name
+	ida.name AS activity_name,
+  ida.uuid AS activity_uuid
 	FROM ' . $GLOBALS['portal_config']['diy_database'] . '.' . $GLOBALS['portal_config']['diy_table_prefix'] . $GLOBALS['portal_config']['diy_activities_name'] . ' AS ida
 	WHERE ' . $diy_field . ' IN ("' . implode('","', $diy_ids) . '")
 	';
@@ -2128,6 +2139,11 @@ function portal_get_class_diy_activities($class_id) {
 	$params = array();
 	
 	$results = mystery_select_query($query, $params, 'rails_dbh');
+  
+  // replace all the activity names with the portal name for that activity
+  for ($i = 0; $i < count($results); $i++) {
+    $results[$i]['activity_name'] = portal_get_portal_activity_name($results[$i]['activity_id'], $results[$i]['activity_uuid']);
+  }
 		
 	return $results;
 
