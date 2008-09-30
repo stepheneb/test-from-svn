@@ -102,7 +102,9 @@ Portal domain:
 	
 		$name_value = $_SESSION['user_first_name'] . ' ' . $_SESSION['user_last_name'];
     
-    $login_value = $_SESSION['user_login'];
+    $login_value = $_SESSION['user_username'];
+    $user_id = $_SESSION['user_id'];
+    $diy_member_id = $_SESSION['portal']['diy_member_id'];
 	
 		if ($_SESSION['portal']['member_type'] != 'student') {
 			$email_value = $_SESSION['user_email'];
@@ -173,7 +175,11 @@ Portal domain:
 	<p><strong>Please elaborate:</strong><br>
 	<textarea name="elaborate" cols="50" rows="5" wrap="soft" id="elaborate"></textarea></p>
 
-  <input type="hidden" name="login" value="' . $login_value . '" />
+  <p>
+    <input type="hidden" name="login" value="' . $login_value . '" />
+    <input type="hidden" name="user_id" value="' . $user_id . '" />
+    <input type="hidden" name="diy_user_id" value="' . $diy_member_id . '" />
+  </p>
 	<p><input type="submit" value="Submit"></p>
 	
 	</form>
