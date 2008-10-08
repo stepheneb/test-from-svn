@@ -141,7 +141,8 @@ switch($diy_action) {
 	case 'work':
   
 	  $class_identifier = portal_get_class_identifier($student_id);
-		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $student_interface_path . '/view' . $reporting_param . '&group_id=' . $class_identifier;
+	  $class_id_prefix =  strlen($reporting_param) == 0 ? '?group_id=' : '&group_id=';
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $student_interface_path . '/view' . $reporting_param . $class_id_prefix . $class_identifier;
 	
 	break;
 	
