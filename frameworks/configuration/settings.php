@@ -199,6 +199,41 @@ $portal_config['project_settings']['paemst']['diy_reporting_parameter'] = '';
 $portal_config['project_settings']['paemst']['extra_navigation_items'] = array();
 
 
+// Evolution Project
+
+$portal_config['project_settings']['er']['display_name'] = 'Evolution Readiness Project Portal';
+$portal_config['project_settings']['er']['site_template'] = 'website/er-template.php';
+$portal_config['project_settings']['er']['available_actions'] = array('info', 'report', 'run', 'try');
+$portal_config['project_settings']['er']['teacher_available_actions'] = array('guide','info', 'report', 'try');
+$portal_config['project_settings']['er']['use_diy_activities'] = 'no';
+$portal_config['project_settings']['er']['use_accommodations'] = 'yes';
+$portal_config['project_settings']['er']['accommodations_name'] = 'Evolution Settings';
+$portal_config['project_settings']['er']['show_activities_link_to_students'] = 'no';
+$portal_config['project_settings']['er']['activities_navigation_word'] = 'Activities';
+
+$portal_config['project_settings']['er']['diy_server'] = 'evolution.diy.concord.org';
+$portal_config['project_settings']['er']['diy_server_path'] = '';
+$portal_config['project_settings']['er']['diy_database'] = 'production_evolution_prod';
+$portal_config['project_settings']['er']['diy_table_prefix'] = '';
+$portal_config['project_settings']['er']['diy_activities_name'] = 'external_otrunk_activities';
+$portal_config['project_settings']['er']['diy_runnable_type_name'] = 'ExternalOtrunkActivity';
+$portal_config['project_settings']['er']['diy_manager_user'] = 'ccadmin';
+$portal_config['project_settings']['er']['diy_manager_password'] = 'h0ru$';
+$portal_config['project_settings']['er']['diy_session_name'] = '_Evolution_Readiness_8jzY4dj6BrlteA8b_o_Rdg____session_id';
+$portal_config['project_settings']['er']['diy_use_uuid'] = 'no';
+$portal_config['project_settings']['er']['diy_param_order'] = 'interface/member';
+$portal_config['project_settings']['er']['diy_reporting_parameter'] = '';
+
+$portal_config['project_settings']['er']['extra_navigation_items'] = array();
+/*
+$portal_config['project_settings']['er']['extra_navigation_items'][] = array(
+	'label' => 'Teacher Resources',
+	'value' => 'http://er.concord.org/share/teacher-guides/',
+	'deny' => 'student'
+);
+*/
+
+
 
 
 
