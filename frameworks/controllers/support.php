@@ -9,8 +9,11 @@ if ($_PORTAL['activity'] == 'process') {
 	$to = 'portal-support@concord.org';
 
 	$from = 'portal-support@concord.org';
-	
-	$subject = '[PORTAL] Support Request';
+
+  $domain = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
+  list($portal_str, $rest) = explode('.', $domain, 2);
+  
+  $subject = '[PORTAL: ' . $portal_str . '] Support Request';
 
 	$cc = array('sfentress@concord.org','carolyn@concord.org','stephen.bannasch@gmail.com','aunger@concord.org');
 
@@ -63,7 +66,7 @@ User web browser:
 ' . $_SERVER['HTTP_USER_AGENT'] . '
 
 Portal domain:
-' . parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST) . '
+' . $domain . '
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
           H A V E   A   N I C E   D A Y ! 
