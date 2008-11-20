@@ -51,7 +51,7 @@ for ($h = 0; $h < count($students); $h++) {
 	
 	echo '
 	<tr>
-		<td><a href="/member/report/' . $students[$h]['member_id'] . '">' . $students[$h]['member_last_name'] . ', ' . $students[$h]['member_first_name'] . '</a></td>
+		<td><a href="/member/report/' . $students[$h]['member_id'] . '">' . $students[$h]['member_last_name'] . ', ' . $students[$h]['member_first_name'] . ' (' . $students[$h]['member_username'] . ')</a></td>
 	';
 	
 	

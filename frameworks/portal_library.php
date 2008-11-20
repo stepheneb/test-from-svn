@@ -1941,7 +1941,7 @@ function portal_generate_student_list($school_id, $teacher_id = '', $options = a
 			
 				for ($i = 0; $i < count($students); $i++) {
 				
-					$full_name = $students[$i]['member_last_name'] . ', ' . $students[$i]['member_first_name'];
+					$full_name = $students[$i]['member_last_name'] . ', ' . $students[$i]['member_first_name'] . " (" . $students[$i]['member_username'] . ")";
 
 					if (!isset($student_name_count[$full_name])) {
 						$student_name_count[$full_name] = 0;
