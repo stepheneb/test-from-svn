@@ -1630,8 +1630,8 @@ function portal_get_diy_reports_for_activity($diy_id) {
 
 }
 
-function portal_generate_class_aggregate_report_link($diy_id, $class_id) {
-
+function portal_generate_class_aggregate_report_link($activity, $class_id) {
+  $diy_id = $activity['activity_id'];
 	$report_link = '';
 	
 	$reports = portal_get_diy_reports_for_activity($diy_id);
@@ -1653,7 +1653,7 @@ function portal_generate_class_aggregate_report_link($diy_id, $class_id) {
 		
 			$reports[$i]['name'] = ucwords(str_replace('_', ' ', $reports[$i]['name']));
 
-			$report_links[] = '<a title="View class report: ' . $reports[$i]['name'] . '" href="/diy/report/' . $reports[$i]['id'] . '/class/' . rawurlencode(base64_encode($class_name)) . '/teacher/' . rawurlencode(base64_encode($class_teacher_name)) . '/members/' . rawurlencode(base64_encode(implode(',', $class_members))) . '/uuid/' . rawurlencode(base64_encode($class_uuid)) . '/">' . portal_icon('report') . '</a>';
+			$report_links[] = '<a title="View class report: ' . $reports[$i]['name'] . '" href="/diy/report/' . $reports[$i]['id'] . '/class/' . rawurlencode(base64_encode($class_name)) . '/teacher/' . rawurlencode(base64_encode($class_teacher_name)) . '/members/' . rawurlencode(base64_encode(implode(',', $class_members))) . '/uuid/' . rawurlencode(base64_encode($class_uuid)). '/activity/' . rawurlencode(base64_encode($activity['activity_name'])) . '/">' . portal_icon('report') . '</a>';
 		
 		}
 		
