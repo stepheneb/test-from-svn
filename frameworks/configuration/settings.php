@@ -211,9 +211,9 @@ $portal_config['project_settings']['er']['accommodations_name'] = 'Evolution Set
 $portal_config['project_settings']['er']['show_activities_link_to_students'] = 'no';
 $portal_config['project_settings']['er']['activities_navigation_word'] = 'Activities';
 
-$portal_config['project_settings']['er']['diy_server'] = 'evolution.diy.concord.org';
+$portal_config['project_settings']['er']['diy_server'] = 'er.diy.concord.org';
 $portal_config['project_settings']['er']['diy_server_path'] = '';
-$portal_config['project_settings']['er']['diy_database'] = 'production_evolution_prod';
+$portal_config['project_settings']['er']['diy_database'] = 'production_er_prod';
 $portal_config['project_settings']['er']['diy_table_prefix'] = '';
 $portal_config['project_settings']['er']['diy_activities_name'] = 'external_otrunk_activities';
 $portal_config['project_settings']['er']['diy_runnable_type_name'] = 'ExternalOtrunkActivity';
@@ -233,6 +233,39 @@ $portal_config['project_settings']['er']['extra_navigation_items'][] = array(
 );
 */
 
+// Geniquest Project
+
+$portal_config['project_settings']['geniquest']['display_name'] = 'Geniquest Project Portal';
+$portal_config['project_settings']['geniquest']['site_template'] = 'website/geniquest-template.php';
+$portal_config['project_settings']['geniquest']['available_actions'] = array('info', 'report', 'run', 'try');
+$portal_config['project_settings']['geniquest']['teacher_available_actions'] = array('guide','info', 'report', 'try');
+$portal_config['project_settings']['geniquest']['use_diy_activities'] = 'no';
+$portal_config['project_settings']['geniquest']['use_accommodations'] = 'yes';
+$portal_config['project_settings']['geniquest']['accommodations_name'] = 'Geniquest Settings';
+$portal_config['project_settings']['geniquest']['show_activities_link_to_students'] = 'no';
+$portal_config['project_settings']['geniquest']['activities_navigation_word'] = 'Activities';
+
+$portal_config['project_settings']['geniquest']['diy_server'] = 'geniquest.diy.concord.org';
+$portal_config['project_settings']['geniquest']['diy_server_path'] = '';
+$portal_config['project_settings']['geniquest']['diy_database'] = 'production_geniquest_prod';
+$portal_config['project_settings']['geniquest']['diy_table_prefix'] = '';
+$portal_config['project_settings']['geniquest']['diy_activities_name'] = 'external_otrunk_activities';
+$portal_config['project_settings']['geniquest']['diy_runnable_type_name'] = 'ExternalOtrunkActivity';
+$portal_config['project_settings']['geniquest']['diy_manager_user'] = 'ccadmin';
+$portal_config['project_settings']['geniquest']['diy_manager_password'] = 'h0ru$';
+$portal_config['project_settings']['geniquest']['diy_session_name'] = '_Geniquest_DIY_8jzY4dj6BrlteA8b_o_Rdg____session_id';
+$portal_config['project_settings']['geniquest']['diy_use_uuid'] = 'no';
+$portal_config['project_settings']['geniquest']['diy_param_order'] = 'interface/member';
+$portal_config['project_settings']['geniquest']['diy_reporting_parameter'] = '';
+
+$portal_config['project_settings']['geniquest']['extra_navigation_items'] = array();
+/*
+$portal_config['project_settings']['geniquest']['extra_navigation_items'][] = array(
+	'label' => 'Teacher Resources',
+	'value' => 'http://er.concord.org/share/teacher-guides/',
+	'deny' => 'student'
+);
+*/
 
 
 
