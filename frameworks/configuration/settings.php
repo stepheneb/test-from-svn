@@ -149,8 +149,8 @@ $portal_config['project_settings']['loops']['extra_navigation_items'] = array();
 
 $portal_config['project_settings']['ri-itest']['display_name'] = 'RI-ITEST Project Portal';
 $portal_config['project_settings']['ri-itest']['site_template'] = 'website/ri-itest-template.php';
-$portal_config['project_settings']['ri-itest']['available_actions'] = array('info', 'report', 'run', 'try');
-$portal_config['project_settings']['ri-itest']['teacher_available_actions'] = array('guide','info', 'report', 'try');
+$portal_config['project_settings']['ri-itest']['available_actions'] = array('info', 'run', 'try');
+$portal_config['project_settings']['ri-itest']['teacher_available_actions'] = array('guide','info', 'try');
 $portal_config['project_settings']['ri-itest']['use_diy_activities'] = 'no';
 $portal_config['project_settings']['ri-itest']['show_activities_link_to_students'] = 'no';
 $portal_config['project_settings']['ri-itest']['show_front_page_image'] = 'yes';

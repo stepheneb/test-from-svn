@@ -57,7 +57,7 @@ Any "sized" block element should consist of a container and a content element
 body {
 	background-color: #ffffff;
 	font-family: "Trebuchet MS", Verdana, Helvetica;
-	background-image: url(/images/er-leaves.gif);
+	/* background-image: url(/images/er-leaves.gif); */
 	background-repeat: no-repeat;
 	background-position: left top;
 }
@@ -79,12 +79,12 @@ ul, ol {
 }
 
 a:link {
-	color: #004A16;
+	color: #443b6d;
 	text-decoration: underline;
 }
 
 a:visited {
-	color: #1B3A23;
+	color: #695aa7;
 	text-decoration: underline;
 }
 
