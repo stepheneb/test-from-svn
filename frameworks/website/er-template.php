@@ -55,6 +55,8 @@
 	
 	<div id="copyright-container">
 	<div id="copyright-content">
+		<div><img src="/images/nsf-logo.jpg" alt="The National Science Foundation"></a><br>
+                <br>Funded by NSF Grant DRL-0822213</div>
 	
 		<div><a href="http://er.concord.org/"><img src="/images/cc_logo_gray_text.gif" alt="The Concord Consortium"></a><br>
 		<br>© 2008 All Rights Reserved</div>
