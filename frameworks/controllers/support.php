@@ -172,7 +172,7 @@ Portal domain:
 	<p><strong>Were the computers preloaded prior to student use?</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="Preloaded" value="Yes" id="Preloaded_0"> Yes
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<input type="radio" name="Preloaded" value="No" id="Preloaded_1"> No
-	<br><small>(Preloading is running the software on each computer before your students do sow that it works more quickly)</small>
+	<br><small>(Preloading is running the software on each computer before your students do so that it works more quickly)</small>
 	</p>
 	
 	<p><strong>Please elaborate:</strong><br>
