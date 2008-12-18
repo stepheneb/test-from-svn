@@ -2101,7 +2101,7 @@ function portal_get_class_diy_activities($class_id) {
 		$field = 'diy_uuid';
 	}
 
-	$query = 'SELECT ' . $field . ' AS diy_identifier FROM portal_class_activities AS pca LEFT JOIN portal_activities AS pa ON pca.activity_id=pa.activity_id LEFT JOIN portal_units AS pu ON pa.activity_unit=pu.unit_id WHERE pca.class_id = ? AND pu.unit_project = ?';
+	$query = 'SELECT ' . $field . ' AS diy_identifier FROM portal_class_activities AS pca LEFT JOIN portal_activities AS pa ON pca.activity_id=pa.activity_id LEFT JOIN portal_units AS pu ON pa.activity_unit=pu.unit_id WHERE pca.class_id = ? AND pu.unit_project = ? ORDER BY pa.activity_order';
 	
 	$params = array($class_id, $_PORTAL['project_info']['project_id']);
 	
@@ -2155,8 +2155,18 @@ function portal_get_class_diy_activities($class_id) {
   for ($i = 0; $i < count($results); $i++) {
     $results[$i]['activity_name'] = portal_get_portal_activity_name($class_id, $results[$i]['activity_id'], $results[$i]['activity_uuid']);
   }
-		
-	return $results;
+
+        // sort $results so that the activites are in the same order as the master list
+        $real_results = array();
+        foreach ($diy_ids as $id) {
+        foreach ($results as $act) {
+            if ($act['activity_id'] == $id) {
+                $real_results[] = $act;
+                break;
+            }
+        }
+        }
+	return $real_results;
 
 }
 
