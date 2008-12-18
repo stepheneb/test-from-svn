@@ -1213,6 +1213,16 @@ function portal_simple_icon_link($icon, $url, $title = '') {
 	
 }
 
+function portal_get_class_id($class_uuid) {
+  $query = 'SELECT class_id FROM portal_classes WHERE class_uuid = ?';
+  
+  $params = array($class_uuid);
+  
+  $results = mystery_select_query($query, $params, 'portal_dbh');
+  // return the first column of the first row
+  return array_shift(array_shift($results));
+}
+
 function portal_get_class_students($class_id) {
 
 	$query = 'SELECT * FROM portal_class_students AS pcs LEFT JOIN portal_members AS pm ON pcs.member_id=pm.member_id WHERE class_id = ? ORDER BY member_last_name, member_first_name';
