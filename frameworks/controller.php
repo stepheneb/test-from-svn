@@ -223,6 +223,10 @@ function portal_determine_resource($uri) {
 			}
 			
 		break;
+
+                case 'statistics':
+                        $include_file = 'controllers/usage-statistics.php';
+                break;
 		
 		case 'usage':
 			$include_file = 'controllers/usage-stats.php';

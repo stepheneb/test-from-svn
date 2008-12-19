@@ -1386,6 +1386,15 @@ function portal_generate_error_page($errors = array()) {
 
 }
 
+function portal_get_all_teachers($proj_id) {
+  $query = 'SELECT DISTINCT m.* FROM portal_members AS m LEFT JOIN portal_classes AS c ON c.class_teacher = m.member_id LEFT JOIN portal_class_activities AS pca ON pca.class_id = c.class_id WHERE pca.activity_id IN (SELECT a.activity_id FROM portal_activities AS a LEFT JOIN portal_units AS u ON a.activity_unit = u.unit_id LEFT JOIN portal_projects AS p ON p.project_id = u.unit_project WHERE p.project_id = ?) ORDER BY m.member_last_name, m.member_first_name;';
+  
+  $params = array($proj_id);
+  
+  $results = mystery_select_query($query, $params, 'portal_dbh');
+  
+  return $results;
+}
 
 function portal_get_all_schools_info() {
 
