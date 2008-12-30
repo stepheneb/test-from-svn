@@ -130,10 +130,6 @@ function portal_determine_resource($uri) {
 				case 'delete':
 					$include_file = 'controllers/class-delete.php';
 				break;
-			
-				case 'list':
-					$include_file = 'controllers/class-list.php';
-				break;
 
 				case 'roster':
 					$include_file = 'controllers/class-roster.php';
@@ -231,6 +227,16 @@ function portal_determine_resource($uri) {
 		case 'usage':
 			$include_file = 'controllers/usage-stats.php';
 		break;
+    
+    case 'xml':
+    
+      switch($_PORTAL['activity']) {
+      
+        case 'classlist':
+          $include_file = 'controllers/xml-classlist.php';
+        break;
+      }
+    break;
 		
 		default:
 			$include_file = 'controllers/error.php';

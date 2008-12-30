@@ -78,7 +78,7 @@ switch($portal_config['diy_param_order']) {
 
 $reporting_param = $portal_config['diy_reporting_parameter'];
 $class_identifier = portal_get_class_identifier($_SESSION['portal']['member_id']);
-$class_list_url = urlencode("http://" . $_SERVER['HTTP_HOST'] . "/class/list/" . $class_identifier);
+$class_list_url = urlencode("http://" . $_SERVER['HTTP_HOST'] . "/xml/classlist/" . $class_identifier);
 
 switch($diy_action) {
 
