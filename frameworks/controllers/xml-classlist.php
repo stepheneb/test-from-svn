@@ -11,6 +11,7 @@
 <otrunk id='<?php print "$class_uuid"; ?>'>
   <imports>
     <import class='org.concord.framework.otrunk.wrapper.OTObjectSet' />
+    <import class='org.concord.otrunk.user.OTUserObject' />
   </imports>
   <objects>
     <OTObjectSet>

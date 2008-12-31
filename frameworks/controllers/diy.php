@@ -77,7 +77,9 @@ switch($portal_config['diy_param_order']) {
 }
 
 $reporting_param = $portal_config['diy_reporting_parameter'];
-$class_identifier = portal_get_class_identifier($_SESSION['portal']['member_id']);
+$class_info = portal_get_class_info_by_student($_SESSION['portal']['member_id']);
+$class_identifier = $class_info['class_uuid'];
+$class_name = $class_info['class_name'];
 $class_list_url = urlencode("http://" . $_SERVER['HTTP_HOST'] . "/xml/classlist/" . $class_identifier);
 
 switch($diy_action) {
@@ -124,7 +126,7 @@ switch($diy_action) {
 	
 	case 'run':
 
-		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $member_interface_path . '?group_id=' . $class_identifier . '&group_list_url=' . $class_list_url;
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $member_interface_path . '?group_id=' . $class_identifier . '&group_list_url=' . $class_list_url . '&system.report.class.name=' . urlencode($class_name);
 	
 	break;
 
@@ -142,9 +144,11 @@ switch($diy_action) {
 	
 	case 'work':
   
-	  $class_identifier = portal_get_class_identifier($student_id);
+    $class_info = portal_get_class_info_by_student($student_id);
+    $class_identifier = $class_info['class_uuid'];
+    $class_name = $class_info['class_name'];
 	  $class_id_prefix =  strlen($reporting_param) == 0 ? '?group_id=' : '&group_id=';
-		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $student_interface_path . '/view' . $reporting_param . $class_id_prefix . $class_identifier . '&group_list_url=' . $class_list_url;
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $student_interface_path . '/view' . $reporting_param . $class_id_prefix . $class_identifier . '&group_list_url=' . $class_list_url . '&system.report.class.name=' . urlencode($class_name);
 	
 	break;
 	
