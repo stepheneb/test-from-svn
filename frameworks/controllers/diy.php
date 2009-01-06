@@ -79,9 +79,11 @@ switch($portal_config['diy_param_order']) {
 $reporting_param = $portal_config['diy_reporting_parameter'];
 $class_info = portal_get_class_info_by_student($_SESSION['portal']['member_id']);
 $class_identifier = $class_info['class_uuid'];
+$class_id = $class_info['class_id'];
 $class_name = $class_info['class_name'];
 $class_list_url = urlencode("http://" . $_SERVER['HTTP_HOST'] . "/xml/classlist/" . $class_identifier);
-$class_members = join(',', portal_get_class_students_diy_ids($class_info['class_id']));
+$class_members_arr = portal_get_class_students_diy_ids($class_id);
+$class_members = implode(',', $class_members_arr);
 
 switch($diy_action) {
 
@@ -109,7 +111,7 @@ switch($diy_action) {
 	
 	case 'view':
 
-		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $member_interface_path . '/preview' . '?group_id=' . $class_identifier . '&group_list=' . urlencode($class_members); // . '&group_list_url=' . $class_list_url;
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $member_interface_path . '/preview' . '?group_id=' . $class_identifier . '&group_list=' . urlencode($class_members) . '&group_num_id=' . urlencode($class_info['class_id']) . '&class_members=' . urlencode($class_members); // . '&group_list_url=' . $class_list_url;
 	
 	break;
 	
@@ -127,7 +129,7 @@ switch($diy_action) {
 	
 	case 'run':
 
-		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $member_interface_path . '?group_id=' . $class_identifier . '&system.report.class.name=' . urlencode($class_name) . '&group_list=' . urlencode($class_members); // . '&group_list_url=' . $class_list_url ;
+		$url = 'http://' . $portal_config['diy_server'] . $portal_config['diy_server_path'] . '/' . $portal_config['diy_activities_name'] . '/' . $diy_id . '/sail_jnlp/' . $member_interface_path . '?group_id=' . $class_identifier . '&system.report.class.name=' . urlencode($class_name) /*. '&group_list=' . urlencode($class_members)*/ . '&group_num_id=' . urlencode($class_info['class_id']) . '&class_members=' . urlencode($class_members); // . '&group_list_url=' . $class_list_url ;
 	
 	break;
 
@@ -146,7 +148,7 @@ switch($diy_action) {
 	case 'work':
   
     $class_info = portal_get_class_info_by_student($student_id);
-    $class_members = join(',', portal_get_class_students_diy_ids($class_info['class_id']));
+    $class_members = implode(',', portal_get_class_students_diy_ids($class_info['class_id']));
     $class_identifier = $class_info['class_uuid'];
     $class_name = $class_info['class_name'];
 	  $class_id_prefix =  strlen($reporting_param) == 0 ? '?group_id=' : '&group_id=';
