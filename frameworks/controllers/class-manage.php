@@ -40,7 +40,6 @@ if (isset($_PORTAL['params']['process'])) {
 	$data = array();
 
 	$data['class_name'] = $_REQUEST['class_name'];
-	$data['class_school'] = $_SESSION['portal']['member_school'];
 	$data['class_teacher'] = $_SESSION['portal']['member_id'];
 
 	//mystery_print_r($_REQUEST, $_PORTAL, $data); exit;

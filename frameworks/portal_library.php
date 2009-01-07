@@ -432,7 +432,7 @@ function portal_process_student_registration($request) {
 
 		// check that the class_key is valid
 
-		$query = 'SELECT pcw.class_id, class_school, member_interface FROM portal_class_words AS pcw LEFT JOIN portal_classes AS pc ON pcw.class_id=pc.class_id LEFT JOIN portal_members AS pm ON pc.class_teacher=pm.member_id WHERE class_word = ?';
+		$query = 'SELECT pcw.class_id, pm.member_school, member_interface FROM portal_class_words AS pcw LEFT JOIN portal_classes AS pc ON pcw.class_id=pc.class_id LEFT JOIN portal_members AS pm ON pc.class_teacher=pm.member_id WHERE class_word = ?';
 		$params = array($request['class_word']);
 		
 		$results = mystery_select_query($query, $params, 'portal_dbh');
@@ -450,7 +450,7 @@ function portal_process_student_registration($request) {
 		} else {
 		
 			$request['class_id'] = $results[0]['class_id'];
-			$request['school_id'] = $results[0]['class_school'];
+			$request['school_id'] = $results[0]['member_school'];
 			$request['member_interface'] = $results[0]['member_interface'];
 
 		}
@@ -2187,7 +2187,7 @@ function portal_get_classes($school_id, $conditions = array(), $params = array()
 	$query_conditions = array();
 	$query_params = array();
 	
-	$query_conditions[] = 'class_school = ?';
+	$query_conditions[] = 'member_school = ?';
 	$query_params[] = $school_id;
 	
 	for ($i = 0; $i < count($conditions); $i++) {
