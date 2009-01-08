@@ -2162,7 +2162,10 @@ function portal_get_class_diy_activities($class_id) {
   
   // replace all the activity names with the portal name for that activity
   for ($i = 0; $i < count($results); $i++) {
-    $results[$i]['activity_name'] = portal_get_portal_activity_name($class_id, $results[$i]['activity_id'], $results[$i]['activity_uuid']);
+    $portal_name = portal_get_portal_activity_name($class_id, $results[$i]['activity_id'], $results[$i]['activity_uuid']);
+    if (length($portal_name) > 0) {
+      $results[$i]['activity_name'] = $portal_name;
+    }
   }
 
         // sort $results so that the activites are in the same order as the master list
